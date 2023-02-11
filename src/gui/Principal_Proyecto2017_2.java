@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,15 +11,16 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 
 import arreglos.Arreglo_Paciente;
+import libreria.Fecha;
+import libreria.lib;
 import arreglos.Arreglo_Atencion;
 import arreglos.Arreglo_Cama;
 import arreglos.Arreglo_Atencion_Detalle;
 import arreglos.Arreglo_Internamiento;
 import arreglos.Arreglo_Medicina;
+import java.awt.Toolkit;
 
 public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 
@@ -34,7 +33,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu mnArchivo;
 	private JMenuItem mntmSalir;
-	private JMenu mnNewMenu;
+	private JMenu mnMantenimiento;
 	private JMenu mnInternamiento;
 	private JMenu mnAtencion;
 	private JMenu mnPago;
@@ -43,22 +42,22 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	private JMenuItem mntmMedicina;
 	private JMenuItem mntmPaciente;
 	private JMenuItem mntmInternamientosPagados;
-	private JMenuItem mntmReporteDePacientes;
+	private JMenuItem mntmReporteDePacientesInternados;
 	private JMenuItem mntmIngresarInternamiento;
 	private JMenuItem mntmIngresarAtencion;
 	private JMenuItem mntmIngresarPago;
-
-	public static Arreglo_Cama ac = new Arreglo_Cama();
-	public static Arreglo_Medicina me = new Arreglo_Medicina();
-	public static Arreglo_Paciente ap = new Arreglo_Paciente();
-	public static Arreglo_Internamiento ai = new Arreglo_Internamiento();
-	public static Arreglo_Atencion at = new Arreglo_Atencion();
-	public static Arreglo_Atencion_Detalle adt = new Arreglo_Atencion_Detalle();
-	private JMenuItem mntmReporteDePacientes_1;
+	private JMenuItem mntmReporteDePacientesSalientes;
 	private JMenuItem mntmReporteAtenciones;
 
-	private int ALTO;
+	public static Arreglo_Cama listaAc = new Arreglo_Cama();
+	public static Arreglo_Medicina listaMe = new Arreglo_Medicina();
+	public static Arreglo_Paciente listaPa = new Arreglo_Paciente();
+	public static Arreglo_Internamiento listaIn = new Arreglo_Internamiento();
+	public static Arreglo_Atencion listaAt = new Arreglo_Atencion();
+	public static Arreglo_Atencion_Detalle listaAtDet = new Arreglo_Atencion_Detalle();
 
+
+	private int ALTO;
 	private int ANCHO;
 
 	/**
@@ -82,8 +81,8 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	 */
 	public Principal_Proyecto2017_2() {
 		setResizable(false);
-		setTitle("Principal");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		setTitle(titulo());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal_Proyecto2017_2.class.getResource("/Imagenes/medicos.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 
@@ -95,35 +94,35 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnArchivo);
 
 		mntmSalir = new JMenuItem("Salir");
-		mntmSalir.setIcon(new ImageIcon("imagenes/salir.png"));
+		mntmSalir.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/salir.png")));
 		mntmSalir.addActionListener(this);
 		mnArchivo.add(mntmSalir);
 
-		mnNewMenu = new JMenu("Mantenimiento");
-		mnNewMenu.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
-		menuBar.add(mnNewMenu);
+		mnMantenimiento = new JMenu("Mantenimiento");
+		mnMantenimiento.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
+		menuBar.add(mnMantenimiento);
 
 		mntmCama = new JMenuItem("Cama");
-		mntmCama.setIcon(new ImageIcon("imagenes/cama.png"));
+		mntmCama.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/cama.png")));
 		mntmCama.addActionListener(this);
-		mnNewMenu.add(mntmCama);
+		mnMantenimiento.add(mntmCama);
 
 		mntmMedicina = new JMenuItem("Medicina");
-		mntmMedicina.setIcon(new ImageIcon("imagenes/medicina.png"));
+		mntmMedicina.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/medicina.png")));
 		mntmMedicina.addActionListener(this);
-		mnNewMenu.add(mntmMedicina);
+		mnMantenimiento.add(mntmMedicina);
 
 		mntmPaciente = new JMenuItem("Paciente");
-		mntmPaciente.setIcon(new ImageIcon("imagenes/paciente.png"));
+		mntmPaciente.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente.png")));
 		mntmPaciente.addActionListener(this);
-		mnNewMenu.add(mntmPaciente);
+		mnMantenimiento.add(mntmPaciente);
 
 		mnInternamiento = new JMenu("Internamiento");
 		mnInternamiento.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
 		menuBar.add(mnInternamiento);
 
 		mntmIngresarInternamiento = new JMenuItem("Ingresar Internamiento");
-		mntmIngresarInternamiento.setIcon(new ImageIcon("imagenes/ingresar internamiento.png"));
+		mntmIngresarInternamiento.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/ingresar internamiento.png")));
 		mntmIngresarInternamiento.addActionListener(this);
 		mnInternamiento.add(mntmIngresarInternamiento);
 
@@ -132,7 +131,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnAtencion);
 
 		mntmIngresarAtencion = new JMenuItem("Ingresar Atencion");
-		mntmIngresarAtencion.setIcon(new ImageIcon("imagenes/atencion.png"));
+		mntmIngresarAtencion.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/atencion.png")));
 		mntmIngresarAtencion.addActionListener(this);
 		mnAtencion.add(mntmIngresarAtencion);
 
@@ -141,7 +140,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnPago);
 
 		mntmIngresarPago = new JMenuItem("Ingresar Pago");
-		mntmIngresarPago.setIcon(new ImageIcon("imagenes/chanchito.png"));
+		mntmIngresarPago.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/chanchito.png")));
 		mntmIngresarPago.addActionListener(this);
 		mnPago.add(mntmIngresarPago);
 
@@ -149,28 +148,28 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		mnReporte.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
 		menuBar.add(mnReporte);
 
-		mntmReporteDePacientes = new JMenuItem("Reporte de Pacientes Internados");
-		mntmReporteDePacientes.setIcon(new ImageIcon("imagenes/paciente internado.png"));
-		mntmReporteDePacientes.addActionListener(this);
+		mntmReporteDePacientesInternados = new JMenuItem("Reporte de Pacientes Internados");
+		mntmReporteDePacientesInternados.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente internado.png")));
+		mntmReporteDePacientesInternados.addActionListener(this);
 
 		mntmReporteAtenciones = new JMenuItem("Reporte Atenciones");
-		mntmReporteAtenciones.setIcon(new ImageIcon("imagenes/reporte atencion.png"));
+		mntmReporteAtenciones.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte atencion.png")));
 		mntmReporteAtenciones.addActionListener(this);
 		mnReporte.add(mntmReporteAtenciones);
 
 		mntmInternamientosPagados = new JMenuItem("Reporte Internamientos Pagados");
-		mntmInternamientosPagados.setIcon(new ImageIcon("imagenes/reporte pagos.png"));
+		mntmInternamientosPagados.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte pagos.png")));
 		mnReporte.add(mntmInternamientosPagados);
 		mntmInternamientosPagados.addActionListener(this);
-		mnReporte.add(mntmReporteDePacientes);
+		mnReporte.add(mntmReporteDePacientesInternados);
 
-		mntmReporteDePacientes_1 = new JMenuItem("Reporte de Pacientes Salientes");
-		mntmReporteDePacientes_1.setIcon(new ImageIcon("imagenes/paciente salida.png"));
-		mntmReporteDePacientes_1.addActionListener(this);
-		mnReporte.add(mntmReporteDePacientes_1);
-		IblFondo = new JLabel(new ImageIcon("imagenes/fondo clinica.jpg"));
+		mntmReporteDePacientesSalientes = new JMenuItem("Reporte de Pacientes Salientes");
+		mntmReporteDePacientesSalientes.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente salida.png")));
+		mntmReporteDePacientesSalientes.addActionListener(this);
+		mnReporte.add(mntmReporteDePacientesSalientes);
+		
+		IblFondo = new JLabel(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/fondo clinica.jpg")));
 		IblFondo.setText("");
-		IblFondo.setVerticalAlignment(SwingConstants.TOP);
 		IblFondo.setBounds(0, 0, ANCHO, ALTO);
 		getContentPane().add(IblFondo);
 	}
@@ -179,7 +178,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		if (arg0.getSource() == mntmReporteAtenciones) {
 			actionPerformedMntmReporteAtenciones(arg0);
 		}
-		if (arg0.getSource() == mntmReporteDePacientes_1) {
+		if (arg0.getSource() == mntmReporteDePacientesSalientes) {
 			actionPerformedMntmReporteDePacientes_1(arg0);
 		}
 		if (arg0.getSource() == mntmSalir) {
@@ -194,7 +193,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		if (arg0.getSource() == mntmIngresarInternamiento) {
 			actionPerformedMntmIngresarInternamiento(arg0);
 		}
-		if (arg0.getSource() == mntmReporteDePacientes) {
+		if (arg0.getSource() == mntmReporteDePacientesInternados) {
 			actionPerformedMntmReporteDePacientes(arg0);
 		}
 		if (arg0.getSource() == mntmInternamientosPagados) {
@@ -278,34 +277,15 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	}
 
 	public int confirmacionDeSalida() {
-		return JOptionPane.showConfirmDialog(this, "� Desea salir del programa ?", "� >>> Clinica Cibertec �", 0, 3,
-				null);
+		return lib.mensajeConfirmacion(null, "Desea salir del programa?");
 	}
-
-	public static String FechaSistema() {
-		String fecha;
-		int dd, mm, aa;
-		Calendar c = new GregorianCalendar();
-		dd = c.get(Calendar.DAY_OF_MONTH);
-		mm = c.get(Calendar.MONTH) + 1;
-		aa = c.get(Calendar.YEAR);
-		fecha = ajustar(dd) + "/" + ajustar(mm) + "/" + aa;
-		return fecha;
+	
+	
+	public String titulo() {
+		String fecha = Fecha.anioActual() + String.format("%02d", Fecha.mesActual()+1) + String.format("%02d", Fecha.diaActual());
+		String hora = Fecha.horaActual() + String.format("%02d",Fecha.minutoActual());
+		return "Principal - ( "+ Fecha.formatoFecha(Integer.parseInt(fecha)) + ", "+ Fecha.HH_MM(Integer.parseInt(hora)) + " )";
 	}
-
-	public static String HoraSistema() {
-		String hora;
-		int hh, mn, ss;
-		Calendar c = new GregorianCalendar();
-		hh = c.get(Calendar.HOUR_OF_DAY);
-		mn = c.get(Calendar.MINUTE);
-		ss = c.get(Calendar.SECOND);
-		hora = ajustar(hh) + ":" + ajustar(mn) + ":" + ajustar(ss);
-		return hora;
-	}
-
-	public static String ajustar(int numero) {
-		return String.format("%02d", numero);
-	}
+	
 
 }

@@ -28,6 +28,7 @@ public class lib {
 	public static int mensajeConfirmacion(JDialog jd, String s) {
 		return JOptionPane.showConfirmDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 0, JOptionPane.QUESTION_MESSAGE, null);
 	}
+	
 
 	public static String leerCadena(JTextField txt) {
 		return txt.getText().trim();

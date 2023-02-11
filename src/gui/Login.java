@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Usuario;
 import libreria.lib;
+import java.awt.Toolkit;
 
 public class Login extends JFrame implements ActionListener {
 
@@ -56,7 +57,7 @@ public class Login extends JFrame implements ActionListener {
 		setTitle("Ingreso del sistema");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 595, 393);
-		setIconImage(new ImageIcon(this.getClass().getResource("/Imagenes/medicos.png")).getImage());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/Imagenes/medicos.png")));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);

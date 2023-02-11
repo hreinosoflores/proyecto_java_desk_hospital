@@ -23,15 +23,7 @@ public class Fecha {
 		cbo.addItem("Diciembre");
 	}
 
-	public static void colocarDiaActual(JComboBox<String> cbo) {
-		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.DAY_OF_MONTH) - 1);
-	}
 
-	public static void colocarMesActual(JComboBox<String> cbo) {
-		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.MONTH));
-	}
 
 	public static void colocarItems(JComboBox<String> cbo, int inicio, int fin) {
 		if (inicio < fin)
@@ -58,6 +50,16 @@ public class Fecha {
 		minuto.setSelectedIndex(MM - 1);
 		hora.setSelectedItem(HH + "");
 	}
+	
+	public static void colocarDiaActual(JComboBox<String> cbo) {
+		Calendar calendario = new GregorianCalendar();
+		cbo.setSelectedIndex(calendario.get(Calendar.DAY_OF_MONTH) - 1);
+	}
+
+	public static void colocarMesActual(JComboBox<String> cbo) {
+		Calendar calendario = new GregorianCalendar();
+		cbo.setSelectedIndex(calendario.get(Calendar.MONTH));
+	}
 
 	public static void colocarHoraActual(JComboBox<String> cbo) {
 		Calendar calendario = new GregorianCalendar();
@@ -74,6 +76,27 @@ public class Fecha {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.YEAR);
 	}
+	
+	public static int mesActual() {
+		Calendar c = new GregorianCalendar();
+		return c.get(Calendar.MONTH);
+	}
+	
+	public static int diaActual() {
+		Calendar c = new GregorianCalendar();
+		return c.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public static int horaActual() {
+		Calendar c = new GregorianCalendar();
+		return c.get(Calendar.HOUR_OF_DAY);
+	}
+	
+	public static int minutoActual() {
+		Calendar c = new GregorianCalendar();
+		return c.get(Calendar.MINUTE);
+	}
+	
 
 	// Métodos static que retornan valor (con parámetros)
 	public static String dd_mm_aaaa(int fecha) {
@@ -87,7 +110,7 @@ public class Fecha {
 		if (hora > 1000)
 			return "" + s.charAt(0) + s.charAt(1) + ':' + s.charAt(2) + s.charAt(3);
 		else
-			return "" + s.charAt(0) + ':' + s.charAt(1) + s.charAt(2);
+			return "0" + s.charAt(0) + ':' + s.charAt(1) + s.charAt(2);
 	}
 
 	public static int getFecha(JComboBox<String> dia, JComboBox<String> mes, JComboBox<String> anio) {
