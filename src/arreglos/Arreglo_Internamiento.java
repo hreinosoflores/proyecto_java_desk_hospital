@@ -1,6 +1,7 @@
 package arreglos;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -8,29 +9,80 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import clases.Cama;
 import clases.Ingreso_Datos_Internamiento;
+import clases.Paciente;
 
 public class Arreglo_Internamiento extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	ArrayList<Ingreso_Datos_Internamiento> idi;
+	ArrayList<Ingreso_Datos_Internamiento> listaIdi;
 
 	public Arreglo_Internamiento() {
-		idi = new ArrayList<Ingreso_Datos_Internamiento>();
+		listaIdi = new ArrayList<Ingreso_Datos_Internamiento>();
 		cargarInternamiento();
 	}
 
+	public void cargarInternamiento() {
+		try {
+			BufferedReader br;
+			String linea;
+			String[] s;
+			Paciente paciente;
+			Cama cama;
+			int codigoInternamiento, estado;
+			String fechaIngreso, horaIngreso, fechaSalida, horaSalida;
+
+			br = new BufferedReader(new FileReader(getArchivo()));
+			while ((linea = br.readLine()) != null) {
+				s = linea.split(";");
+				codigoInternamiento = Integer.parseInt(s[0].trim());
+				paciente = new Paciente(Integer.parseInt(s[1].trim()), null, null, null, null);
+				cama = new Cama(Integer.parseInt(s[2].trim()), 0, 0);
+				fechaIngreso = s[3].trim();
+				horaIngreso = s[4].trim();
+				fechaSalida = s[5].trim();
+				horaSalida = s[6].trim();
+				estado = Integer.parseInt(s[7].trim());
+				adicionar(new Ingreso_Datos_Internamiento(paciente, cama, codigoInternamiento, estado, fechaIngreso,
+						horaIngreso, fechaSalida, horaSalida));
+			}
+			br.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void grabarInternamiento() {
+		try {
+			PrintWriter pw;
+			String linea;
+			Ingreso_Datos_Internamiento x;
+			pw = new PrintWriter(new FileWriter(getArchivo()));
+			for (int i = 0; i < tamanio(); i++) {
+				x = obtener(i);
+				linea = x.getCodigoInternamiento() + ";" + x.getPaciente().getCodigoPaciente() + ";" + x.getCama().getNumeroCama()
+						+ ";" + x.getFechaIngreso() + ";" + x.getHoraIngreso() + ";" + x.getFechaSalida() + ";"
+						+ x.getHoraSalida() + ";" + x.getEstado();
+				pw.println(linea);
+			}
+			pw.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
 	public int tamanio() {
-		return idi.size();
+		return listaIdi.size();
 	}
 
 	public void adicionar(Ingreso_Datos_Internamiento x) {
-		idi.add(x);
+		listaIdi.add(x);
 		fireTableDataChanged();
 	}
 
 	public Ingreso_Datos_Internamiento obtener(int i) {
-		return idi.get(i);
+		return listaIdi.get(i);
 	}
 
 	public Ingreso_Datos_Internamiento buscar(int codigo) {
@@ -47,65 +99,24 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		Ingreso_Datos_Internamiento x;
 		for (int i = 0; i < tamanio(); i++) {
 			x = obtener(i);
-			if (x.getCodigoPaciente() == codigo)
+			if (x.getPaciente().getCodigoPaciente() == codigo)
 				return x;
 		}
 		return null;
 	}
 
 	public void eliminar(Ingreso_Datos_Internamiento x) {
-		idi.remove(x);
+		listaIdi.remove(x);
 		fireTableDataChanged();
 	}
 
-	public void cargarInternamiento() {
-		try {
-			BufferedReader br;
-			String linea;
-			String[] s;
-			int codigoInternamiento, codigoPaciente, numCama, estado;
-			String fechaIngreso, horaIngreso, fechaSalida, horaSalida;
-			br = new BufferedReader(new FileReader("internamiento.txt"));
-			while ((linea = br.readLine()) != null) {
-				s = linea.split(";");
-				codigoInternamiento = Integer.parseInt(s[0].trim());
-				codigoPaciente = Integer.parseInt(s[1].trim());
-				numCama = Integer.parseInt(s[2].trim());
-				fechaIngreso = s[3].trim();
-				horaIngreso = s[4].trim();
-				fechaSalida = s[5].trim();
-				horaSalida = s[6].trim();
-				estado = Integer.parseInt(s[7].trim());
-				adicionar(new Ingreso_Datos_Internamiento(codigoInternamiento, codigoPaciente, numCama, fechaIngreso,
-						horaIngreso, fechaSalida, horaSalida, estado));
-			}
-			br.close();
-		} catch (Exception e) {
-
-		}
+	public String getArchivo() {
+		return "internamiento.txt";
 	}
 
-	public void grabarInternamiento() {
-		try {
-			PrintWriter pw;
-			String linea;
-			Ingreso_Datos_Internamiento x;
-			pw = new PrintWriter(new FileWriter("internamiento.txt"));
-			for (int i = 0; i < tamanio(); i++) {
-				x = obtener(i);
-				linea = x.getCodigoInternamiento() + ";" + 
-						x.getCodigoPaciente() + ";" + 
-						x.getNumCama() + ";"+ 
-						x.getFechaIngreso() + ";" + 
-						x.getHoraIngreso() + ";" + 
-						x.getFechaSalida() + ";"+ 
-						x.getHoraSalida() + ";" + 
-						x.getEstado();
-				pw.println(linea);
-			}
-			pw.close();
-		} catch (Exception e) {
-		}
+	public boolean existeArchivo() {
+		File f = new File(getArchivo());
+		return f.exists();
 	}
 
 	public int generarCodigo() {
@@ -127,7 +138,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return idi.size();
+		return listaIdi.size();
 	}
 
 	public int getColumnCount() {

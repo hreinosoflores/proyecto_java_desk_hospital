@@ -16,38 +16,13 @@ public class Arreglo_Paciente extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	ArrayList<Paciente> pa;
+	ArrayList<Paciente> listaPa;
 
 	public Arreglo_Paciente() {
-		pa = new ArrayList<Paciente>();
-
+		listaPa = new ArrayList<Paciente>();
 		cargarPaciente();
 	}
-
-	public int tamanio() {
-		return pa.size();
-	}
-
-	public Paciente obtener(int i) {
-		return pa.get(i);
-	}
-
-	public void adicionar(Paciente x) {
-		pa.add(x);
-	}
-
-	public String getArchivo() {
-		return "paciente.txt";
-	}
-
-	public void modificar(int i, Paciente x) {
-		pa.set(i, x);
-	}
-
-	public void eliminar(int i) {
-		pa.remove(i);
-	}
-
+	
 	public void cargarPaciente() {
 		try {
 			BufferedReader br;
@@ -56,7 +31,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			String apellidos, nombres, telefono, dni;
 			int codigoPaciente;
 
-			br = new BufferedReader(new FileReader("paciente.txt"));
+			br = new BufferedReader(new FileReader(getArchivo()));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				codigoPaciente = Integer.parseInt(s[0].trim());
@@ -68,6 +43,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			}
 			br.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -76,23 +52,47 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			PrintWriter pw;
 			String linea;
 			Paciente x;
-			pw = new PrintWriter(new FileWriter("paciente.txt"));
+			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getCodigoPaciente() + ";" + 
-						x.getApellidos() + ";" + 
-						x.getNombres() + ";" + 
-						x.getTelefono() + ";" + 
-						x.getDni();
+				linea = x.getCodigoPaciente() + ";" + x.getApellidos() + ";" + x.getNombres() + ";" + x.getTelefono()
+						+ ";" + x.getDni();
 				pw.println(linea);
 			}
 			pw.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
+
+	public int tamanio() {
+		return listaPa.size();
+	}
+
+	public Paciente obtener(int i) {
+		return listaPa.get(i);
+	}
+
+	public void adicionar(Paciente x) {
+		listaPa.add(x);
+	}
+
+	public String getArchivo() {
+		return "paciente.txt";
+	}
+
+	public void modificar(int i, Paciente x) {
+		listaPa.set(i, x);
+	}
+
+	public void eliminar(int i) {
+		listaPa.remove(i);
+	}
+
+
 	public boolean existeArchivo() {
-		File f = new File("paciente.txt");
+		File f = new File(getArchivo());
 		return f.exists();
 	}
 
@@ -109,6 +109,13 @@ public class Arreglo_Paciente extends AbstractTableModel {
 				return obtener(i);
 		return null;
 	}
+	
+	public int generarCodigo() {
+		if (tamanio() == 0)
+			return 1001;
+		else
+			return obtener(tamanio() - 1).getCodigoPaciente() + 1;
+	}
 
 	@Override
 	public int getColumnCount() {
@@ -119,7 +126,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return listaPa.size();
 	}
 
 	@Override

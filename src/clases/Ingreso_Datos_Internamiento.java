@@ -1,19 +1,25 @@
 package clases;
 
+import libreria.lib;
+
 public class Ingreso_Datos_Internamiento {
-	private int codigoInternamiento, codigoPaciente, numCama, estado;
+	private Paciente paciente;
+	private Cama cama;
+	private int codigoInternamiento, estado;
 	private String fechaIngreso, horaIngreso, fechaSalida, horaSalida;
 
-	public Ingreso_Datos_Internamiento(int codigoInternamiento, int codigoPaciente, int numCama, String fechaIngreso,
-			String horaIngreso, String fechaSalida, String horaSalida, int estado) {
+	
+	
+	public Ingreso_Datos_Internamiento(Paciente paciente, Cama cama, int codigoInternamiento, int estado,
+			String fechaIngreso, String horaIngreso, String fechaSalida, String horaSalida) {
+		this.paciente = paciente;
+		this.cama = cama;
 		this.codigoInternamiento = codigoInternamiento;
-		this.codigoPaciente = codigoPaciente;
-		this.numCama = numCama;
+		this.estado = estado;
 		this.fechaIngreso = fechaIngreso;
 		this.horaIngreso = horaIngreso;
 		this.fechaSalida = fechaSalida;
 		this.horaSalida = horaSalida;
-		this.estado = estado;
 	}
 
 	public int getCodigoInternamiento() {
@@ -24,20 +30,21 @@ public class Ingreso_Datos_Internamiento {
 		this.codigoInternamiento = codigoInternamiento;
 	}
 
-	public int getCodigoPaciente() {
-		return codigoPaciente;
+
+	public Paciente getPaciente() {
+		return paciente;
 	}
 
-	public void setCodigoPaciente(int codigoPaciente) {
-		this.codigoPaciente = codigoPaciente;
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
-	public int getNumCama() {
-		return numCama;
+	public Cama getCama() {
+		return cama;
 	}
 
-	public void setNumCama(int numCama) {
-		this.numCama = numCama;
+	public void setCama(Cama cama) {
+		this.cama = cama;
 	}
 
 	public int getEstado() {
@@ -80,13 +87,9 @@ public class Ingreso_Datos_Internamiento {
 		this.horaSalida = horaSalida;
 	}
 
-	public String DetalleEstado() {
-		switch (estado) {
-		case 0:
-			return "Alojado";
-		default:
-			return "Pagado";
-		}
+	public String EstadoDescr() {
+		return lib.tiposdeEstadoInternamiento[estado];
+		
 	}
 
 }

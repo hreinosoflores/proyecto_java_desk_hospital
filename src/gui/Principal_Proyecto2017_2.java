@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import arreglos.Arreglo_Paciente;
 import arreglos.Arreglo_Atencion;
 import arreglos.Arreglo_Cama;
-import arreglos.Arreglo_Detalle_Atencion;
+import arreglos.Arreglo_Atencion_Detalle;
 import arreglos.Arreglo_Internamiento;
 import arreglos.Arreglo_Medicina;
 
@@ -53,7 +53,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	public static Arreglo_Paciente ap = new Arreglo_Paciente();
 	public static Arreglo_Internamiento ai = new Arreglo_Internamiento();
 	public static Arreglo_Atencion at = new Arreglo_Atencion();
-	public static Arreglo_Detalle_Atencion adt = new Arreglo_Detalle_Atencion();
+	public static Arreglo_Atencion_Detalle adt = new Arreglo_Atencion_Detalle();
 	private JMenuItem mntmReporteDePacientes_1;
 	private JMenuItem mntmReporteAtenciones;
 

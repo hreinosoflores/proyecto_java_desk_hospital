@@ -1,13 +1,17 @@
 package clases;
 
+import libreria.lib;
+
 public class Atencion {
-	private int codigoAtencion, codigoPaciente, estado;
+	
+	private int codigoAtencion, estado;
+	private Paciente paciente;
 	private String fechaAtencion;
 	private double totalPagar;
 
-	public Atencion(int codigoAtencion, int codigoPaciente, String fechaAtencion, double totalPagar, int estado) {
+	public Atencion(int codigoAtencion, Paciente paciente, String fechaAtencion, double totalPagar, int estado) {
 		this.codigoAtencion = codigoAtencion;
-		this.codigoPaciente = codigoPaciente;
+		this.paciente = paciente;
 		this.fechaAtencion = fechaAtencion;
 		this.totalPagar = totalPagar;
 		this.estado = estado;
@@ -17,8 +21,10 @@ public class Atencion {
 		this.codigoAtencion = codigoAtencion;
 	}
 
-	public void setCodigoPaciente(int codigoPaciente) {
-		this.codigoPaciente = codigoPaciente;
+
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	public void setFechaAtencion(String fechaAtencion) {
@@ -37,8 +43,8 @@ public class Atencion {
 		return codigoAtencion;
 	}
 
-	public int getCodigoPaciente() {
-		return codigoPaciente;
+	public Paciente getPaciente() {
+		return paciente;
 	}
 
 	public String getFechaAtencion() {
@@ -53,13 +59,8 @@ public class Atencion {
 		return estado;
 	}
 
-	public String DetalleAtencion() {
-		switch (estado) {
-		case 0:
-			return "Pendiente";
-		default:
-			return "Pagado";
-		}
+	public String EstadoDescr() {
+		return lib.tiposdeEstadoAtencion[estado];
 	}
 
 }

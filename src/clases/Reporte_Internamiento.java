@@ -3,11 +3,11 @@ package clases;
 public class Reporte_Internamiento {
 	private int codigoInternamiento, codigoPaciente, numeroCama;
 	private String fechaIngreso, fechaSalida, horaIngreso, horaSalida;
-	// contructor
 
+	// constructor
 	public Reporte_Internamiento(int codigoInternamiento, int codigoPaciente, int numeroCama, String fechaIngreso,
-			String fechaSalida, String horaSalida, String horaIngreso) {
-
+			String fechaSalida, String horaIngreso, String horaSalida) {
+		super();
 		this.codigoInternamiento = codigoInternamiento;
 		this.codigoPaciente = codigoPaciente;
 		this.numeroCama = numeroCama;
@@ -15,48 +15,47 @@ public class Reporte_Internamiento {
 		this.fechaSalida = fechaSalida;
 		this.horaIngreso = horaIngreso;
 		this.horaSalida = horaSalida;
-
 	}
 
 	// metodos set / get
-	public void setCodigoInternamiento(int codigoInternamiento) {
-		this.codigoInternamiento = codigoInternamiento;
-	}
-
-	public void setCodigoPaciente(int codigoPaciente) {
-		this.codigoPaciente = codigoPaciente;
-	}
-
-	public void setnumeroCama(int numeroCama) {
-		this.numeroCama = numeroCama;
-	}
-
-	public void setfechaIngreso(String fechaIngreso) {
-		this.fechaIngreso = fechaIngreso;
-	}
-
-	public void setfechaSalida(String fechaSalida) {
-		this.fechaSalida = fechaSalida;
-	}
-
 	public int getCodigoInternamiento() {
 		return codigoInternamiento;
+	}
+
+	public void setCodigoInternamiento(int codigoInternamiento) {
+		this.codigoInternamiento = codigoInternamiento;
 	}
 
 	public int getCodigoPaciente() {
 		return codigoPaciente;
 	}
 
-	public int getnumeroCama() {
+	public void setCodigoPaciente(int codigoPaciente) {
+		this.codigoPaciente = codigoPaciente;
+	}
+
+	public int getNumeroCama() {
 		return numeroCama;
+	}
+
+	public void setNumeroCama(int numeroCama) {
+		this.numeroCama = numeroCama;
 	}
 
 	public String getFechaIngreso() {
 		return fechaIngreso;
 	}
 
-	public String getfechaSalida() {
+	public void setFechaIngreso(String fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
+	}
+
+	public String getFechaSalida() {
 		return fechaSalida;
+	}
+
+	public void setFechaSalida(String fechaSalida) {
+		this.fechaSalida = fechaSalida;
 	}
 
 	public String getHoraIngreso() {

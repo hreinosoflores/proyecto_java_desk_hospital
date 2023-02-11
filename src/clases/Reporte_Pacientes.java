@@ -4,55 +4,51 @@ public class Reporte_Pacientes {
 
 	private int codigo, numCama;
 	String fechingreso, nombre, apellido;
-	// contructor
-
-	public Reporte_Pacientes(int codigo, int numCama, String fechIngreso, String nombre, String apellido) {
-
+	
+	// constructor
+	
+	public Reporte_Pacientes(int codigo, int numCama, String fechingreso, String nombre, String apellido) {
+		super();
 		this.codigo = codigo;
 		this.numCama = numCama;
-		this.fechingreso = fechIngreso;
+		this.fechingreso = fechingreso;
 		this.nombre = nombre;
 		this.apellido = apellido;
 	}
-
+	
 	// metodos set / get
-	public void setCodigoAT(int codigo) {
-		this.codigo = codigo;
-	}
-
-	public void setnumCama(int numCama) {
-		this.numCama = numCama;
-	}
-
-	public void setfechIngreso(String fechIngreso) {
-		this.fechingreso = fechIngreso;
-	}
-
-	public void setnombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setapellido(String apellido) {
-		this.apellido = apellido;
-	}
 
 	public int getCodigo() {
 		return codigo;
 	}
-
-	public int getnumCama() {
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	public int getNumCama() {
 		return numCama;
 	}
-
-	public String getFechIngreso() {
+	public void setNumCama(int numCama) {
+		this.numCama = numCama;
+	}
+	public String getFechingreso() {
 		return fechingreso;
 	}
-
-	public String getnombre() {
+	public void setFechingreso(String fechingreso) {
+		this.fechingreso = fechingreso;
+	}
+	public String getNombre() {
 		return nombre;
 	}
-
-	public String getapellido() {
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getApellido() {
 		return apellido;
 	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	
+
+
 }

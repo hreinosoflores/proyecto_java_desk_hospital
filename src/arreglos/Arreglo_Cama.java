@@ -14,36 +14,11 @@ import clases.Cama;
 public class Arreglo_Cama extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	ArrayList<Cama> ca;
+	ArrayList<Cama> listaCa;
 
 	public Arreglo_Cama() {
-		ca = new ArrayList<Cama>();
-
+		listaCa = new ArrayList<Cama>();
 		cargarCama();
-	}
-
-	public int tamanio() {
-		return ca.size();
-	}
-
-	public Cama obtener(int i) {
-		return ca.get(i);
-	}
-
-	public void adicionar(Cama x) {
-		ca.add(x);
-	}
-
-	public String getArchivo() {
-		return "cama.txt";
-	}
-
-	public void modificar(int i, Cama x) {
-		ca.set(i, x);
-	}
-
-	public void eliminar(int i) {
-		ca.remove(i);
 	}
 
 	public void cargarCama() {
@@ -52,7 +27,8 @@ public class Arreglo_Cama extends AbstractTableModel {
 			String linea;
 			String[] s;
 			int numcama, cat, est;
-			br = new BufferedReader(new FileReader("cama.txt"));
+
+			br = new BufferedReader(new FileReader(getArchivo()));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				numcama = Integer.parseInt(s[0].trim());
@@ -62,6 +38,7 @@ public class Arreglo_Cama extends AbstractTableModel {
 			}
 			br.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -70,21 +47,44 @@ public class Arreglo_Cama extends AbstractTableModel {
 			PrintWriter pw;
 			String linea;
 			Cama x;
-			pw = new PrintWriter(new FileWriter("cama.txt"));
+			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getNumeroCama() + ";" + 
-						x.getCategoria() + ";" + 
-						x.getEstado();
+				linea = x.getNumeroCama() + ";" + x.getCategoria() + ";" + x.getEstado();
 				pw.println(linea);
 			}
 			pw.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
+	public int tamanio() {
+		return listaCa.size();
+	}
+
+	public Cama obtener(int i) {
+		return listaCa.get(i);
+	}
+
+	public void adicionar(Cama x) {
+		listaCa.add(x);
+	}
+
+	public String getArchivo() {
+		return "cama.txt";
+	}
+
+	public void modificar(int i, Cama x) {
+		listaCa.set(i, x);
+	}
+
+	public void eliminar(int i) {
+		listaCa.remove(i);
+	}
+
 	public boolean existeArchivo() {
-		File f = new File("cama.txt");
+		File f = new File(getArchivo());
 		return f.exists();
 	}
 
@@ -108,6 +108,13 @@ public class Arreglo_Cama extends AbstractTableModel {
 				return obtener(i).getNumeroCama();
 		return -1;
 	}
+	
+	public int generarCodigo() {
+		if (tamanio() == 0)
+			return 101;
+		else
+			return obtener(tamanio() - 1).getNumeroCama() + 1;
+	}
 
 	@Override
 	public int getColumnCount() {
@@ -118,7 +125,7 @@ public class Arreglo_Cama extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return listaCa.size();
 	}
 
 	@Override

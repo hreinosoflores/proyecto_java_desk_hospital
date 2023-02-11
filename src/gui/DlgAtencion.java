@@ -18,7 +18,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Atencion;
-import clases.ClaseDetalleAtencion;
+import clases.AtencionDetalle;
 
 public class DlgAtencion extends JDialog implements ActionListener {
 	/**
@@ -268,7 +268,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		Atencion nuevaAtencion = new Atencion(leerCodigoAtencion(), leerCodigoPaciente(),
 				Principal_Proyecto2017_2.FechaSistema(), leerTotalPagar(), 0);
 
-		ClaseDetalleAtencion nuevaDetalleAtencion = new ClaseDetalleAtencion(leerCodigoAtencion(), leerCodigoMedicina(),
+		AtencionDetalle nuevaDetalleAtencion = new AtencionDetalle(leerCodigoAtencion(), leerCodigoMedicina(),
 				leerCantidad(), leerPrecio());
 
 		Principal_Proyecto2017_2.at.adicionar(nuevaAtencion);

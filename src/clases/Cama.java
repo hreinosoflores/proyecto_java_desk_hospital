@@ -1,5 +1,7 @@
 package clases;
 
+import libreria.lib;
+
 public class Cama {
 	private int numeroCama, categoria, estado;
 
@@ -33,25 +35,13 @@ public class Cama {
 		this.categoria = categoria;
 	}
 
-//  Operaciones publicas
-	public String detalleCategoria() {
-		switch (categoria) {
-		case 0:
-			return "B�sico";
-		case 1:
-			return "Est�ndar";
-		default:
-			return "Premium";
-		}
+	//  Operaciones publicas
+	public String CategoriaDescr() {
+		return lib.tiposdeCategoria[categoria];
 	}
 
-	public String detalleEstado() {
-		switch (estado) {
-		case 0:
-			return "Libre";
-		default:
-			return "Ocupado";
-		}
+	public String EstadoDescr() {
+		return lib.tiposdeEstadoCama[categoria];
 	}
 
 	public double Precio() {

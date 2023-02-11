@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 
 public class Fecha {
 
-	// M�todos static tipo void (con par�metros)
+	// Métodos static tipo void (con parámetros)
 	public static void colocarMeses(JComboBox<String> cbo) {
 		cbo.addItem("Enero");
 		cbo.addItem("Febrero");
@@ -55,18 +55,27 @@ public class Fecha {
 
 	public static void setHora(JComboBox<String> hora, JComboBox<String> minuto, int fechaHora) {
 		int MM = fechaHora % 100, HH = fechaHora / 100;
-
 		minuto.setSelectedIndex(MM - 1);
 		hora.setSelectedItem(HH + "");
 	}
 
-	// M�todos static que retornan valor (sin par�metros)
+	public static void colocarHoraActual(JComboBox<String> cbo) {
+		Calendar calendario = new GregorianCalendar();
+		cbo.setSelectedIndex(calendario.get(Calendar.HOUR_OF_DAY) - 1);
+	}
+
+	public static void colocarMinutoActual(JComboBox<String> cbo) {
+		Calendar calendario = new GregorianCalendar();
+		cbo.setSelectedIndex(calendario.get(Calendar.MINUTE) - 1);
+	}
+
+	// Métodos static que retornan valor (sin parámetros)
 	public static int anioActual() {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.YEAR);
 	}
 
-	// M�todos static que retornan valor (con par�metros)
+	// Métodos static que retornan valor (con parámetros)
 	public static String dd_mm_aaaa(int fecha) {
 		String s = "" + fecha;
 		return "" + s.charAt(6) + s.charAt(7) + '/' + s.charAt(4) + s.charAt(5) + '/' + s.charAt(0) + s.charAt(1)
@@ -75,9 +84,9 @@ public class Fecha {
 
 	public static String HH_MM(int hora) {
 		String s = "" + hora;
-		if (hora > 1000) {
+		if (hora > 1000)
 			return "" + s.charAt(0) + s.charAt(1) + ':' + s.charAt(2) + s.charAt(3);
-		} else
+		else
 			return "" + s.charAt(0) + ':' + s.charAt(1) + s.charAt(2);
 	}
 
@@ -89,18 +98,52 @@ public class Fecha {
 
 	public static int getHora(JComboBox<String> hora, JComboBox<String> minuto) {
 		int mm = minuto.getSelectedIndex() + 1, hh = Integer.parseInt(hora.getSelectedItem().toString());
-
 		return hh * 100 + mm;
 	}
 
-	public static void colocarHoraActual(JComboBox<String> cbo) {
-		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.HOUR_OF_DAY) - 1);
-	}
-
-	public static void colocarMinutoActual(JComboBox<String> cbo) {
-		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.MINUTE) - 1);
+	public static String formatoFecha(int fecha) {
+		String s = fecha % 100 + " de ";
+		fecha /= 100;
+		switch (fecha % 100) {
+		case 1:
+			s += "Enero";
+			break;
+		case 2:
+			s += "Febrero";
+			break;
+		case 3:
+			s += "Marzo";
+			break;
+		case 4:
+			s += "Abril";
+			break;
+		case 5:
+			s += "Mayo";
+			break;
+		case 6:
+			s += "Junio";
+			break;
+		case 7:
+			s += "Julio";
+			break;
+		case 8:
+			s += "Agosto";
+			break;
+		case 9:
+			s += "Setiembre";
+			break;
+		case 10:
+			s += "Octubre";
+			break;
+		case 11:
+			s += "Noviembre";
+			break;
+		default:
+			s += "Diciembre";
+			break;
+		}
+		s = s + " de " + fecha / 100;
+		return s;
 	}
 
 }

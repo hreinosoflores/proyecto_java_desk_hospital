@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
+import clases.Paciente;
 
 public class Arreglo_Atencion extends AbstractTableModel {
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	ArrayList<Atencion> at;
+	ArrayList<Atencion> listaAt;
 
 	public Arreglo_Atencion() {
-		at = new ArrayList<Atencion>();
+		listaAt = new ArrayList<Atencion>();
 		cargarAtencion();
 	}
 
@@ -28,23 +29,24 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			BufferedReader br;
 			String linea;
 			String[] s;
-			int codigoAtencion, codigoPaciente, estado;
+			Paciente paciente;
+			int codigoAtencion, estado;
 			String fechaAtencion;
 			double totalPagar;
 
-			br = new BufferedReader(new FileReader("atencion.txt"));
+			br = new BufferedReader(new FileReader(getArchivo()));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				codigoAtencion = Integer.parseInt(s[0].trim());
-				codigoPaciente = Integer.parseInt(s[1].trim());
+				paciente = new Paciente(Integer.parseInt(s[1].trim()), null,null, null, null);
 				fechaAtencion = s[2].trim();
 				totalPagar = Double.parseDouble(s[3].trim());
 				estado = Integer.parseInt(s[3].trim());
-				adicionar(new Atencion(codigoAtencion, codigoPaciente, fechaAtencion, totalPagar, estado));
+				adicionar(new Atencion(codigoAtencion, paciente, fechaAtencion, totalPagar, estado));
 			}
 			br.close();
 		} catch (Exception e) {
-
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -54,18 +56,16 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			PrintWriter pw;
 			String linea;
 			Atencion x;
-			pw = new PrintWriter(new FileWriter("atencion.txt"));
+			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getCodigoAtencion() + ";" +
-						x.getCodigoPaciente() + ";" + 
-						x.getFechaAtencion() + ";"+ 
-						x.getTotalPagar() + ";" + 
-						x.getEstado();
+				linea = x.getCodigoAtencion() + ";" + x.getPaciente().getCodigoPaciente() + ";" + x.getFechaAtencion() + ";"
+						+ x.getTotalPagar() + ";" + x.getEstado();
 				pw.println(linea);
 			}
 			pw.close();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -80,11 +80,11 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			"Codigo Medicina", "Precio Unitario", "Cantidad", "Total Pagar" };
 
 	public int tamanio() {
-		return at.size();
+		return listaAt.size();
 	}
 
 	public void adicionar(Atencion x) {
-		at.add(x);
+		listaAt.add(x);
 		fireTableDataChanged();
 	}
 
@@ -93,7 +93,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 	}
 
 	public Atencion obtener(int i) {
-		return at.get(i);
+		return listaAt.get(i);
 	}
 
 	public Atencion buscar(int codigo) {
@@ -110,19 +110,19 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		Atencion x;
 		for (int i = 0; i < tamanio(); i++) {
 			x = obtener(i);
-			if (x.getCodigoPaciente() == codigo)
+			if (x.getPaciente().getCodigoPaciente() == codigo)
 				return x;
 		}
 		return null;
 	}
 
 	public void eliminar(Atencion x) {
-		at.remove(x);
+		listaAt.remove(x);
 		fireTableDataChanged();
 	}
 
 	public boolean existeArchivo() {
-		File f = new File("atencion.txt");
+		File f = new File(getArchivo());
 		return f.exists();
 	}
 
@@ -134,8 +134,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-
-		return at.size();
+		return listaAt.size();
 	}
 
 	@Override
