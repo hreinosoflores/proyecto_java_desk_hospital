@@ -14,15 +14,19 @@ public class lib {
 	public static String tiposdeEstadoAtencion[] = { "pendiente", "pagado" };
 
 	public static void mensajeError(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 0);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public static void mensajeInformacion(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 1);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void mensajeAdvertencia(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 2);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.WARNING_MESSAGE);
+	}
+
+	public static int mensajeConfirmacion(JDialog jd, String s) {
+		return JOptionPane.showConfirmDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 0, JOptionPane.QUESTION_MESSAGE, null);
 	}
 
 	public static String leerCadena(JTextField txt) {
@@ -39,10 +43,6 @@ public class lib {
 
 	public static int leerEntero(JLabel lbl) {
 		return Integer.parseInt(lbl.getText().trim());
-	}
-
-	public static int mensajeConfirmacion(JDialog jd, String s) {
-		return JOptionPane.showConfirmDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 0, 3, null);
 	}
 
 }
