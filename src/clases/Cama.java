@@ -41,7 +41,7 @@ public class Cama {
 	}
 
 	public String EstadoDescr() {
-		return lib.tiposdeEstadoCama[categoria];
+		return lib.tiposdeEstadoCama[estado];
 	}
 
 	public double Precio() {

@@ -108,7 +108,7 @@ public class Arreglo_Cama extends AbstractTableModel {
 				return obtener(i).getNumeroCama();
 		return -1;
 	}
-	
+
 	public int generarCodigo() {
 		if (tamanio() == 0)
 			return 101;
@@ -116,16 +116,24 @@ public class Arreglo_Cama extends AbstractTableModel {
 			return obtener(tamanio() - 1).getNumeroCama() + 1;
 	}
 
+	private String nombreColumnas[] = { "N\u00ba Cama", "Categor\u00eda", "Precio", "Estado" };
+
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return nombreColumnas.length;
 	}
 
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
 		return listaCa.size();
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return nombreColumnas[column];
 	}
 
 	@Override

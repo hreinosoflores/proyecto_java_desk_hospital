@@ -138,8 +138,8 @@ public class Arreglo_Atencion extends AbstractTableModel {
 	}
 
 	@Override
-	public String getColumnName(int columna) {
-		return nombreColumnas[columna];
+	public String getColumnName(int column) {
+		return nombreColumnas[column];
 	}
 
 	@Override

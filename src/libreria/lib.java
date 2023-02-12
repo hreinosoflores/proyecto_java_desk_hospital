@@ -14,19 +14,19 @@ public class lib {
 	public static String tiposdeEstadoAtencion[] = { "pendiente", "pagado" };
 
 	public static void mensajeError(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> Hospital ", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public static void mensajeInformacion(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> Hospital ", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void mensajeAdvertencia(JDialog jd, String s) {
-		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> PrimaTaxi ", JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> Hospital ", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public static int mensajeConfirmacion(JDialog jd, String s) {
-		return JOptionPane.showConfirmDialog(jd, s, "MN-Global  >>> PrimaTaxi ", 0, JOptionPane.QUESTION_MESSAGE, null);
+		return JOptionPane.showConfirmDialog(jd, s, "MN-Global  >>> Hospital ", 0, JOptionPane.QUESTION_MESSAGE, null);
 	}
 	
 
@@ -44,6 +44,10 @@ public class lib {
 
 	public static int leerEntero(JLabel lbl) {
 		return Integer.parseInt(lbl.getText().trim());
+	}
+	
+	public static String formatSoles(double precio) {
+		return "S/. " + String.format("%.2f", precio);
 	}
 
 }

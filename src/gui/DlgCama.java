@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import clases.Cama;
+import libreria.lib;
 
 public class DlgCama extends JDialog implements ActionListener {
 	/**
@@ -21,10 +23,10 @@ public class DlgCama extends JDialog implements ActionListener {
 	private JButton btnIngresar;
 	private JButton btnModificar;
 	private JButton btnEliminar;
-	private JButton btnGrabar;
 	private JScrollPane scrollPane;
 	private JTable tblTabla;
 	private static DefaultTableModel modelo;
+	public static Cama seleccionado;
 
 	/**
 	 * Launch the application.
@@ -71,12 +73,6 @@ public class DlgCama extends JDialog implements ActionListener {
 		btnEliminar.setBounds(285, 11, 123, 38);
 		getContentPane().add(btnEliminar);
 
-		btnGrabar = new JButton("Grabar");
-		btnGrabar.addActionListener(this);
-		btnGrabar.setIcon(new ImageIcon("imagenes/grabar.png"));
-		btnGrabar.setBounds(418, 11, 123, 38);
-		getContentPane().add(btnGrabar);
-
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 61, 529, 189);
 		getContentPane().add(scrollPane);
@@ -86,18 +82,14 @@ public class DlgCama extends JDialog implements ActionListener {
 		scrollPane.setViewportView(tblTabla);
 
 		modelo = new DefaultTableModel();
-		modelo.addColumn("N� Cama");
-		modelo.addColumn("Categoria");
-		modelo.addColumn("Precio");
-		modelo.addColumn("Estado");
+		for (int i = 0; i < Principal_Proyecto2017_2.listaAc.getColumnCount(); i++) {
+			modelo.addColumn(Principal_Proyecto2017_2.listaAc.getColumnName(i));
+		}
 		tblTabla.setModel(modelo);
-		DlgCama.listar();
+		listar();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnGrabar) {
-			actionPerformedBtnGrabar(e);
-		}
 		if (e.getSource() == btnModificar) {
 			actionPerformedBtnModificar(e);
 		}
@@ -111,54 +103,42 @@ public class DlgCama extends JDialog implements ActionListener {
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		DlgIngreso_Cama MnGlobal = new DlgIngreso_Cama();
-
 		MnGlobal.setLocationRelativeTo(this);
 		MnGlobal.setVisible(true);
-	}
-
-	public static void listar() {
-		DlgCama.modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.ac.tamanio(); i++) {
-			Object fila[] = { Principal_Proyecto2017_2.ac.obtener(i).getNumeroCama(),
-					Principal_Proyecto2017_2.ac.obtener(i).detalleCategoria(),
-					Principal_Proyecto2017_2.ac.obtener(i).Precio(),
-					Principal_Proyecto2017_2.ac.obtener(i).detalleEstado() };
-			DlgCama.modelo.addRow(fila);
-		}
-		;
-	}
-
-	protected void actionPerformedBtnEliminar(ActionEvent e) {
-		Principal_Proyecto2017_2.ac.eliminar(Principal_Proyecto2017_2.ac.tamanio() - 1);
-		DlgCama.listar();
 	}
 
 	protected void actionPerformedBtnModificar(ActionEvent e) {
-		DlgModificar_Cama MnGlobal = new DlgModificar_Cama();
-		MnGlobal.setLocationRelativeTo(this);
-		MnGlobal.setVisible(true);
-	}
-
-	protected void actionPerformedBtnGrabar(ActionEvent e) {
-		if (Principal_Proyecto2017_2.ac.existeArchivo()) {
-			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.ac.getArchivo() + "\" ?");
-			if (ok == 0) {
-				Principal_Proyecto2017_2.ac.grabarCama();
-				mensaje("\"" + Principal_Proyecto2017_2.ac.getArchivo() + "\" ha sido actualizado");
-			} else
-				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.ac.getArchivo() + "\"");
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {
+			seleccionado = Principal_Proyecto2017_2.listaAc.obtener(seleccionadoIdx);
+			DlgModificar_Cama dlg = new DlgModificar_Cama();
+			dlg.setLocationRelativeTo(this);
+			dlg.setVisible(true);
 		} else {
-			Principal_Proyecto2017_2.ac.grabarCama();
-			mensaje("\"" + Principal_Proyecto2017_2.ac.getArchivo() + "\" ha sido creado");
+			lib.mensajeAdvertencia(this, "Debe seleccionar una cama");
 		}
 	}
 
-	void mensaje(String s) {
-		JOptionPane.showMessageDialog(this, s);
+	protected void actionPerformedBtnEliminar(ActionEvent e) {
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {
+			seleccionado = Principal_Proyecto2017_2.listaAc.obtener(seleccionadoIdx);
+			Principal_Proyecto2017_2.listaAc.eliminar(seleccionadoIdx);
+			listar();
+		} else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar una cama");
+		}
 	}
 
-	int confirmar(String s) {
-		return JOptionPane.showConfirmDialog(this, s);
+	public static void listar() {
+		modelo.setRowCount(0);
+		for (int i = 0; i < Principal_Proyecto2017_2.listaAc.tamanio(); i++) {
+			Object fila[] = { Principal_Proyecto2017_2.listaAc.obtener(i).getNumeroCama(),
+					Principal_Proyecto2017_2.listaAc.obtener(i).CategoriaDescr(),
+					lib.formatSoles(Principal_Proyecto2017_2.listaAc.obtener(i).Precio()),
+					Principal_Proyecto2017_2.listaAc.obtener(i).EstadoDescr() };
+			modelo.addRow(fila);
+		}
 	}
 
 }

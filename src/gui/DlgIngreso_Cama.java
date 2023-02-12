@@ -14,7 +14,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import clases.Cama;
 import libreria.lib;
+import java.awt.Toolkit;
 
 public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	/**
@@ -24,6 +26,7 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	private JLabel lblNumCama;
 	private JTextField txtNumCam;
 	private JLabel lblCat;
+	private JComboBox<String> cboCategoria;
 	private JButton btnIngresar;
 
 	/**
@@ -46,13 +49,11 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public DlgIngreso_Cama() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgIngreso_Cama.class.getResource("/Imagenes/medicos.png")));
 		setTitle("Ingreso Cama");
 		setBounds(100, 100, 355, 135);
-
 		getContentPane().setLayout(null);
 
 		lblNumCama = new JLabel("Nro. Cama");
@@ -60,38 +61,29 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 		lblNumCama.setBounds(10, 11, 88, 25);
 		getContentPane().add(lblNumCama);
 
-		txtNumCam = new JTextField();
+		txtNumCam = new JTextField(Principal_Proyecto2017_2.listaAc.generarCodigo() + "");
+		txtNumCam.setEditable(false);
 		txtNumCam.setBounds(108, 15, 86, 20);
-		getContentPane().add(txtNumCam);
 		txtNumCam.setColumns(10);
+		getContentPane().add(txtNumCam);
 
 		lblCat = new JLabel("Categoria");
 		lblCat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCat.setBounds(10, 47, 88, 31);
 		getContentPane().add(lblCat);
 
-		btnIngresar = new JButton("Ingresar");
-		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
-		btnIngresar.setBounds(214, 14, 116, 23);
-		getContentPane().add(btnIngresar);
-
-		cboCategoria = new JComboBox();
+		cboCategoria = new JComboBox<String>();
 		cboCategoria.setModel(new DefaultComboBoxModel<String>(lib.tiposdeCategoria));
 		cboCategoria.setBounds(108, 58, 86, 20);
 		getContentPane().add(cboCategoria);
 
-	}
+		btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(this);
+		btnIngresar.setIcon(new ImageIcon(DlgIngreso_Cama.class.getResource("/Imagenes/ingresar.png")));
+		btnIngresar.setBounds(214, 14, 116, 39);
+		getContentPane().add(btnIngresar);
 
-	public int leerNumCama() {
-		return Integer.parseInt(txtNumCam.getText());
 	}
-
-	public int leerCategoria() {
-		return cboCategoria.getSelectedIndex();
-	}
-
-	private JComboBox<String> cboCategoria;
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnIngresar) {
@@ -100,20 +92,30 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
-		try {
-			int numCama = leerNumCama();
-			try {
-				int cat = leerCategoria();
-				clases.Cama x = new clases.Cama(numCama, cat, 0);
+		int ok = lib.mensajeConfirmacion(this, "\u00bfDesea ingresar nueva cama?");
+		if (ok == 0) {
+			// Validar archivo
+			if (!Principal_Proyecto2017_2.listaAc.existeArchivo()) {
+				Principal_Proyecto2017_2.listaAc.grabarCama();
+			}
 
-				Principal_Proyecto2017_2.ac.adicionar(x);
+			try {
+				// Ingresar cama
+				Cama nuevo = new Cama(lib.leerEntero(txtNumCam), cboCategoria.getSelectedIndex(), 0);
+				Principal_Proyecto2017_2.listaAc.adicionar(nuevo);
+				Principal_Proyecto2017_2.listaAc.grabarCama();
+				// Cerrar ventanita
+				dispose();
+				// Refrescar lista
 				DlgCama.listar();
 			} catch (Exception e) {
-				lib.mensajeError(this, "Ingrese un numero en precio");
+				// TODO: handle exception
+				lib.mensajeError(this, "Hubo un error: " + e.getMessage());
 			}
-		} catch (Exception e) {
-			lib.mensajeError(this, "Ingrese un numero de cama");
-			txtNumCam.requestFocus();
+
+		} else {
+			// Cerrar ventanita
+			dispose();
 		}
 
 	}
