@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,7 +13,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import clases.Paciente;
 import libreria.lib;
+import java.awt.Toolkit;
 
 public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	/**
@@ -22,12 +25,13 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	private JLabel lblCod_Paciente;
 	private JTextField txtPaciente;
 	private JLabel lblApellido;
-	@SuppressWarnings("unused")
-	private JLabel lbltxtApellido;
 	private JLabel lblNombre;
 	private JTextField txtNombre;
 	private JLabel lblTelefono;
 	private JTextField txtTelefono;
+	private JLabel lblDni;
+	private JTextField txtDni;
+	private JTextField txtApellido;
 	private JButton btnIngresar;
 
 	/**
@@ -53,8 +57,9 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	public DlgIngreso_Paciente() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setTitle("Ingreso Paciente");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
-		setBounds(100, 100, 432, 229);
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(DlgIngreso_Paciente.class.getResource("/Imagenes/paciente.png")));
+		setBounds(100, 100, 432, 262);
 		getContentPane().setLayout(null);
 
 		lblCod_Paciente = new JLabel("Cod. Paciente :");
@@ -62,84 +67,59 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		lblCod_Paciente.setBounds(10, 11, 120, 25);
 		getContentPane().add(lblCod_Paciente);
 
-		txtPaciente = new JTextField();
+		txtPaciente = new JTextField(Principal_Proyecto2017_2.listaPa.generarCodigo() + "");
+		txtPaciente.setEditable(false);
 		txtPaciente.setBounds(140, 15, 86, 20);
-		getContentPane().add(txtPaciente);
 		txtPaciente.setColumns(10);
-
-		lblApellido = new JLabel("Apellidos :");
-		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblApellido.setBounds(10, 48, 120, 20);
-		getContentPane().add(lblApellido);
-
-		lblNombre = new JLabel("Nombres :");
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNombre.setBounds(10, 91, 120, 14);
-		getContentPane().add(lblNombre);
-
-		txtNombre = new JTextField();
-		txtNombre.setBounds(140, 90, 266, 20);
-		getContentPane().add(txtNombre);
-		txtNombre.setColumns(10);
-
-		btnIngresar = new JButton("Ingresar");
-		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
-		btnIngresar.setBounds(291, 14, 115, 23);
-		getContentPane().add(btnIngresar);
-
-		lblTelefono = new JLabel("Telefono :");
-		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTelefono.setBounds(10, 122, 103, 25);
-		getContentPane().add(lblTelefono);
+		getContentPane().add(txtPaciente);
 
 		lblDni = new JLabel("Dni :");
 		lblDni.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDni.setBounds(10, 163, 61, 14);
+		lblDni.setBounds(10, 58, 61, 14);
 		getContentPane().add(lblDni);
 
 		txtDni = new JTextField();
+		txtDni.setBounds(140, 57, 86, 20);
 		txtDni.setColumns(10);
-		txtDni.setBounds(140, 162, 86, 20);
 		getContentPane().add(txtDni);
 
+		lblNombre = new JLabel("Nombres :");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNombre.setBounds(10, 89, 120, 14);
+		getContentPane().add(lblNombre);
+
+		txtNombre = new JTextField();
+		txtNombre.setBounds(140, 88, 266, 20);
+		txtNombre.setColumns(10);
+		getContentPane().add(txtNombre);
+
+		lblApellido = new JLabel("Apellidos :");
+		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblApellido.setBounds(10, 114, 120, 20);
+		getContentPane().add(lblApellido);
+
 		txtApellido = new JTextField();
+		txtApellido.setBounds(140, 116, 266, 20);
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(140, 50, 266, 20);
 		getContentPane().add(txtApellido);
 
+		lblTelefono = new JLabel("Telefono :");
+		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTelefono.setBounds(10, 145, 103, 25);
+		getContentPane().add(lblTelefono);
+
 		txtTelefono = new JTextField();
+		txtTelefono.setBounds(140, 149, 115, 20);
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(140, 126, 86, 20);
 		getContentPane().add(txtTelefono);
 
-	}
+		btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(this);
+		btnIngresar.setIcon(new ImageIcon(DlgIngreso_Paciente.class.getResource("/Imagenes/ingresar.png")));
+		btnIngresar.setBounds(291, 26, 115, 46);
+		getContentPane().add(btnIngresar);
 
-	public int leerPaciente() {
-		return Integer.parseInt(txtPaciente.getText());
 	}
-
-	public String leerApellido() {
-		return (txtApellido.getText());
-	}
-
-	public String leerNombre() {
-		return (txtNombre.getText());
-	}
-
-	public String leerTelefono() {
-		return (txtTelefono.getText());
-	}
-
-	public String leerDni() {
-		return (txtDni.getText());
-	}
-
-	private JLabel lblDni;
-	@SuppressWarnings("unused")
-	private JLabel lblPaciente;
-	private JTextField txtDni;
-	private JTextField txtApellido;
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnIngresar) {
@@ -148,32 +128,50 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
-		if (leerApellido().length() == 0) {
-			lib.mensajeError(this, "Ingrese apellido");
-			txtApellido.requestFocus();
-		} else if (leerNombre().length() == 0) {
-			lib.mensajeError(this, "Ingrese nombre del paciente");
-			txtNombre.requestFocus();
-		} else
-
-		if (leerTelefono().length() == 0) {
-			lib.mensajeError(this, "Ingrese numero de telefono");
-			txtTelefono.requestFocus();
-		} else if (leerDni().length() == 0) {
-			lib.mensajeError(this, "Ingrese numero de DNI");
+		String dni = lib.leerCadena(txtDni);
+		if (dni.length() == 0 || !Pattern.matches("[0-9]{8}", dni)) {
+			lib.mensajeError(this, "Ingrese dni con el formato correcto");
 			txtDni.requestFocus();
-		} else
-			try {
-				int cod_paciente = leerPaciente();
+		} else {
+			String nombres = lib.leerCadena(txtNombre);
+			if (nombres.length() == 0) {
+				lib.mensajeError(this, "Ingrese nombre");
+				txtNombre.requestFocus();
+			} else {
+				String apellidos = lib.leerCadena(txtApellido);
+				if (apellidos.length() == 0) {
+					lib.mensajeError(this, "Ingrese apellido");
+					txtApellido.requestFocus();
+				} else {
+					int ok = lib.mensajeConfirmacion(this, "\u00bfDesea ingresar nuevo paciente?");
+					if (ok == 0) {
+						// Validar archivo
+						if (!Principal_Proyecto2017_2.listaPa.existeArchivo()) {
+							Principal_Proyecto2017_2.listaPa.grabarPaciente();
+						}
 
-				clases.Paciente x = new clases.Paciente(cod_paciente, leerApellido(), leerNombre(), leerTelefono(),
-						leerDni());
+						try {
+							// Ingresar medicina
+							Paciente nuevo = new Paciente(lib.leerEntero(txtPaciente), apellidos, nombres,
+									lib.leerCadena(txtTelefono), dni);
+							Principal_Proyecto2017_2.listaPa.adicionar(nuevo);
+							Principal_Proyecto2017_2.listaPa.grabarPaciente();
+							// Cerrar ventanita
+							dispose();
+							// Refrescar lista
+							DlgPaciente.listar();
+						} catch (Exception e) {
+							// TODO: handle exception
+							lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+						}
 
-				Principal_Proyecto2017_2.ap.adicionar(x);
-				DlgPaciente.listar();
-			} catch (Exception e) {
-				lib.mensajeError(this, "Ingrese codigo del paciente");
+					} else {
+						// Cerrar ventanita
+						dispose();
+					}
+				}
 			}
+		}
 
 	}
 }

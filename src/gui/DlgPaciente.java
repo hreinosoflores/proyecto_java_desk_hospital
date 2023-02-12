@@ -8,10 +8,14 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import clases.Paciente;
+import libreria.lib;
+
+import java.awt.Toolkit;
 
 public class DlgPaciente extends JDialog implements ActionListener {
 	/**
@@ -21,10 +25,10 @@ public class DlgPaciente extends JDialog implements ActionListener {
 	private JButton btnIngresar;
 	private JButton btnModificar;
 	private JButton btnEliminar;
-	private JButton btnGrabar;
 	private JScrollPane scrollPane;
 	private JTable tblTabla;
 	private static DefaultTableModel modelo;
+	public static Paciente seleccionado;
 
 	/**
 	 * Launch the application.
@@ -49,33 +53,27 @@ public class DlgPaciente extends JDialog implements ActionListener {
 	public DlgPaciente() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setTitle("Paciente");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgPaciente.class.getResource("/Imagenes/paciente.png")));
 		setBounds(100, 100, 568, 300);
 		getContentPane().setLayout(null);
 
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
+		btnIngresar.setIcon(new ImageIcon(DlgPaciente.class.getResource("/Imagenes/ingresar.png")));
 		btnIngresar.setBounds(10, 11, 123, 38);
 		getContentPane().add(btnIngresar);
 
 		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(this);
 		btnModificar.setBounds(148, 11, 123, 38);
-		btnModificar.setIcon(new ImageIcon("imagenes/modificar.png"));
+		btnModificar.setIcon(new ImageIcon(DlgPaciente.class.getResource("/Imagenes/modificar.png")));
 		getContentPane().add(btnModificar);
 
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setIcon(new ImageIcon("imagenes/eliminar.png"));
+		btnEliminar.setIcon(new ImageIcon(DlgPaciente.class.getResource("/Imagenes/eliminar.png")));
 		btnEliminar.setBounds(285, 11, 123, 38);
 		getContentPane().add(btnEliminar);
-
-		btnGrabar = new JButton("Grabar");
-		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(418, 11, 123, 38);
-		btnGrabar.setIcon(new ImageIcon("imagenes/grabar.png"));
-		getContentPane().add(btnGrabar);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 61, 529, 189);
@@ -86,20 +84,14 @@ public class DlgPaciente extends JDialog implements ActionListener {
 		scrollPane.setViewportView(tblTabla);
 
 		modelo = new DefaultTableModel();
-		modelo.addColumn("codigo");
-		modelo.addColumn("Apellidos");
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Telefono");
-		modelo.addColumn("Dni");
+		for (int i = 0; i < Principal_Proyecto2017_2.listaPa.getColumnCount(); i++) {
+			modelo.addColumn(Principal_Proyecto2017_2.listaPa.getColumnName(i));
+		}
 		tblTabla.setModel(modelo);
-
 		listar();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnGrabar) {
-			actionPerformedBtnGrabar(e);
-		}
 		if (e.getSource() == btnEliminar) {
 			actionPerformedBtnEliminar(e);
 		}
@@ -112,54 +104,49 @@ public class DlgPaciente extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
-		DlgIngreso_Paciente MnGlobal = new DlgIngreso_Paciente();
-		MnGlobal.setLocationRelativeTo(this);
-		MnGlobal.setVisible(true);
+		DlgIngreso_Paciente dlg = new DlgIngreso_Paciente();
+		dlg.setLocationRelativeTo(this);
+		dlg.setVisible(true);
 	}
 
 	protected void actionPerformedBtnModificar(ActionEvent e) {
-		DlgModificar_Paciente MnGlobal = new DlgModificar_Paciente();
-		MnGlobal.setLocationRelativeTo(this);
-		MnGlobal.setVisible(true);
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {
+			seleccionado = Principal_Proyecto2017_2.listaPa.obtener(seleccionadoIdx);
+			DlgModificar_Paciente dlg = new DlgModificar_Paciente();
+			dlg.setLocationRelativeTo(this);
+			dlg.setVisible(true);
+		} else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar un paciente");
+		}
 
 	}
 
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
-		Principal_Proyecto2017_2.ap.eliminar(Principal_Proyecto2017_2.ap.tamanio() - 1);
-		listar();
-	}
-
-	protected void actionPerformedBtnGrabar(ActionEvent e) {
-		if (Principal_Proyecto2017_2.ap.existeArchivo()) {
-			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.ap.getArchivo() + "\" ?");
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea eliminar paciente?");
 			if (ok == 0) {
-				Principal_Proyecto2017_2.ap.grabarPaciente();
-				mensaje("\"" + Principal_Proyecto2017_2.ap.getArchivo() + "\" ha sido actualizado");
-			} else
-				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.ap.getArchivo() + "\"");
+				seleccionado = Principal_Proyecto2017_2.listaPa.obtener(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaPa.eliminar(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaPa.grabarPaciente();
+				listar();
+			}
+
 		} else {
-			Principal_Proyecto2017_2.ap.grabarPaciente();
-			mensaje("\"" + Principal_Proyecto2017_2.ap.getArchivo() + "\" ha sido creado");
+			lib.mensajeAdvertencia(this, "Debe seleccionar un paciente");
 		}
-	}
-
-	void mensaje(String s) {
-		JOptionPane.showMessageDialog(this, s);
-	}
-
-	int confirmar(String s) {
-		return JOptionPane.showConfirmDialog(this, s);
 	}
 
 	public static void listar() {
 		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.ap.tamanio(); i++) {
-			Object fila[] = { Principal_Proyecto2017_2.ap.obtener(i).getCodigoPaciente(),
-
-					Principal_Proyecto2017_2.ap.obtener(i).getApellidos(),
-					Principal_Proyecto2017_2.ap.obtener(i).getNombres(),
-					Principal_Proyecto2017_2.ap.obtener(i).getTelefono(),
-					Principal_Proyecto2017_2.ap.obtener(i).getDni() };
+		for (int i = 0; i < Principal_Proyecto2017_2.listaPa.tamanio(); i++) {
+			Object fila[] = {
+					Principal_Proyecto2017_2.listaPa.obtener(i).getCodigoPaciente(),
+					Principal_Proyecto2017_2.listaPa.obtener(i).getDni(),
+					Principal_Proyecto2017_2.listaPa.obtener(i).getApellidos(),
+					Principal_Proyecto2017_2.listaPa.obtener(i).getNombres(),
+					Principal_Proyecto2017_2.listaPa.obtener(i).getTelefono() };
 			modelo.addRow(fila);
 		}
 		;

@@ -22,7 +22,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 		listaPa = new ArrayList<Paciente>();
 		cargarPaciente();
 	}
-	
+
 	public void cargarPaciente() {
 		try {
 			BufferedReader br;
@@ -65,7 +65,6 @@ public class Arreglo_Paciente extends AbstractTableModel {
 		}
 	}
 
-
 	public int tamanio() {
 		return listaPa.size();
 	}
@@ -90,7 +89,6 @@ public class Arreglo_Paciente extends AbstractTableModel {
 		listaPa.remove(i);
 	}
 
-
 	public boolean existeArchivo() {
 		File f = new File(getArchivo());
 		return f.exists();
@@ -109,7 +107,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 				return obtener(i);
 		return null;
 	}
-	
+
 	public int generarCodigo() {
 		if (tamanio() == 0)
 			return 1001;
@@ -117,16 +115,24 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoPaciente() + 1;
 	}
 
+	private String nombreColumnas[] = {	"C\u00f3digo", "Dni", "Apellidos", "Nombres", "Telefono" };
+
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return nombreColumnas.length;
 	}
 
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
 		return listaPa.size();
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return nombreColumnas[column];
 	}
 
 	@Override
