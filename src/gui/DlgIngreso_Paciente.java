@@ -129,7 +129,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 
 	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
 		String dni = lib.leerCadena(txtDni);
-		if (dni.length() == 0 || !Pattern.matches("[0-9]{8}", dni)) {
+		if (dni.length() == 0 || !Pattern.matches("[0-9]{7,8}", dni)) {
 			lib.mensajeError(this, "Ingrese dni con el formato correcto");
 			txtDni.requestFocus();
 		} else {
@@ -151,7 +151,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 						}
 
 						try {
-							// Ingresar medicina
+							// Ingresar paciente
 							Paciente nuevo = new Paciente(lib.leerEntero(txtPaciente), apellidos, nombres,
 									lib.leerCadena(txtTelefono), dni);
 							Principal_Proyecto2017_2.listaPa.adicionar(nuevo);

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,7 +13,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import clases.Paciente;
 import libreria.lib;
+import java.awt.Toolkit;
 
 public class DlgModificar_Paciente extends JDialog implements ActionListener {
 	/**
@@ -22,13 +25,14 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 	private JLabel lblCod_Paciente;
 	private JTextField txtPaciente;
 	private JLabel lblApellido;
-	@SuppressWarnings("unused")
-	private JLabel lbltxtApellido;
 	private JLabel lblNombre;
 	private JTextField txtNombre;
 	private JLabel lblTelefono;
 	private JTextField txtTelefono;
-	private JButton btnIngresar;
+	private JLabel lblDni;
+	private JTextField txtDni;
+	private JTextField txtApellido;
+	private JButton btnModificar;
 
 	/**
 	 * Launch the application.
@@ -53,127 +57,127 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 	public DlgModificar_Paciente() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setTitle("Modificar Paciente");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(DlgModificar_Paciente.class.getResource("/Imagenes/paciente.png")));
 		setBounds(100, 100, 446, 337);
 		getContentPane().setLayout(null);
 
 		lblCod_Paciente = new JLabel("Cod Paciente");
 		lblCod_Paciente.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCod_Paciente.setBounds(10, 11, 105, 25);
+		lblCod_Paciente.setBounds(10, 28, 105, 25);
 		getContentPane().add(lblCod_Paciente);
 
 		txtPaciente = new JTextField();
-		txtPaciente.setBounds(119, 15, 86, 20);
-		getContentPane().add(txtPaciente);
+		txtPaciente.setEditable(false);
+		txtPaciente.setBounds(119, 32, 86, 20);
 		txtPaciente.setColumns(10);
-
-		lblApellido = new JLabel("Apellido");
-		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblApellido.setBounds(10, 64, 99, 14);
-		getContentPane().add(lblApellido);
-
-		lblNombre = new JLabel("Nombre");
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNombre.setBounds(10, 111, 105, 14);
-		getContentPane().add(lblNombre);
-
-		txtNombre = new JTextField();
-		txtNombre.setBounds(119, 110, 86, 20);
-		getContentPane().add(txtNombre);
-		txtNombre.setColumns(10);
-
-		btnIngresar = new JButton("Ingresar");
-		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
-		btnIngresar.setBounds(282, 14, 115, 23);
-		getContentPane().add(btnIngresar);
-
-		lblTelefono = new JLabel("Telefono");
-		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTelefono.setBounds(10, 156, 105, 25);
-		getContentPane().add(lblTelefono);
+		getContentPane().add(txtPaciente);
 
 		lblDni = new JLabel("Dni");
 		lblDni.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDni.setBounds(10, 212, 105, 14);
+		lblDni.setBounds(10, 76, 105, 14);
 		getContentPane().add(lblDni);
 
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
-		txtDni.setBounds(120, 211, 86, 20);
+		txtDni.setBounds(120, 75, 86, 20);
 		getContentPane().add(txtDni);
+
+		lblNombre = new JLabel("Nombre");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNombre.setBounds(10, 117, 105, 14);
+		getContentPane().add(lblNombre);
+
+		txtNombre = new JTextField();
+		txtNombre.setBounds(119, 116, 278, 20);
+		txtNombre.setColumns(10);
+		getContentPane().add(txtNombre);
+
+		lblApellido = new JLabel("Apellido");
+		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblApellido.setBounds(10, 147, 99, 20);
+		getContentPane().add(lblApellido);
 
 		txtApellido = new JTextField();
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(119, 63, 86, 20);
+		txtApellido.setBounds(119, 149, 278, 20);
 		getContentPane().add(txtApellido);
+
+		lblTelefono = new JLabel("Telefono");
+		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTelefono.setBounds(10, 180, 105, 25);
+		getContentPane().add(lblTelefono);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(119, 160, 86, 20);
+		txtTelefono.setBounds(119, 184, 86, 20);
 		getContentPane().add(txtTelefono);
 
+		btnModificar = new JButton("Guardar Cambios");
+		btnModificar.addActionListener(this);
+		btnModificar.setIcon(new ImageIcon(DlgModificar_Paciente.class.getResource("/Imagenes/modificar.png")));
+		btnModificar.setBounds(263, 51, 134, 39);
+		getContentPane().add(btnModificar);
+
+		SetValores();
 	}
 
-	public int leerPaciente() {
-		return Integer.parseInt(txtPaciente.getText());
+	private void SetValores() {
+		txtPaciente.setText(DlgPaciente.seleccionado.getCodigoPaciente() + "");
+		txtDni.setText(DlgPaciente.seleccionado.getDni() + "");
+		txtNombre.setText(DlgPaciente.seleccionado.getNombres() + "");
+		txtApellido.setText(DlgPaciente.seleccionado.getApellidos() + "");
+		txtTelefono.setText(DlgPaciente.seleccionado.getTelefono() + "");
 	}
-
-	public String leerApellido() {
-		return (txtApellido.getText());
-	}
-
-	public String leerNombre() {
-		return (txtNombre.getText());
-	}
-
-	public String leerTelefono() {
-		return (txtTelefono.getText());
-	}
-
-	public String leerDni() {
-		return (txtDni.getText());
-	}
-
-	private JLabel lblDni;
-	@SuppressWarnings("unused")
-	private JLabel lblPaciente;
-	private JTextField txtDni;
-	private JTextField txtApellido;
 
 	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource() == btnIngresar) {
+		if (arg0.getSource() == btnModificar) {
 			actionPerformedBtnIngresar(arg0);
 		}
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
-		if (leerApellido().length() == 0) {
-			lib.mensajeError(this, "Ingrese apellido");
-			txtApellido.requestFocus();
-		} else if (leerNombre().length() == 0) {
-			lib.mensajeError(this, "Ingrese nombre del paciente");
-			txtNombre.requestFocus();
-		} else
-
-		if (leerTelefono().length() == 0) {
-			lib.mensajeError(this, "Ingrese numero de telefono");
-			txtTelefono.requestFocus();
-		} else if (leerDni().length() == 0) {
-			lib.mensajeError(this, "Ingrese numero de DNI");
+		String dni = lib.leerCadena(txtDni);
+		if (dni.length() == 0 || !Pattern.matches("[0-9]{7,8}", dni)) {
+			lib.mensajeError(this, "Ingrese dni con el formato correcto");
 			txtDni.requestFocus();
-		} else
-			try {
-				int cod_paciente = leerPaciente();
+		} else {
+			String nombres = lib.leerCadena(txtNombre);
+			if (nombres.length() == 0) {
+				lib.mensajeError(this, "Ingrese nombre");
+				txtNombre.requestFocus();
+			} else {
+				String apellidos = lib.leerCadena(txtApellido);
+				if (apellidos.length() == 0) {
+					lib.mensajeError(this, "Ingrese apellido");
+					txtApellido.requestFocus();
+				} else {
+					int ok = lib.mensajeConfirmacion(this, "\u00bfDesea actualizar paciente?");
+					if (ok == 0) {
+						try {
+							// Guardar paciente
+							int codPaciente = lib.leerEntero(txtPaciente);
+							Paciente mod = new Paciente(codPaciente, apellidos, nombres, lib.leerCadena(txtTelefono),
+									dni);
+							Principal_Proyecto2017_2.listaPa
+									.modificar(Principal_Proyecto2017_2.listaPa.buscarindice(codPaciente), mod);
+							Principal_Proyecto2017_2.listaPa.grabarPaciente();
+							// Cerrar ventanita
+							dispose();
+							// Refrescar lista
+							DlgPaciente.listar();
+						} catch (Exception e) {
+							// TODO: handle exception
+							lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+						}
 
-				clases.Paciente x = new clases.Paciente(cod_paciente, leerApellido(), leerNombre(), leerTelefono(),
-						leerDni());
-				Principal_Proyecto2017_2.ap.modificar(Principal_Proyecto2017_2.ap.buscarindice(cod_paciente), x);
-				DlgPaciente.listar();
-
-			} catch (Exception e) {
-				lib.mensajeError(this, "Ingrese codigo del paciente");
+					} else {
+						// Cerrar ventanita
+						dispose();
+					}
+				}
 			}
+		}
 
 	}
 

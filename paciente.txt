@@ -1,4 +1,4 @@
-1001;Cárdenas Rojas;María;994738003;8743774
+1001;Cardenal Rojas;María;994738003;8743775
 1002;Espino Lozada;Daniel;998377631;3460987
 1003;Cárdenas Prado;Jorge;995657243;6465645
 1004;Ruiz Salazar;Pedro;991672332;8563421
@@ -26,6 +26,5 @@
 1026;Castillo Alarcón;Isabel;991929385;55255634
 1027;Casstillo Galenao;Elena;994215434;45333123
 1028;Morales Sánchez;María;994443121;56124534
-1029;óóóó;óóóó;5555;4567890
+1029;reinoso;daniel;;45678987
 1030;Reinoso;Daniel;;73580887
-1031;fdsfa;ffdsfd;434424;75380884
