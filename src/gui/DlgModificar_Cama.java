@@ -58,7 +58,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setTitle("Modificar Cama");
 		setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DlgModificar_Cama.class.getResource("/Imagenes/medicos.png")));
+				Toolkit.getDefaultToolkit().getImage(DlgModificar_Cama.class.getResource("/Imagenes/cama.png")));
 		setBounds(100, 100, 433, 180);
 		getContentPane().setLayout(null);
 
@@ -95,7 +95,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 
 		btnModificar = new JButton("Guardar Cambios");
 		btnModificar.addActionListener(this);
-		btnModificar.setIcon(new ImageIcon(DlgModificar_Cama.class.getResource("/Imagenes/grabar.png")));
+		btnModificar.setIcon(new ImageIcon(DlgModificar_Cama.class.getResource("/Imagenes/modificar.png")));
 		btnModificar.setBounds(226, 14, 162, 38);
 		getContentPane().add(btnModificar);
 

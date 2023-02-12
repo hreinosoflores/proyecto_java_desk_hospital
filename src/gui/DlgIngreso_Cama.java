@@ -51,7 +51,7 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	 */
 	public DlgIngreso_Cama() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgIngreso_Cama.class.getResource("/Imagenes/medicos.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgIngreso_Cama.class.getResource("/Imagenes/cama.png")));
 		setTitle("Ingreso Cama");
 		setBounds(100, 100, 355, 135);
 		getContentPane().setLayout(null);

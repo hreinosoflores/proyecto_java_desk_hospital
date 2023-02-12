@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Cama;
 import libreria.lib;
+import java.awt.Toolkit;
 
 public class DlgCama extends JDialog implements ActionListener {
 	/**
@@ -50,25 +51,25 @@ public class DlgCama extends JDialog implements ActionListener {
 	public DlgCama() {
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setTitle("Cama");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgCama.class.getResource("/Imagenes/cama.png")));
 		setBounds(100, 100, 568, 300);
 		getContentPane().setLayout(null);
 
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
+		btnIngresar.setIcon(new ImageIcon(DlgCama.class.getResource("/Imagenes/ingresar.png")));
 		btnIngresar.setBounds(10, 11, 123, 38);
 		getContentPane().add(btnIngresar);
 
 		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(this);
-		btnModificar.setIcon(new ImageIcon("imagenes/modificar.png"));
+		btnModificar.setIcon(new ImageIcon(DlgCama.class.getResource("/Imagenes/modificar.png")));
 		btnModificar.setBounds(148, 11, 123, 38);
 		getContentPane().add(btnModificar);
 
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setIcon(new ImageIcon("imagenes/eliminar.png"));
+		btnEliminar.setIcon(new ImageIcon(DlgCama.class.getResource("/Imagenes/eliminar.png")));
 		btnEliminar.setBounds(285, 11, 123, 38);
 		getContentPane().add(btnEliminar);
 
