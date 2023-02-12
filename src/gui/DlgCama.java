@@ -122,9 +122,13 @@ public class DlgCama extends JDialog implements ActionListener {
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 		int seleccionadoIdx = tblTabla.getSelectedRow();
 		if (seleccionadoIdx != -1) {
-			seleccionado = Principal_Proyecto2017_2.listaAc.obtener(seleccionadoIdx);
-			Principal_Proyecto2017_2.listaAc.eliminar(seleccionadoIdx);
-			listar();
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea eliminar cama?");
+			if (ok == 0) {
+				seleccionado = Principal_Proyecto2017_2.listaAc.obtener(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaAc.eliminar(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaAc.grabarCama();
+				listar();
+			}
 		} else {
 			lib.mensajeAdvertencia(this, "Debe seleccionar una cama");
 		}

@@ -26,6 +26,11 @@ public class DlgIngreso_Medicina extends JDialog implements ActionListener {
 	private JLabel lblNombre;
 	private JLabel lblLaboratorio;
 	private JTextField txtLaboratorio;
+	private JLabel lblPrecio;
+	private JTextField txtcod_medicina;
+	private JTextField txtPrecio;
+	private JLabel lblStock;
+	private JTextField txtStock;
 	private JButton btnIngresar;
 
 	/**
@@ -116,31 +121,8 @@ public class DlgIngreso_Medicina extends JDialog implements ActionListener {
 
 	}
 
-	public int leerCod_medicina() {
-		return Integer.parseInt(txtcod_medicina.getText().trim());
-	}
 
-	public String leerNombre() {
-		return (txtNombre.getText().trim());
-	}
 
-	public String leerLaboratorio() {
-		return (txtLaboratorio.getText().trim());
-	}
-
-	public double leerPrecio() {
-		return Double.parseDouble(txtPrecio.getText().trim());
-	}
-
-	public int leerStock() {
-		return Integer.parseInt(txtStock.getText().trim());
-	}
-
-	private JLabel lblPrecio;
-	private JTextField txtcod_medicina;
-	private JTextField txtPrecio;
-	private JLabel lblStock;
-	private JTextField txtStock;
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnIngresar) {
@@ -180,7 +162,7 @@ public class DlgIngreso_Medicina extends JDialog implements ActionListener {
 									}
 
 									try {
-										// Ingresar cama
+										// Ingresar medicina
 										Medicina nuevo = new Medicina(lib.leerEntero(txtcod_medicina), nom, lab, precio,
 												stock);
 										Principal_Proyecto2017_2.listaMe.adicionar(nuevo);
@@ -213,62 +195,5 @@ public class DlgIngreso_Medicina extends JDialog implements ActionListener {
 		}
 	}
 
-//	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
-//
-//		String nom = lib.leerCadena(txtNombre);				
-//		String lab = lib.leerCadena(txtLaboratorio);
-//		
-//		try {
-//			double precio = lib.leerDouble(txtPrecio);
-//			try {
-//				int stock = lib.leerEntero(txtStock);
-//				if (nom.length() == 0) {
-//					lib.mensajeError(this, "Ingrese nombre");
-//					txtNombre.requestFocus();
-//				} else if (lab.length() == 0) {
-//					lib.mensajeError(this, "Ingrese laboratorio");
-//					txtLaboratorio.requestFocus();
-//				} else if (precio <= 0) {
-//					lib.mensajeError(this, "Ingrese precio positivo");
-//					txtPrecio.requestFocus();
-//				} else if (stock <= 0) {
-//					lib.mensajeError(this, "Ingrese stock positivo");
-//					txtStock.requestFocus();
-//				} else {
-//					int ok = lib.mensajeConfirmacion(this, "\u00bfDesea ingresar nueva medicina?");
-//					if (ok == 0) {
-//						// Validar archivo
-//						if (!Principal_Proyecto2017_2.listaMe.existeArchivo()) {
-//							Principal_Proyecto2017_2.listaMe.grabarMedicina();
-//						}
-//
-//						try {
-//							// Ingresar cama
-//							Medicina nuevo = new Medicina(lib.leerEntero(txtcod_medicina), nom, lab, precio, stock);
-//							Principal_Proyecto2017_2.listaMe.adicionar(nuevo);
-//							Principal_Proyecto2017_2.listaMe.grabarMedicina();
-//							// Cerrar ventanita
-//							dispose();
-//							// Refrescar lista
-//							DlgCama.listar();
-//						} catch (Exception e) {
-//							// TODO: handle exception
-//							lib.mensajeError(this, "Hubo un error: " + e.getMessage());
-//						}
-//
-//					} else {
-//						// Cerrar ventanita
-//						dispose();
-//					}
-//				}
-//			} catch (Exception e) {
-//				lib.mensajeError(this, "Ingrese numero");
-//				txtStock.requestFocus();
-//			}
-//		} catch (Exception e) {
-//			lib.mensajeError(this, "Ingrese numero");
-//			txtPrecio.requestFocus();
-//		}
-//
-//	}
+
 }

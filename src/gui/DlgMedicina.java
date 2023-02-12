@@ -124,9 +124,14 @@ public class DlgMedicina extends JDialog implements ActionListener {
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 		int seleccionadoIdx = tblTabla.getSelectedRow();
 		if (seleccionadoIdx != -1) {
-			seleccionado = Principal_Proyecto2017_2.listaMe.obtener(seleccionadoIdx);
-			Principal_Proyecto2017_2.listaMe.eliminar(seleccionadoIdx);
-			listar();
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea eliminar medicina?");
+			if (ok == 0) {
+				seleccionado = Principal_Proyecto2017_2.listaMe.obtener(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaMe.eliminar(seleccionadoIdx);
+				Principal_Proyecto2017_2.listaMe.grabarMedicina();
+				listar();				
+			}			
+
 		} else {
 			lib.mensajeAdvertencia(this, "Debe seleccionar una medicina");
 		}
