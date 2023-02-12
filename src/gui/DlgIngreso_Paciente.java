@@ -62,7 +62,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		setBounds(100, 100, 432, 262);
 		getContentPane().setLayout(null);
 
-		lblCod_Paciente = new JLabel("Cod. Paciente :");
+		lblCod_Paciente = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(0));
 		lblCod_Paciente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCod_Paciente.setBounds(10, 11, 120, 25);
 		getContentPane().add(lblCod_Paciente);
@@ -73,7 +73,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		txtPaciente.setColumns(10);
 		getContentPane().add(txtPaciente);
 
-		lblDni = new JLabel("Dni :");
+		lblDni = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(1));
 		lblDni.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblDni.setBounds(10, 58, 61, 14);
 		getContentPane().add(lblDni);
@@ -83,7 +83,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		txtDni.setColumns(10);
 		getContentPane().add(txtDni);
 
-		lblNombre = new JLabel("Nombres :");
+		lblNombre = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(3));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNombre.setBounds(10, 89, 120, 14);
 		getContentPane().add(lblNombre);
@@ -93,7 +93,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		txtNombre.setColumns(10);
 		getContentPane().add(txtNombre);
 
-		lblApellido = new JLabel("Apellidos :");
+		lblApellido = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(2));
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblApellido.setBounds(10, 114, 120, 20);
 		getContentPane().add(lblApellido);
@@ -103,7 +103,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 		txtApellido.setColumns(10);
 		getContentPane().add(txtApellido);
 
-		lblTelefono = new JLabel("Telefono :");
+		lblTelefono = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(4));
 		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTelefono.setBounds(10, 145, 103, 25);
 		getContentPane().add(lblTelefono);

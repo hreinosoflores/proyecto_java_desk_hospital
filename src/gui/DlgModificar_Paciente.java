@@ -62,7 +62,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		setBounds(100, 100, 446, 337);
 		getContentPane().setLayout(null);
 
-		lblCod_Paciente = new JLabel("Cod Paciente");
+		lblCod_Paciente = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(0));
 		lblCod_Paciente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCod_Paciente.setBounds(10, 28, 105, 25);
 		getContentPane().add(lblCod_Paciente);
@@ -73,7 +73,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		txtPaciente.setColumns(10);
 		getContentPane().add(txtPaciente);
 
-		lblDni = new JLabel("Dni");
+		lblDni = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(1));
 		lblDni.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblDni.setBounds(10, 76, 105, 14);
 		getContentPane().add(lblDni);
@@ -83,7 +83,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		txtDni.setBounds(120, 75, 86, 20);
 		getContentPane().add(txtDni);
 
-		lblNombre = new JLabel("Nombre");
+		lblNombre = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(3));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNombre.setBounds(10, 117, 105, 14);
 		getContentPane().add(lblNombre);
@@ -93,7 +93,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		txtNombre.setColumns(10);
 		getContentPane().add(txtNombre);
 
-		lblApellido = new JLabel("Apellido");
+		lblApellido = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(2));
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblApellido.setBounds(10, 147, 99, 20);
 		getContentPane().add(lblApellido);
@@ -103,7 +103,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		txtApellido.setBounds(119, 149, 278, 20);
 		getContentPane().add(txtApellido);
 
-		lblTelefono = new JLabel("Telefono");
+		lblTelefono = new JLabel(Principal_Proyecto2017_2.listaPa.getColumnName(4));
 		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTelefono.setBounds(10, 180, 105, 25);
 		getContentPane().add(lblTelefono);
@@ -113,7 +113,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		txtTelefono.setBounds(119, 184, 86, 20);
 		getContentPane().add(txtTelefono);
 
-		btnModificar = new JButton("Guardar Cambios");
+		btnModificar = new JButton("Guardar");
 		btnModificar.addActionListener(this);
 		btnModificar.setIcon(new ImageIcon(DlgModificar_Paciente.class.getResource("/Imagenes/modificar.png")));
 		btnModificar.setBounds(263, 51, 134, 39);

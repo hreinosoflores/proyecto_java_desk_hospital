@@ -115,7 +115,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoPaciente() + 1;
 	}
 
-	private String nombreColumnas[] = {	"C\u00f3digo", "Dni", "Apellidos", "Nombres", "Telefono" };
+	private String nombreColumnas[] = {	"C\u00f3digo", "Dni", "Apellidos", "Nombres", "Tel\u00e9fono" };
 
 	@Override
 	public int getColumnCount() {

@@ -63,7 +63,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		setBounds(100, 100, 440, 270);
 		getContentPane().setLayout(null);
 
-		lblCodMedicina = new JLabel("cod. Medicina:");
+		lblCodMedicina = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(0));
 		lblCodMedicina.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCodMedicina.setBounds(10, 11, 114, 25);
 		getContentPane().add(lblCodMedicina);
@@ -74,27 +74,27 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		txtcod_medicina.setBounds(134, 15, 86, 20);
 		getContentPane().add(txtcod_medicina);
 
-		lblNombre = new JLabel("Nombre");
+		lblNombre = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(1));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNombre.setBounds(10, 47, 99, 14);
 		getContentPane().add(lblNombre);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(134, 46, 86, 20);
+		txtNombre.setBounds(134, 46, 141, 20);
 		txtNombre.setColumns(10);
 		getContentPane().add(txtNombre);
 
-		lblLaboratorio = new JLabel("Laboratorio");
+		lblLaboratorio = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(2));
 		lblLaboratorio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblLaboratorio.setBounds(10, 82, 99, 14);
 		getContentPane().add(lblLaboratorio);
 
 		txtLaboratorio = new JTextField();
-		txtLaboratorio.setBounds(134, 81, 86, 20);
+		txtLaboratorio.setBounds(134, 81, 141, 20);
 		txtLaboratorio.setColumns(10);
 		getContentPane().add(txtLaboratorio);
 
-		lblPrecio = new JLabel("Precio");
+		lblPrecio = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(3));
 		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPrecio.setBounds(10, 117, 71, 25);
 		getContentPane().add(lblPrecio);
@@ -104,7 +104,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		txtPrecio.setBounds(134, 121, 86, 20);
 		getContentPane().add(txtPrecio);
 
-		lblStock = new JLabel("Stock");
+		lblStock = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(4));
 		lblStock.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblStock.setBounds(10, 153, 71, 25);
 		getContentPane().add(lblStock);
@@ -114,7 +114,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		txtStock.setBounds(134, 157, 86, 20);
 		getContentPane().add(txtStock);
 
-		btnModificar = new JButton("Guardar Cambios");
+		btnModificar = new JButton("Guardar");
 		btnModificar.addActionListener(this);
 		btnModificar.setIcon(new ImageIcon(DlgModificar_Medicina.class.getResource("/Imagenes/modificar.png")));
 		btnModificar.setBounds(285, 14, 129, 47);

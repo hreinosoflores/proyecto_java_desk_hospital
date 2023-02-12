@@ -62,7 +62,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		setBounds(100, 100, 433, 180);
 		getContentPane().setLayout(null);
 
-		lblNumCama = new JLabel("Nro. Cama");
+		lblNumCama = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(0));
 		lblNumCama.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNumCama.setBounds(10, 11, 88, 25);
 		getContentPane().add(lblNumCama);
@@ -73,7 +73,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		txtNumCam.setColumns(10);
 		getContentPane().add(txtNumCam);
 
-		lblCat = new JLabel("Categoria");
+		lblCat = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(1));
 		lblCat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCat.setBounds(10, 66, 88, 14);
 		getContentPane().add(lblCat);
@@ -83,7 +83,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		cboCategoria.setBounds(108, 65, 86, 20);
 		getContentPane().add(cboCategoria);
 
-		lblEstado = new JLabel("Estado");
+		lblEstado = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(3));
 		lblEstado.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEstado.setBounds(10, 106, 71, 25);
 		getContentPane().add(lblEstado);
@@ -93,7 +93,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		cboEstado.setBounds(108, 110, 88, 20);
 		getContentPane().add(cboEstado);
 
-		btnModificar = new JButton("Guardar Cambios");
+		btnModificar = new JButton("Guardar");
 		btnModificar.addActionListener(this);
 		btnModificar.setIcon(new ImageIcon(DlgModificar_Cama.class.getResource("/Imagenes/modificar.png")));
 		btnModificar.setBounds(226, 14, 162, 38);

@@ -56,7 +56,7 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 		setBounds(100, 100, 355, 135);
 		getContentPane().setLayout(null);
 
-		lblNumCama = new JLabel("Nro. Cama");
+		lblNumCama = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(0));
 		lblNumCama.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNumCama.setBounds(10, 11, 88, 25);
 		getContentPane().add(lblNumCama);
@@ -67,7 +67,7 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 		txtNumCam.setColumns(10);
 		getContentPane().add(txtNumCam);
 
-		lblCat = new JLabel("Categoria");
+		lblCat = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(1));
 		lblCat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCat.setBounds(10, 47, 88, 31);
 		getContentPane().add(lblCat);
