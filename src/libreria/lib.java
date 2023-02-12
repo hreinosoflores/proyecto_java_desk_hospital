@@ -46,6 +46,10 @@ public class lib {
 		return Integer.parseInt(lbl.getText().trim());
 	}
 	
+	public static double leerDouble(JTextField txt) {
+		return Double.parseDouble(txt.getText().trim());
+	}
+	
 	public static String formatSoles(double precio) {
 		return "S/. " + String.format("%.2f", precio);
 	}

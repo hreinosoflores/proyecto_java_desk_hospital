@@ -106,7 +106,7 @@ public class Arreglo_Medicina extends AbstractTableModel {
 				return i;
 		return -1;
 	}
-	
+
 	public int generarCodigo() {
 		if (tamanio() == 0)
 			return 10001;
@@ -114,16 +114,24 @@ public class Arreglo_Medicina extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoMedicina() + 1;
 	}
 
+	private String nombreColumnas[] = { "C\u00f3digo", "Nombre", "Laboratorio", "Precio", "Stock", };
+
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return nombreColumnas.length;
 	}
 
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
 		return listaMe.size();
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return nombreColumnas[column];
 	}
 
 	@Override

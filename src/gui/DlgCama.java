@@ -102,9 +102,9 @@ public class DlgCama extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
-		DlgIngreso_Cama MnGlobal = new DlgIngreso_Cama();
-		MnGlobal.setLocationRelativeTo(this);
-		MnGlobal.setVisible(true);
+		DlgIngreso_Cama dlg = new DlgIngreso_Cama();
+		dlg.setLocationRelativeTo(this);
+		dlg.setVisible(true);
 	}
 
 	protected void actionPerformedBtnModificar(ActionEvent e) {
