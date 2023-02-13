@@ -51,4 +51,10 @@ public class Paciente {
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return apellidos + ", " + nombres;
+	}
 }

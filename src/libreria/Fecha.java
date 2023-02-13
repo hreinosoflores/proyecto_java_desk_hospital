@@ -23,17 +23,15 @@ public class Fecha {
 		cbo.addItem("Diciembre");
 	}
 
-
-
 	public static void colocarItems(JComboBox<String> cbo, int inicio, int fin) {
 		if (inicio < fin)
 			while (inicio <= fin) {
-				cbo.addItem(inicio + "");
+				cbo.addItem(String.format("%02d", inicio));
 				inicio++;
 			}
 		else
 			while (inicio >= fin) {
-				cbo.addItem(inicio + "");
+				cbo.addItem(String.format("%02d", inicio));
 				inicio--;
 			}
 	}
@@ -47,10 +45,10 @@ public class Fecha {
 
 	public static void setHora(JComboBox<String> hora, JComboBox<String> minuto, int fechaHora) {
 		int MM = fechaHora % 100, HH = fechaHora / 100;
-		minuto.setSelectedIndex(MM - 1);
+		minuto.setSelectedIndex(MM);
 		hora.setSelectedItem(HH + "");
 	}
-	
+
 	public static void colocarDiaActual(JComboBox<String> cbo) {
 		Calendar calendario = new GregorianCalendar();
 		cbo.setSelectedIndex(calendario.get(Calendar.DAY_OF_MONTH) - 1);
@@ -60,15 +58,20 @@ public class Fecha {
 		Calendar calendario = new GregorianCalendar();
 		cbo.setSelectedIndex(calendario.get(Calendar.MONTH));
 	}
+	
+	public static void colocarAnioActual(JComboBox<String> cbo) {
+		Calendar calendario = new GregorianCalendar();
+		cbo.setSelectedItem(calendario.get(Calendar.YEAR)+"");
+	}
 
 	public static void colocarHoraActual(JComboBox<String> cbo) {
 		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.HOUR_OF_DAY) - 1);
+		cbo.setSelectedIndex(calendario.get(Calendar.HOUR_OF_DAY));
 	}
 
 	public static void colocarMinutoActual(JComboBox<String> cbo) {
 		Calendar calendario = new GregorianCalendar();
-		cbo.setSelectedIndex(calendario.get(Calendar.MINUTE) - 1);
+		cbo.setSelectedIndex(calendario.get(Calendar.MINUTE));
 	}
 
 	// Métodos static que retornan valor (sin parámetros)
@@ -76,27 +79,39 @@ public class Fecha {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.YEAR);
 	}
-	
+
 	public static int mesActual() {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.MONTH);
 	}
-	
+
 	public static int diaActual() {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.DAY_OF_MONTH);
 	}
-	
+
 	public static int horaActual() {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.HOUR_OF_DAY);
 	}
-	
+
 	public static int minutoActual() {
 		Calendar c = new GregorianCalendar();
 		return c.get(Calendar.MINUTE);
 	}
-	
+
+	public static int segundoActual() {
+		Calendar c = new GregorianCalendar();
+		return c.get(Calendar.SECOND);
+	}
+
+	public static String fechaHoraActual() {
+		String fecha = Fecha.anioActual() + String.format("%02d", Fecha.mesActual() + 1)
+				+ String.format("%02d", Fecha.diaActual());
+		String hora = Fecha.horaActual() + String.format("%02d", Fecha.minutoActual())
+				+ String.format("%02d", Fecha.segundoActual());
+		return fecha + hora;
+	}
 
 	// Métodos static que retornan valor (con parámetros)
 	public static String dd_mm_aaaa(int fecha) {
@@ -113,6 +128,14 @@ public class Fecha {
 			return "0" + s.charAt(0) + ':' + s.charAt(1) + s.charAt(2);
 	}
 
+	public static String HH_MM_SS(int hora) {
+		String s = "" + hora;
+		if (hora > 100000)
+			return "" + s.charAt(0) + s.charAt(1) + ':' + s.charAt(2) + s.charAt(3) + ':' + s.charAt(4) + s.charAt(5);
+		else
+			return "0" + s.charAt(0) + ':' + s.charAt(1) + s.charAt(2) + ':' + s.charAt(3) + s.charAt(4);
+	}
+
 	public static int getFecha(JComboBox<String> dia, JComboBox<String> mes, JComboBox<String> anio) {
 		int dd = dia.getSelectedIndex() + 1, mm = mes.getSelectedIndex() + 1,
 				aa = Integer.parseInt(anio.getSelectedItem().toString());
@@ -120,7 +143,7 @@ public class Fecha {
 	}
 
 	public static int getHora(JComboBox<String> hora, JComboBox<String> minuto) {
-		int mm = minuto.getSelectedIndex() + 1, hh = Integer.parseInt(hora.getSelectedItem().toString());
+		int mm = minuto.getSelectedIndex(), hh = Integer.parseInt(hora.getSelectedItem().toString());
 		return hh * 100 + mm;
 	}
 

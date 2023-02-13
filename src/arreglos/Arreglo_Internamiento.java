@@ -12,6 +12,7 @@ import javax.swing.table.AbstractTableModel;
 import clases.Cama;
 import clases.Ingreso_Datos_Internamiento;
 import clases.Paciente;
+import gui.Principal_Proyecto2017_2;
 
 public class Arreglo_Internamiento extends AbstractTableModel {
 
@@ -31,21 +32,22 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			Paciente paciente;
 			Cama cama;
 			int codigoInternamiento, estado;
-			String fechaIngreso, horaIngreso, fechaSalida, horaSalida;
+			String fechaRegistro, fechaIngreso, horaIngreso, fechaSalida, horaSalida;
 
 			br = new BufferedReader(new FileReader(getArchivo()));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				codigoInternamiento = Integer.parseInt(s[0].trim());
 				paciente = new Paciente(Integer.parseInt(s[1].trim()), null, null, null, null);
-				cama = new Cama(Integer.parseInt(s[2].trim()), 0, 0);
-				fechaIngreso = s[3].trim();
-				horaIngreso = s[4].trim();
-				fechaSalida = s[5].trim();
-				horaSalida = s[6].trim();
-				estado = Integer.parseInt(s[7].trim());
-				adicionar(new Ingreso_Datos_Internamiento(paciente, cama, codigoInternamiento, estado, fechaIngreso,
-						horaIngreso, fechaSalida, horaSalida));
+				cama = Principal_Proyecto2017_2.listaAc.buscar(Integer.parseInt(s[2].trim()));
+				fechaRegistro = s[3].trim();
+				fechaIngreso = s[4].trim();
+				horaIngreso = s[5].trim();
+				fechaSalida = s[6].trim();
+				horaSalida = s[7].trim();
+				estado = Integer.parseInt(s[8].trim());
+				adicionar(new Ingreso_Datos_Internamiento(paciente, cama, codigoInternamiento, estado, fechaRegistro,
+						fechaIngreso, horaIngreso, fechaSalida, horaSalida));
 			}
 			br.close();
 		} catch (Exception e) {
@@ -61,9 +63,9 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getCodigoInternamiento() + ";" + x.getPaciente().getCodigoPaciente() + ";" + x.getCama().getNumeroCama()
-						+ ";" + x.getFechaIngreso() + ";" + x.getHoraIngreso() + ";" + x.getFechaSalida() + ";"
-						+ x.getHoraSalida() + ";" + x.getEstado();
+				linea = x.getCodigoInternamiento() + ";" + x.getPaciente().getCodigoPaciente() + ";"
+						+ x.getCama().getNumeroCama() + ";" + x.getFechaRegistro() + ";" + x.getFechaIngreso() + ";"
+						+ x.getHoraIngreso() + ";" + x.getFechaSalida() + ";" + x.getHoraSalida() + ";" + x.getEstado();
 				pw.println(linea);
 			}
 			pw.close();
@@ -79,6 +81,14 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 	public void adicionar(Ingreso_Datos_Internamiento x) {
 		listaIdi.add(x);
 		fireTableDataChanged();
+	}
+
+	public void modificar(int i, Ingreso_Datos_Internamiento x) {
+		listaIdi.set(i, x);
+	}
+
+	public void eliminar(int i) {
+		listaIdi.remove(i);
 	}
 
 	public Ingreso_Datos_Internamiento obtener(int i) {
@@ -119,6 +129,13 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		return f.exists();
 	}
 
+	public int buscarindice(int codInternamiento) {
+		for (int i = 0; i < tamanio(); i++)
+			if (obtener(i).getCodigoInternamiento() == codInternamiento)
+				return i;
+		return -1;
+	}
+
 	public int generarCodigo() {
 		if (tamanio() == 0)
 			return 1001;
@@ -126,14 +143,13 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoInternamiento() + 1;
 	}
 
-	private String nombreColumnas[] = { "Cod. Internamiento", "Cod. Paciente", "N� Cama", "Est. Cama",
-			"Est.Internamiento", "Fecha Registro", "Fecha Ingreso", "Fecha Salida", "Hora Ingreso", "Hora Salida" };
+	private String nombreColumnas[] = { "Cod. Internamiento", "Cod. Paciente", "N\u00ba Cama", "Est. Cama",
+			"Est. Internamiento", "Fecha Registro", "Fecha Ingreso", "Hora Ingreso", "Fecha Salida", "Hora Salida" };
 
 	public int generarDias(int fechaIng, int fechaSal) {
 		int dia1, dia2;
 		dia1 = fechaIng % 100;
 		dia2 = fechaSal % 100;
-
 		return dia2 - dia1;
 	}
 

@@ -16,6 +16,12 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Cama;
+import libreria.Fecha;
+import libreria.lib;
+
+import java.awt.Toolkit;
+
 public class DlgInternamiento extends JDialog implements ActionListener, WindowListener {
 	/**
 	 * 
@@ -24,9 +30,10 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	private JButton btnIngresar;
 	private JScrollPane scrollPane;
 	private JTable tblTabla;
-	private int tipoOperacion;
 	private JButton btnSalir;
 	private static DefaultTableModel modelo;
+	private int tipoOperacion;
+	private JButton btnModificar;
 
 	/**
 	 * Launch the application.
@@ -54,47 +61,52 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	 * Create the dialog.
 	 */
 	public DlgInternamiento() {
+
 		getContentPane().setBackground(SystemColor.textInactiveText);
 		addWindowListener(this);
 		setResizable(false);
 		setTitle("Internamiento");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
-		setBounds(100, 100, 890, 550);
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(DlgInternamiento.class.getResource("/Imagenes/ingresar internamiento.png")));
+		setBounds(100, 100, 1024, 768);
 		getContentPane().setLayout(null);
 
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnIngresar.addActionListener(this);
-		btnIngresar.setIcon(new ImageIcon("imagenes/ingresar.png"));
-		btnIngresar.setBounds(10, 11, 123, 38);
+		btnIngresar.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/ingresar.png")));
+		btnIngresar.setBounds(29, 11, 123, 38);
 		getContentPane().add(btnIngresar);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 80, 864, 430);
-		getContentPane().add(scrollPane);
-
-		tblTabla = new JTable();
-		tblTabla.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		tblTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(tblTabla);
-
-		modelo = new DefaultTableModel();
-		modelo.addColumn("CodInternamiento");
-		modelo.addColumn("CodPaciente");
-		modelo.addColumn("NumCama");
-		modelo.addColumn("FechaIngreso");
-		modelo.addColumn("HoraIngreso");
-		modelo.addColumn("FechaSalida");
-		modelo.addColumn("HoraSalida");
-		modelo.addColumn("Estado");
-		tblTabla.setModel(modelo);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnSalir.addActionListener(this);
-		btnSalir.setIcon(new ImageIcon("imagenes/Salir.png"));
-		btnSalir.setBounds(751, 11, 123, 38);
+		btnSalir.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/exit.png")));
+		btnSalir.setBounds(705, 11, 123, 38);
 		getContentPane().add(btnSalir);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 80, 973, 625);
+		getContentPane().add(scrollPane);
+
+		tblTabla = new JTable();
+		tblTabla.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tblTabla.setFillsViewportHeight(true);
+		scrollPane.setViewportView(tblTabla);
+
+		modelo = new DefaultTableModel();
+		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.getColumnCount(); i++) {
+			modelo.addColumn(Principal_Proyecto2017_2.listaIn.getColumnName(i));
+		}
+		tblTabla.setModel(modelo);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/modificar.png")));
+		btnModificar.addActionListener(this);
+		btnModificar.setFont(new Font("Cambria", Font.BOLD, 12));
+		btnModificar.setBounds(190, 11, 123, 38);
+		getContentPane().add(btnModificar);
+
 		listar();
 
 	}
@@ -106,15 +118,28 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 		if (e.getSource() == btnIngresar) {
 			actionPerformedBtnIngresar(e);
 		}
+		if (e.getSource() == btnModificar) {
+			actionPerformedBtnModificar(e);
+		}
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = 0;
 		lanzarFormulario();
 	}
+	
+	protected void actionPerformedBtnModificar(ActionEvent e) {
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {		
+			tipoOperacion = 1;
+			lanzarFormulario();			
+		}else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
+		}		
+	}	
 
 	protected void actionPerformedBtnSalir(ActionEvent e) {
-		Principal_Proyecto2017_2.ai.grabarInternamiento();
+		Principal_Proyecto2017_2.listaIn.grabarInternamiento();
 		dispose();
 	}
 
@@ -126,11 +151,10 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	private void lanzarFormulario() {
 		DlgIngreso_Datos_Internamiento dat = new DlgIngreso_Datos_Internamiento();
 		dat.setTipoOperacion(tipoOperacion);
-		dat.setTitle(this.getTitle() + " | " + obtenerTitulo());
-		dat.configurarFormulario();
-		dat.setLocationRelativeTo(this);
 		if (tipoOperacion != 0)
-			dat.cargarDatosInternamiento(Principal_Proyecto2017_2.ai.obtener(tblTabla.getSelectedRow()));
+			dat.cargarDatosInternamiento(Principal_Proyecto2017_2.listaIn.obtener(tblTabla.getSelectedRow()));
+		dat.setTitle(this.getTitle() + " | " + obtenerTitulo());
+		dat.setLocationRelativeTo(this);
 		dat.setVisible(true);
 	}
 
@@ -141,7 +165,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	}
 
 	public void windowClosing(WindowEvent e) {
-		Principal_Proyecto2017_2.ai.grabarInternamiento();
+		Principal_Proyecto2017_2.listaIn.grabarInternamiento();
 	}
 
 	public void windowDeactivated(WindowEvent e) {
@@ -157,16 +181,26 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	}
 
 	public static void listar() {
+
 		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.ai.tamanio(); i++) {
-			Object[] fila = { Principal_Proyecto2017_2.ai.obtener(i).getCodigoInternamiento(),
-					Principal_Proyecto2017_2.ai.obtener(i).getCodigoPaciente(),
-					Principal_Proyecto2017_2.ai.obtener(i).getNumCama(),
-					Principal_Proyecto2017_2.ai.obtener(i).getFechaIngreso(),
-					Principal_Proyecto2017_2.ai.obtener(i).getHoraIngreso(),
-					Principal_Proyecto2017_2.ai.obtener(i).getFechaSalida(),
-					Principal_Proyecto2017_2.ai.obtener(i).getHoraSalida(),
-					Principal_Proyecto2017_2.ai.obtener(i).DetalleEstado(),
+		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.tamanio(); i++) {
+
+			Cama camaInt = Principal_Proyecto2017_2.listaAc
+					.buscar(Principal_Proyecto2017_2.listaIn.obtener(i).getCama().getNumeroCama());
+
+			Object[] fila = { Principal_Proyecto2017_2.listaIn.obtener(i).getCodigoInternamiento(),
+					Principal_Proyecto2017_2.listaIn.obtener(i).getPaciente().getCodigoPaciente(),
+					camaInt.getNumeroCama(), camaInt.EstadoDescr(),
+					Principal_Proyecto2017_2.listaIn.obtener(i).EstadoDescr(),
+					Fecha.dd_mm_aaaa(Integer
+							.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaRegistro().substring(0, 8)))
+							+ " "
+							+ Fecha.HH_MM_SS(Integer.parseInt(
+									Principal_Proyecto2017_2.listaIn.obtener(i).getFechaRegistro().substring(8))),
+					Fecha.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaIngreso())),
+					Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraIngreso())),
+					Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida(),
+					Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida(),
 
 			};
 			modelo.addRow(fila);

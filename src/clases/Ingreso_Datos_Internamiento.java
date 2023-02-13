@@ -6,16 +6,15 @@ public class Ingreso_Datos_Internamiento {
 	private Paciente paciente;
 	private Cama cama;
 	private int codigoInternamiento, estado;
-	private String fechaIngreso, horaIngreso, fechaSalida, horaSalida;
+	private String fechaRegistro,fechaIngreso, horaIngreso, fechaSalida, horaSalida;
 
-	
-	
 	public Ingreso_Datos_Internamiento(Paciente paciente, Cama cama, int codigoInternamiento, int estado,
-			String fechaIngreso, String horaIngreso, String fechaSalida, String horaSalida) {
+			String fechaRegistro, String fechaIngreso, String horaIngreso, String fechaSalida, String horaSalida) {
 		this.paciente = paciente;
 		this.cama = cama;
 		this.codigoInternamiento = codigoInternamiento;
 		this.estado = estado;
+		this.fechaRegistro = fechaRegistro;
 		this.fechaIngreso = fechaIngreso;
 		this.horaIngreso = horaIngreso;
 		this.fechaSalida = fechaSalida;
@@ -29,7 +28,6 @@ public class Ingreso_Datos_Internamiento {
 	public void setCodigoInternamiento(int codigoInternamiento) {
 		this.codigoInternamiento = codigoInternamiento;
 	}
-
 
 	public Paciente getPaciente() {
 		return paciente;
@@ -89,7 +87,17 @@ public class Ingreso_Datos_Internamiento {
 
 	public String EstadoDescr() {
 		return lib.tiposdeEstadoInternamiento[estado];
-		
+
 	}
+
+	public String getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(String fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	
 
 }

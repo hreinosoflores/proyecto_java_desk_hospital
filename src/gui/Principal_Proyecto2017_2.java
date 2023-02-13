@@ -282,9 +282,8 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	
 	
 	public String titulo() {
-		String fecha = Fecha.anioActual() + String.format("%02d", Fecha.mesActual()+1) + String.format("%02d", Fecha.diaActual());
-		String hora = Fecha.horaActual() + String.format("%02d",Fecha.minutoActual());
-		return "Principal - ( "+ Fecha.formatoFecha(Integer.parseInt(fecha)) + ", "+ Fecha.HH_MM(Integer.parseInt(hora)) + " )";
+		String fecha = Fecha.fechaHoraActual();
+		return "Principal - ( "+ Fecha.formatoFecha(Integer.parseInt(fecha.substring(0, 8))) + ", "+ Fecha.HH_MM_SS(Integer.parseInt(fecha.substring(8))) + " )";
 	}
 	
 
