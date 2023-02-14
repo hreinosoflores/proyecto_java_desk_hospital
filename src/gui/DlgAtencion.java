@@ -30,6 +30,8 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DlgAtencion extends JDialog implements ActionListener {
 	/**
@@ -66,7 +68,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			public void run() {
 				try {
 					DlgAtencion dialog = new DlgAtencion();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,7 +80,15 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
+
+	
 	public DlgAtencion() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				preguntaAntesCerrar();
+			}
+		});
 		getContentPane().setBackground(new Color(153, 255, 204));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgAtencion.class.getResource("/Imagenes/atencion.png")));
 		setResizable(false);
@@ -291,12 +301,37 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		Medicina sel = (Medicina) cboMedicina.getSelectedItem();
 		txtPrecio.setText(sel.getPrecio() + "");
 	}
+	
+	
+	void preguntaAntesCerrar() {
+		boolean hayDatos = tblTabla.getRowCount() > 0;
+		if(hayDatos) {			
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea salir? No se guardar\u00e1n los cambios");
+			if (ok == 0) {
+				dispose();
+			}
+		}else {
+			dispose();
+		}
+	}
+	
+	
 
 	protected void actionPerformedBtnSalir(ActionEvent e) {
-		dispose();
+		 preguntaAntesCerrar();
 	}
 
 	protected void actionPerformedBtnGrabar(ActionEvent e) {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if (Principal_Proyecto2017_2.listaAt.existeArchivo()) {
 			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ?");
 			if (ok == 0) {
