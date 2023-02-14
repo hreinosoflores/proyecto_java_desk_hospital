@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import clases.Paciente;;
+import clases.Paciente;
 
 public class Arreglo_Paciente extends AbstractTableModel {
 	/**
@@ -139,6 +139,14 @@ public class Arreglo_Paciente extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Paciente[] RellenarCombo() {
+		Paciente[] arr = new Paciente[getRowCount()];
+		// ArrayList to Array Conversion
+		for (int i = 0; i < getRowCount(); i++)
+			arr[i] = obtener(i);		
+		return arr;
 	}
 
 }

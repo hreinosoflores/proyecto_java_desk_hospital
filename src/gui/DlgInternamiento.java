@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -91,6 +92,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 
 		tblTabla = new JTable();
 		tblTabla.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tblTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblTabla.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tblTabla);
 

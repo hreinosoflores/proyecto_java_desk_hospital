@@ -99,19 +99,14 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 		getContentPane().add(btnCancelar);
 
 		btnInternar = new JButton("Internar");
+		btnInternar.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnInternar.setIcon(new ImageIcon(DlgIngreso_Datos_Internamiento.class.getResource("/Imagenes/registrar.png")));
 		btnInternar.addActionListener(this);
 		btnInternar.setBounds(250, 14, 117, 45);
 		getContentPane().add(btnInternar);
 
-		Paciente[] arrPacientes = new Paciente[Principal_Proyecto2017_2.listaPa.getRowCount()];
-
-		// ArrayList to Array Conversion
-		for (int i = 0; i < Principal_Proyecto2017_2.listaPa.getRowCount(); i++)
-			arrPacientes[i] = Principal_Proyecto2017_2.listaPa.obtener(i);
-
 		cboPacientes = new JComboBox<Paciente>();
-		cboPacientes.setModel(new DefaultComboBoxModel<Paciente>(arrPacientes));
+		cboPacientes.setModel(new DefaultComboBoxModel<Paciente>(Principal_Proyecto2017_2.listaPa.RellenarCombo()));
 		cboPacientes.setBounds(106, 77, 325, 22);
 		getContentPane().add(cboPacientes);
 
@@ -206,8 +201,7 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 				}
 
 				limpieza();
-				// Cerrar ventanita
-				dispose();
+				
 				// Refrescar lista
 				DlgInternamiento.listar();
 			} catch (Exception e) {
@@ -241,6 +235,12 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 	public void limpieza() {
 		txtInternamiento.setText("");
 		cboPacientes.setSelectedIndex(0);
-		txtInternamiento.requestFocus();
+		cboDia.setSelectedIndex(0);
+		cboMes.setSelectedIndex(0);
+		cboAnio.setSelectedIndex(0);
+		cboHora.setSelectedIndex(0);
+		cboMinuto.setSelectedIndex(0);
+		// Cerrar ventanita
+		dispose();
 	}
 }

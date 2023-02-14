@@ -6,6 +6,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,6 +20,16 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Atencion;
 import clases.AtencionDetalle;
+import clases.Medicina;
+import clases.Paciente;
+import libreria.Fecha;
+import libreria.lib;
+
+import java.awt.Toolkit;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 
 public class DlgAtencion extends JDialog implements ActionListener {
 	/**
@@ -30,18 +41,21 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	private JButton btnSalir;
 	private JLabel lblTotalpagar;
 	private JTextField txtTotal;
-	private JLabel label;
+	private JLabel lblCodAtencion;
 	private JTextField txtAtencion;
-	private JLabel label_1;
-	private JTextField txtPaciente;
-	private JTextField txtMedicina;
-	private JLabel label_2;
-	private JLabel label_3;
+	private JLabel lblPaciente;
+	private JLabel lblMedicina;
+	private JLabel lblPrecio;
 	private JTextField txtPrecio;
-	private JTextField txtCantidad;
-	private JLabel label_4;
+	private JLabel lblCantidad;
 	private JButton btnGrabar;
-	private DefaultTableModel modelo;
+	private JButton btnIngresar;
+	private JComboBox<Paciente> cboPaciente;
+	private JComboBox<Medicina> cboMedicina;
+	private JButton btnEditarPrecio;
+	private JSpinner spCantidad;
+	private static DefaultTableModel modelo;
+	double suma = 0.0;
 
 	/**
 	 * Launch the application.
@@ -65,105 +79,124 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgAtencion() {
-		getContentPane().setBackground(SystemColor.menu);
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
+		getContentPane().setBackground(new Color(153, 255, 204));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgAtencion.class.getResource("/Imagenes/atencion.png")));
 		setResizable(false);
-		setTitle("Atencion");
+		setTitle(" Atenci\u00f3n");
 		setBounds(100, 100, 890, 604);
 		getContentPane().setLayout(null);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 170, 864, 340);
-		getContentPane().add(scrollPane);
+		btnGrabar = new JButton("Grabar");
+		btnGrabar.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/grabar.png")));
+		btnGrabar.setFont(new Font("Cambria", Font.BOLD, 12));
+		btnGrabar.addActionListener(this);
+		btnGrabar.setBounds(543, 492, 123, 38);
+		getContentPane().add(btnGrabar);
 
-		tblTabla = new JTable();
-		tblTabla.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		scrollPane.setViewportView(tblTabla);
-		tblTabla.setModel(Principal_Proyecto2017_2.at);
-		tblTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(tblTabla);
+		btnIngresar = new JButton("Ingresar");
+		btnIngresar.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/ingresar.png")));
+		btnIngresar.setFont(new Font("Cambria", Font.BOLD, 12));
+		btnIngresar.addActionListener(this);
+		btnIngresar.setBounds(722, 111, 123, 38);
+		getContentPane().add(btnIngresar);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnSalir.addActionListener(this);
-		btnSalir.setIcon(new ImageIcon("imagenes/salir.png"));
-		btnSalir.setBounds(751, 113, 123, 38);
+		btnSalir.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/exit.png")));
+		btnSalir.setBounds(722, 492, 123, 38);
 		getContentPane().add(btnSalir);
 
-		lblTotalpagar = new JLabel("TotalPagar");
-		lblTotalpagar.setBounds(10, 537, 75, 14);
-		getContentPane().add(lblTotalpagar);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 170, 835, 306);
+		getContentPane().add(scrollPane);
 
-		txtTotal = new JTextField("0.00");
-		txtTotal.setEditable(false);
-		txtTotal.setBounds(89, 534, 157, 20);
-		getContentPane().add(txtTotal);
-		txtTotal.setColumns(10);
+		tblTabla = new JTable();
+		tblTabla.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tblTabla.setFillsViewportHeight(true);
+		scrollPane.setViewportView(tblTabla);
 
-		label = new JLabel("Codigo Atencion");
-		label.setBounds(10, 67, 97, 14);
-		getContentPane().add(label);
+		lblCodAtencion = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(0));
+		lblCodAtencion.setBounds(10, 26, 97, 14);
+		getContentPane().add(lblCodAtencion);
 
-		txtAtencion = new JTextField();
+		txtAtencion = new JTextField(Principal_Proyecto2017_2.listaAt.generarCodigo() + "");
+		txtAtencion.setEditable(false);
 		txtAtencion.setColumns(10);
-		txtAtencion.setBounds(121, 64, 86, 20);
+		txtAtencion.setBounds(133, 22, 86, 20);
 		getContentPane().add(txtAtencion);
 
-		label_1 = new JLabel("Codigo Paciente");
-		label_1.setBounds(10, 98, 97, 14);
-		getContentPane().add(label_1);
+		lblPaciente = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(1));
+		lblPaciente.setBounds(10, 81, 97, 14);
+		getContentPane().add(lblPaciente);
 
-		txtPaciente = new JTextField();
-		txtPaciente.setColumns(10);
-		txtPaciente.setBounds(121, 95, 86, 20);
-		getContentPane().add(txtPaciente);
+		cboPaciente = new JComboBox<Paciente>();
+		cboPaciente.setModel(new DefaultComboBoxModel<Paciente>(Principal_Proyecto2017_2.listaPa.RellenarCombo()));
+		cboPaciente.setBounds(133, 76, 312, 22);
+		getContentPane().add(cboPaciente);
 
-		txtMedicina = new JTextField();
-		txtMedicina.setColumns(10);
-		txtMedicina.setBounds(347, 64, 86, 20);
-		getContentPane().add(txtMedicina);
+		lblMedicina = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(4));
+		lblMedicina.setBounds(475, 26, 97, 14);
+		getContentPane().add(lblMedicina);
 
-		label_2 = new JLabel("Codigo Medicina");
-		label_2.setBounds(241, 67, 97, 14);
-		getContentPane().add(label_2);
+		cboMedicina = new JComboBox<Medicina>();
+		cboMedicina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPrecioMedicina();
+			}
+		});
+		cboMedicina.setModel(new DefaultComboBoxModel<Medicina>(Principal_Proyecto2017_2.listaMe.RellenarCombo()));
+		cboMedicina.setBounds(563, 22, 245, 22);
+		getContentPane().add(cboMedicina);
 
-		label_3 = new JLabel("Precio");
-		label_3.setBounds(241, 98, 97, 14);
-		getContentPane().add(label_3);
+		lblPrecio = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(5));
+		lblPrecio.setBounds(475, 74, 97, 14);
+		getContentPane().add(lblPrecio);
 
 		txtPrecio = new JTextField();
+		txtPrecio.setText("0.00");
+		txtPrecio.setEditable(false);
 		txtPrecio.setColumns(10);
-		txtPrecio.setBounds(347, 95, 86, 20);
+		txtPrecio.setBounds(563, 66, 86, 20);
 		getContentPane().add(txtPrecio);
 
-		txtCantidad = new JTextField();
-		txtCantidad.setColumns(10);
-		txtCantidad.setBounds(347, 123, 86, 20);
-		getContentPane().add(txtCantidad);
+		btnEditarPrecio = new JButton("Editar");
+		btnEditarPrecio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtPrecio.setEditable(true);
+				txtPrecio.requestFocus();
+			}
+		});
+		btnEditarPrecio.setFont(new Font("Cambria", Font.BOLD, 12));
+		btnEditarPrecio.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/modificar.png")));
+		btnEditarPrecio.setBounds(658, 65, 97, 23);
+		getContentPane().add(btnEditarPrecio);
 
-		label_4 = new JLabel("Cantidad");
-		label_4.setBounds(241, 126, 65, 14);
-		getContentPane().add(label_4);
+		lblCantidad = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(6));
+		lblCantidad.setBounds(475, 117, 97, 14);
+		getContentPane().add(lblCantidad);
+
+		spCantidad = new JSpinner();
+		spCantidad.setBounds(563, 111, 86, 20);
+		getContentPane().add(spCantidad);
+
+		lblTotalpagar = new JLabel(Principal_Proyecto2017_2.listaAt.getColumnName(7));
+		lblTotalpagar.setBounds(10, 505, 75, 14);
+		getContentPane().add(lblTotalpagar);
+
+		txtTotal = new JTextField(lib.formatSoles(suma));
+		txtTotal.setEditable(false);
+		txtTotal.setBounds(89, 502, 157, 20);
+		txtTotal.setColumns(10);
+		getContentPane().add(txtTotal);
 
 		modelo = new DefaultTableModel();
-		modelo.addColumn("CodAtencion");
-		modelo.addColumn("CodPaciente");
-		modelo.addColumn("CodMedicina");
-		modelo.addColumn("Precio");
-		modelo.addColumn("Cantidad");
-		modelo.addColumn("Subtotal");
+		for (int i = 0; i < Principal_Proyecto2017_2.listaAtDet.getColumnCount(); i++) {
+			modelo.addColumn(Principal_Proyecto2017_2.listaAtDet.getColumnName(i));
+		}
 		tblTabla.setModel(modelo);
 
-		btnGrabar = new JButton("Grabar");
-		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(463, 123, 89, 23);
-		getContentPane().add(btnGrabar);
-
-		btnIngresar = new JButton("Ingresar");
-		btnIngresar.addActionListener(this);
-		btnIngresar.setBounds(463, 63, 89, 23);
-		getContentPane().add(btnIngresar);
+		setPrecioMedicina();
 
 	}
 
@@ -179,20 +212,101 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		}
 	}
 
-	double suma = 0.0;
-	private JButton btnIngresar;
+	protected void actionPerformedBtnIngresar(ActionEvent e) {
+		int codAtencion = lib.leerEntero(txtAtencion);
+		Paciente pacSeleccionado = (Paciente) cboPaciente.getSelectedItem();
+		Medicina medSeleccionada = (Medicina) cboMedicina.getSelectedItem();
+		try {
+			double precio = lib.leerDouble(txtPrecio);
+			if (precio <= 0) {
+				lib.mensajeError(this, "Ingrese precio positivo");
+				txtPrecio.setEditable(true);
+				txtPrecio.requestFocus();
+			} else {
+				try {
+					int cantidad = (Integer) spCantidad.getValue();
+					if (cantidad <= 0) {
+						lib.mensajeError(this, "Ingrese cantidad positiva");
+						spCantidad.requestFocus();
+					} else {
+						Atencion ateActual = new Atencion(codAtencion, pacSeleccionado, Fecha.fechaHoraActual(), 0.0,
+								0);
+						AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(ateActual, medSeleccionada, cantidad,
+								precio);
+						suma += nuevoDetalleAtencion.Subtotal();
+						ateActual.setTotalPagar(suma);
+
+						if (tblTabla.getRowCount() == 0) {
+							// No cambiar paciente
+							cboPaciente.setEnabled(false);
+							Principal_Proyecto2017_2.listaAt.adicionar(ateActual);
+						} else {
+							Principal_Proyecto2017_2.listaAt
+									.modificar(Principal_Proyecto2017_2.listaAt.buscarindice(codAtencion), ateActual);
+						}
+
+						Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
+
+						limpiezaDetalle();
+						listar();
+					}
+				} catch (Exception ex) {
+					lib.mensajeError(this, "Ingrese numero en cantidad");
+					spCantidad.requestFocus();
+				}
+			}
+		} catch (Exception ex) {
+			lib.mensajeError(this, "Ingrese numero en precio");
+			txtPrecio.setEditable(true);
+			txtPrecio.requestFocus();
+		}
+	}
+
+	public static void listar() {
+		modelo.setRowCount(0);
+		for (int i = 0; i < Principal_Proyecto2017_2.listaAtDet.tamanio(); i++) {
+			AtencionDetalle detalle = Principal_Proyecto2017_2.listaAtDet.obtener(i);
+			Atencion at = detalle.getAtencion();
+			Paciente pa = Principal_Proyecto2017_2.listaPa.buscar(at.getPaciente().getCodigoPaciente());
+			Medicina me = Principal_Proyecto2017_2.listaMe.buscar(detalle.getMedicina().getCodigoMedicina());
+			String precio = lib.formatSoles(detalle.getPrecioUnitario());
+			String cantidad = detalle.getCantidad() + " unds.";
+			Object fila[] = { at.getCodigoAtencion(), pa.toString(), me.getNombre(), precio, cantidad,
+					lib.formatSoles(detalle.Subtotal()) };
+			modelo.addRow(fila);
+		}
+
+	}
+
+	public void limpiezaDetalle() {
+		cboMedicina.setSelectedIndex(0);
+		txtPrecio.setText("0.00");
+		txtPrecio.setEditable(false);
+		spCantidad.setValue(0);
+		txtTotal.setText(lib.formatSoles(suma));
+		setPrecioMedicina();
+	}
+
+	public void setPrecioMedicina() {
+		Medicina sel = (Medicina) cboMedicina.getSelectedItem();
+		txtPrecio.setText(sel.getPrecio() + "");
+	}
+
+	protected void actionPerformedBtnSalir(ActionEvent e) {
+		dispose();
+	}
 
 	protected void actionPerformedBtnGrabar(ActionEvent e) {
-		if (Principal_Proyecto2017_2.at.existeArchivo()) {
-			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.at.getArchivo() + "\" ?");
+		if (Principal_Proyecto2017_2.listaAt.existeArchivo()) {
+			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ?");
 			if (ok == 0) {
-				Principal_Proyecto2017_2.at.grabarAtencion();
-				mensaje("\"" + Principal_Proyecto2017_2.at.getArchivo() + "\" ha sido actualizado");
+				Principal_Proyecto2017_2.listaAt.grabarAtencion();
+				mensaje("\"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ha sido actualizado");
 			} else
-				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.at.getArchivo() + "\"");
+				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\"");
 		} else {
-			Principal_Proyecto2017_2.at.grabarAtencion();
-			mensaje("\"" + Principal_Proyecto2017_2.at.getArchivo() + "\" ha sido creado");
+			Principal_Proyecto2017_2.listaAt.grabarAtencion();
+			mensaje("\"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ha sido creado");
 		}
 
 		if (Principal_Proyecto2017_2.adt.existeArchivo()) {
@@ -215,10 +329,6 @@ public class DlgAtencion extends JDialog implements ActionListener {
 
 	int confirmar(String s) {
 		return JOptionPane.showConfirmDialog(this, s);
-	}
-
-	protected void actionPerformedBtnSalir(ActionEvent e) {
-		dispose();
 	}
 
 	int leerCodigoAtencion() {
@@ -249,29 +359,4 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		return leerPrecio() * leerCantidad();
 	}
 
-	void listar() {
-
-		Object fila[] = { leerCodigoAtencion(), leerCodigoPaciente(), leerCodigoMedicina(), leerPrecio(),
-				leerCantidad(), subtotal() };
-		modelo.addRow(fila);
-		txtMedicina.setText("");
-		txtPrecio.setText("");
-		txtCantidad.setText("");
-		txtMedicina.requestFocus();
-	}
-
-	protected void actionPerformedBtnIngresar(ActionEvent e) {
-		suma += subtotal();
-		listar();
-		txtTotal.setText("" + suma);
-
-		Atencion nuevaAtencion = new Atencion(leerCodigoAtencion(), leerCodigoPaciente(),
-				Principal_Proyecto2017_2.FechaSistema(), leerTotalPagar(), 0);
-
-		AtencionDetalle nuevaDetalleAtencion = new AtencionDetalle(leerCodigoAtencion(), leerCodigoMedicina(),
-				leerCantidad(), leerPrecio());
-
-		Principal_Proyecto2017_2.at.adicionar(nuevaAtencion);
-		Principal_Proyecto2017_2.adt.adicionar(nuevaDetalleAtencion);
-	}
 }

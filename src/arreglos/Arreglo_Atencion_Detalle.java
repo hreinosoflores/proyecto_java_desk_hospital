@@ -11,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
 import clases.AtencionDetalle;
+import clases.Cama;
 import clases.Medicina;
 
 public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
@@ -34,6 +35,7 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		return listaAtDet.get(i);
 	}
 
+
 	public void adicionar(AtencionDetalle x) {
 		listaAtDet.add(x);
 	}
@@ -56,6 +58,10 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 				return obtener(i);
 		return null;
 	}
+	
+	
+
+	
 
 	public void eliminar(AtencionDetalle x) {
 		listaAtDet.remove(x);
@@ -110,11 +116,15 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		File f = new File(getArchivo());
 		return f.exists();
 	}
+	
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Medicina", "Precio",
+			 "Cantidad", "Subtotal" };
+
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return nombreColumnas.length;
 	}
 
 	@Override
@@ -122,6 +132,12 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		// TODO Auto-generated method stub
 		return listaAtDet.size();
 	}
+	
+	@Override
+	public String getColumnName(int column) {
+		return nombreColumnas[column];
+	}
+
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {

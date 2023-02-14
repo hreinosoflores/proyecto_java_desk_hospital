@@ -143,7 +143,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoInternamiento() + 1;
 	}
 
-	private String nombreColumnas[] = { "Cod. Internamiento", "Cod. Paciente", "N\u00ba Cama", "Est. Cama",
+	private String nombreColumnas[] = { "Cod. Internamiento", "Paciente", "N\u00ba Cama", "Est. Cama",
 			"Est. Internamiento", "Fecha Registro", "Fecha Ingreso", "Hora Ingreso", "Fecha Salida", "Hora Salida" };
 
 	public int generarDias(int fechaIng, int fechaSal) {

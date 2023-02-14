@@ -139,5 +139,13 @@ public class Arreglo_Medicina extends AbstractTableModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Medicina[] RellenarCombo() {
+		Medicina[] arr = new Medicina[getRowCount()];
+		// ArrayList to Array Conversion
+		for (int i = 0; i < getRowCount(); i++)
+			arr[i] = obtener(i);		
+		return arr;
+	}
 
 }

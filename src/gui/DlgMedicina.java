@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Medicina;
@@ -81,6 +82,7 @@ public class DlgMedicina extends JDialog implements ActionListener {
 
 		tblTabla = new JTable();
 		tblTabla.setFillsViewportHeight(true);
+		tblTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tblTabla);
 
 		modelo = new DefaultTableModel();

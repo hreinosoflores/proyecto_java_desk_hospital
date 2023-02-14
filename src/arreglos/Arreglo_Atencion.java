@@ -76,8 +76,8 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoAtencion() + 1;
 	}
 
-	private String nombreColumnas[] = { "Cod. Atencion", "Cod. Paciente", "Fecha Atencion", "Estado atencion",
-			"Codigo Medicina", "Precio Unitario", "Cantidad", "Total Pagar" };
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
+			"Medicina", "Precio Unitario", "Cantidad", "Total a pagar" };
 
 	public int tamanio() {
 		return listaAt.size();
@@ -87,6 +87,12 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		listaAt.add(x);
 		fireTableDataChanged();
 	}
+	
+	public void modificar(int i, Atencion x) {
+		listaAt.set(i, x);
+		fireTableDataChanged();
+	}
+
 
 	public String getArchivo() {
 		return "atencion.txt";
@@ -105,6 +111,14 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		}
 		return null;
 	}
+	
+	public int buscarindice(int codigo) {
+		for (int i = 0; i < tamanio(); i++)
+			if (obtener(i).getCodigoAtencion() == codigo)
+				return i;
+		return -1;
+	}
+
 
 	public Atencion buscarPac(int codigo) {
 		Atencion x;
