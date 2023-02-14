@@ -43,6 +43,10 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 	public String getArchivo() {
 		return "detalleatencion.txt";
 	}
+	
+	public void eliminar(int i) {
+		listaAtDet.remove(i);
+	}
 
 	public void eliminarAlFinal() {
 		listaAtDet.remove(tamanio() - 1);

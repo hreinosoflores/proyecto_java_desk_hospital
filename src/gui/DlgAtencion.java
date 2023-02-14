@@ -52,12 +52,14 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	private JLabel lblCantidad;
 	private JButton btnGrabar;
 	private JButton btnIngresar;
+	private JButton btnBorrar;
 	private JComboBox<Paciente> cboPaciente;
 	private JComboBox<Medicina> cboMedicina;
 	private JButton btnEditarPrecio;
 	private JSpinner spCantidad;
 	private static DefaultTableModel modelo;
 	double suma = 0.0;
+
 
 	/**
 	 * Launch the application.
@@ -205,6 +207,13 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			modelo.addColumn(Principal_Proyecto2017_2.listaAtDet.getColumnName(i));
 		}
 		tblTabla.setModel(modelo);
+		
+		btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(this);
+		btnBorrar.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/eliminar.png")));
+		btnBorrar.setFont(new Font("Cambria", Font.BOLD, 12));
+		btnBorrar.setBounds(10, 111, 123, 38);
+		getContentPane().add(btnBorrar);
 
 		setPrecioMedicina();
 
@@ -220,7 +229,13 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		if (e.getSource() == btnSalir) {
 			actionPerformedBtnSalir(e);
 		}
+		if (e.getSource() == btnBorrar) {
+			actionPerformedBtnBorrar(e);
+		}
 	}
+
+	
+
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		int codAtencion = lib.leerEntero(txtAtencion);
@@ -271,6 +286,27 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			txtPrecio.requestFocus();
 		}
 	}
+	
+	
+	protected void actionPerformedBtnBorrar(ActionEvent e) {
+		// TODO Auto-generated method stub
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+		if (seleccionadoIdx != -1) {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea eliminar este registro?");
+			if (ok == 0) {		
+				Principal_Proyecto2017_2.listaAtDet.eliminar(seleccionadoIdx);
+				listar();
+				if(tblTabla.getRowCount() == 0) {
+					//Volver a habilitar paciente
+					cboPaciente.setEnabled(true);
+				}
+			}
+		} else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar un item en la tabla");
+		}
+	}
+
+	
 
 	public static void listar() {
 		modelo.setRowCount(0);
@@ -393,5 +429,4 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	double subtotal() {
 		return leerPrecio() * leerCantidad();
 	}
-
 }
