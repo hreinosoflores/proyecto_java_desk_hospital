@@ -41,7 +41,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 				paciente = new Paciente(Integer.parseInt(s[1].trim()), null,null, null, null);
 				fechaAtencion = s[2].trim();
 				totalPagar = Double.parseDouble(s[3].trim());
-				estado = Integer.parseInt(s[3].trim());
+				estado = Integer.parseInt(s[4].trim());
 				adicionar(new Atencion(codigoAtencion, paciente, fechaAtencion, totalPagar, estado));
 			}
 			br.close();

@@ -11,13 +11,12 @@ import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
 import clases.AtencionDetalle;
-import clases.Cama;
 import clases.Medicina;
 
-public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
+public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Atributos privados
 	private ArrayList<AtencionDetalle> listaAtDet;
 
@@ -35,15 +34,14 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		return listaAtDet.get(i);
 	}
 
-
 	public void adicionar(AtencionDetalle x) {
 		listaAtDet.add(x);
 	}
 
 	public String getArchivo() {
-		return "detalleatencion.txt";
+		return "atenciondetalle.txt";
 	}
-	
+
 	public void eliminar(int i) {
 		listaAtDet.remove(i);
 	}
@@ -55,21 +53,35 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 	public void eliminarTodo() {
 		listaAtDet.clear();
 	}
+	
+	public void eliminar(AtencionDetalle x) {
+		listaAtDet.remove(x);
+	}
 
-	public AtencionDetalle buscar(int codigo) {
+	public AtencionDetalle buscar(int codigoAtencion, int codigoMedicina) {
 		for (int i = 0; i < tamanio(); i++)
-			if (obtener(i).getMedicina().getCodigoMedicina() == codigo)
+			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion
+					&& obtener(i).getMedicina().getCodigoMedicina() == codigoMedicina)
 				return obtener(i);
 		return null;
 	}
 	
-	
-
-	
-
-	public void eliminar(AtencionDetalle x) {
-		listaAtDet.remove(x);
+	public int buscarIndice(int codigoAtencion, int codigoMedicina) {
+		for (int i = 0; i < tamanio(); i++)
+			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion
+					&& obtener(i).getMedicina().getCodigoMedicina() == codigoMedicina)
+				return i;
+		return -1;
 	}
+
+	public ArrayList<AtencionDetalle> buscarPorAtencion(int codigoAtencion) {
+		ArrayList<AtencionDetalle> lista = new ArrayList<AtencionDetalle>();
+		for (int i = 0; i < tamanio(); i++)
+			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion)
+				lista.add(obtener(i));
+		return lista;
+	}
+
 
 
 	public void cargarAtencionDetalle() {
@@ -79,14 +91,14 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 			String[] s;
 			Atencion atencion;
 			Medicina medicina;
-			int  cantidad;
+			int cantidad;
 			double precioUnitario;
-			
+
 			br = new BufferedReader(new FileReader(getArchivo()));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				atencion = new Atencion(Integer.parseInt(s[0].trim()), null, null, 0, 0);
-				medicina = new Medicina(Integer.parseInt(s[1].trim()),null,null,0,0);
+				medicina = new Medicina(Integer.parseInt(s[1].trim()), null, null, 0, 0);
 				cantidad = Integer.parseInt(s[2].trim());
 				precioUnitario = Double.parseDouble(s[3].trim());
 				adicionar(new AtencionDetalle(atencion, medicina, cantidad, precioUnitario));
@@ -96,8 +108,8 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void grabarDetalleAtencion() {
+
+	public void grabarAtencionDetalle() {
 		try {
 			PrintWriter pw;
 			String linea;
@@ -105,8 +117,8 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getAtencion().getCodigoAtencion() + ";" + x.getMedicina().getCodigoMedicina() + ";" + x.getCantidad() + ";"
-						+ x.getPrecioUnitario();
+				linea = x.getAtencion().getCodigoAtencion() + ";" + x.getMedicina().getCodigoMedicina() + ";"
+						+ x.getCantidad() + ";" + x.getPrecioUnitario();
 				pw.println(linea);
 			}
 			pw.close();
@@ -115,15 +127,13 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		}
 	}
 
-
 	public boolean existeArchivo() {
 		File f = new File(getArchivo());
 		return f.exists();
 	}
-	
-	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Medicina", "Precio",
-			 "Cantidad", "Subtotal" };
 
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Medicina", "Precio", "Cantidad",
+			"Subtotal" };
 
 	@Override
 	public int getColumnCount() {
@@ -136,12 +146,11 @@ public class Arreglo_Atencion_Detalle  extends AbstractTableModel {
 		// TODO Auto-generated method stub
 		return listaAtDet.size();
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
 		return nombreColumnas[column];
 	}
-
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {

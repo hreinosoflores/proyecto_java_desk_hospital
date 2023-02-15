@@ -1,21 +1,25 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Atencion;
@@ -24,14 +28,6 @@ import clases.Medicina;
 import clases.Paciente;
 import libreria.Fecha;
 import libreria.lib;
-
-import java.awt.Toolkit;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class DlgAtencion extends JDialog implements ActionListener {
 	/**
@@ -60,7 +56,6 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	private static DefaultTableModel modelo;
 	double suma = 0.0;
 
-
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +78,6 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 
-	
 	public DlgAtencion() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -207,7 +201,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			modelo.addColumn(Principal_Proyecto2017_2.listaAtDet.getColumnName(i));
 		}
 		tblTabla.setModel(modelo);
-		
+
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(this);
 		btnBorrar.setIcon(new ImageIcon(DlgAtencion.class.getResource("/Imagenes/eliminar.png")));
@@ -217,6 +211,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 
 		setPrecioMedicina();
 
+		listar();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -233,9 +228,6 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			actionPerformedBtnBorrar(e);
 		}
 	}
-
-	
-
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		int codAtencion = lib.leerEntero(txtAtencion);
@@ -254,26 +246,35 @@ public class DlgAtencion extends JDialog implements ActionListener {
 						lib.mensajeError(this, "Ingrese cantidad positiva");
 						spCantidad.requestFocus();
 					} else {
-						Atencion ateActual = new Atencion(codAtencion, pacSeleccionado, Fecha.fechaHoraActual(), 0.0,
-								0);
-						AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(ateActual, medSeleccionada, cantidad,
-								precio);
-						suma += nuevoDetalleAtencion.Subtotal();
-						ateActual.setTotalPagar(suma);
+						int existe = Principal_Proyecto2017_2.listaAtDet.buscarIndice(codAtencion,
+								medSeleccionada.getCodigoMedicina());
+						if (existe == -1) {
 
-						if (tblTabla.getRowCount() == 0) {
-							// No cambiar paciente
-							cboPaciente.setEnabled(false);
-							Principal_Proyecto2017_2.listaAt.adicionar(ateActual);
+							Atencion ateActual = new Atencion(codAtencion, pacSeleccionado, Fecha.fechaHoraActual(),
+									0.0, 0);
+							AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(ateActual, medSeleccionada,
+									cantidad, precio);
+
+							suma += nuevoDetalleAtencion.Subtotal();
+							ateActual.setTotalPagar(suma);
+
+							if (tblTabla.getRowCount() == 0) {
+								// No cambiar paciente
+								cboPaciente.setEnabled(false);
+								Principal_Proyecto2017_2.listaAt.adicionar(ateActual);
+							} else {
+								Principal_Proyecto2017_2.listaAt.modificar(
+										Principal_Proyecto2017_2.listaAt.buscarindice(codAtencion), ateActual);
+							}
+
+							Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
+
+							limpiezaDetalle();
+							listar();
 						} else {
-							Principal_Proyecto2017_2.listaAt
-									.modificar(Principal_Proyecto2017_2.listaAt.buscarindice(codAtencion), ateActual);
+							lib.mensajeError(this, "Esta medicina ya fue registrada, ingresar otra.");
 						}
 
-						Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
-
-						limpiezaDetalle();
-						listar();
 					}
 				} catch (Exception ex) {
 					lib.mensajeError(this, "Ingrese numero en cantidad");
@@ -286,19 +287,37 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			txtPrecio.requestFocus();
 		}
 	}
-	
-	
+
 	protected void actionPerformedBtnBorrar(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int seleccionadoIdx = tblTabla.getSelectedRow();
 		if (seleccionadoIdx != -1) {
 			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea eliminar este registro?");
-			if (ok == 0) {		
-				Principal_Proyecto2017_2.listaAtDet.eliminar(seleccionadoIdx);
-				listar();
-				if(tblTabla.getRowCount() == 0) {
-					//Volver a habilitar paciente
-					cboPaciente.setEnabled(true);
+			if (ok == 0) {
+				try {
+					int codigo = lib.leerEntero(txtAtencion);
+					AtencionDetalle seleccionado = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo)
+							.get(seleccionadoIdx);
+					Principal_Proyecto2017_2.listaAtDet.eliminar(Principal_Proyecto2017_2.listaAtDet.buscarIndice(
+							seleccionado.getAtencion().getCodigoAtencion(),
+							seleccionado.getMedicina().getCodigoMedicina()));
+					suma -= seleccionado.Subtotal();
+					Atencion ateActual = Principal_Proyecto2017_2.listaAt.buscar(codigo);
+					ateActual.setTotalPagar(suma);
+					Principal_Proyecto2017_2.listaAt.modificar(Principal_Proyecto2017_2.listaAt.buscarindice(codigo),
+							ateActual);
+
+					limpiezaDetalle();
+					listar();
+
+					if (tblTabla.getRowCount() == 0) {
+						// Volver a habilitar paciente
+						cboPaciente.setEnabled(true);
+					}
+
+				} catch (Exception ex) {
+					// TODO: handle exception
+					System.out.println("No se puede obtener el codigo de la caja de texto");
 				}
 			}
 		} else {
@@ -306,22 +325,27 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		}
 	}
 
-	
+	private void listar() {
+		try {
+			int codigo = lib.leerEntero(txtAtencion);
+			if (codigo > 0) {
+				modelo.setRowCount(0);
+				for (int i = 0; i < Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo).size(); i++) {
+					AtencionDetalle detalle = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo).get(i);
+					Atencion at = detalle.getAtencion();
+					Paciente pa = Principal_Proyecto2017_2.listaPa.buscar(at.getPaciente().getCodigoPaciente());
+					Medicina me = Principal_Proyecto2017_2.listaMe.buscar(detalle.getMedicina().getCodigoMedicina());
+					String precio = lib.formatSoles(detalle.getPrecioUnitario());
+					String cantidad = detalle.getCantidad() + " unds.";
+					Object fila[] = { at.getCodigoAtencion(), pa.toString(), me.getNombre(), precio, cantidad,
+							lib.formatSoles(detalle.Subtotal()) };
+					modelo.addRow(fila);
+				}
+			}
 
-	public static void listar() {
-		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.listaAtDet.tamanio(); i++) {
-			AtencionDetalle detalle = Principal_Proyecto2017_2.listaAtDet.obtener(i);
-			Atencion at = detalle.getAtencion();
-			Paciente pa = Principal_Proyecto2017_2.listaPa.buscar(at.getPaciente().getCodigoPaciente());
-			Medicina me = Principal_Proyecto2017_2.listaMe.buscar(detalle.getMedicina().getCodigoMedicina());
-			String precio = lib.formatSoles(detalle.getPrecioUnitario());
-			String cantidad = detalle.getCantidad() + " unds.";
-			Object fila[] = { at.getCodigoAtencion(), pa.toString(), me.getNombre(), precio, cantidad,
-					lib.formatSoles(detalle.Subtotal()) };
-			modelo.addRow(fila);
+		} catch (Exception e) {
+			System.out.println("No se puede obtener el codigo de la caja de texto");
 		}
-
 	}
 
 	public void limpiezaDetalle() {
@@ -337,96 +361,56 @@ public class DlgAtencion extends JDialog implements ActionListener {
 		Medicina sel = (Medicina) cboMedicina.getSelectedItem();
 		txtPrecio.setText(sel.getPrecio() + "");
 	}
-	
-	
+
 	void preguntaAntesCerrar() {
 		boolean hayDatos = tblTabla.getRowCount() > 0;
-		if(hayDatos) {			
+		boolean cerrar = false;
+		if (hayDatos) {
 			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea salir? No se guardar\u00e1n los cambios");
 			if (ok == 0) {
-				dispose();
+				cerrar = true;
 			}
-		}else {
-			dispose();
+		} else {
+			cerrar = true;
 		}
+
+		if (cerrar) {
+			// Borrar atencion y detalle de memoria
+			try {
+				int codigo = lib.leerEntero(txtAtencion);
+				Atencion atActual = Principal_Proyecto2017_2.listaAt.buscar(codigo);
+				List<AtencionDetalle> detalles = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo);
+				Principal_Proyecto2017_2.listaAt.eliminar(atActual);
+				for (AtencionDetalle atencionDetalle : detalles) {
+					Principal_Proyecto2017_2.listaAtDet.eliminar(atencionDetalle);
+				}
+				dispose();
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("No se puede obtener el codigo de la caja de texto");
+			}
+
+		}
+
 	}
-	
-	
 
 	protected void actionPerformedBtnSalir(ActionEvent e) {
-		 preguntaAntesCerrar();
+		preguntaAntesCerrar();
 	}
 
 	protected void actionPerformedBtnGrabar(ActionEvent e) {
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		if (Principal_Proyecto2017_2.listaAt.existeArchivo()) {
-			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ?");
+		if (tblTabla.getRowCount() == 0) {
+			lib.mensajeAdvertencia(this, "Debe ingresar un item en la tabla para grabar la atención");
+		} else {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea registrar los datos?");
 			if (ok == 0) {
+
 				Principal_Proyecto2017_2.listaAt.grabarAtencion();
-				mensaje("\"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ha sido actualizado");
-			} else
-				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\"");
-		} else {
-			Principal_Proyecto2017_2.listaAt.grabarAtencion();
-			mensaje("\"" + Principal_Proyecto2017_2.listaAt.getArchivo() + "\" ha sido creado");
+				Principal_Proyecto2017_2.listaAtDet.grabarAtencionDetalle();
+
+				lib.mensajeInformacion(this, "Los datos se grabaron correctamente");
+				dispose();
+			}
 		}
-
-		if (Principal_Proyecto2017_2.adt.existeArchivo()) {
-			int ok = confirmar("� Desea actualizar \"" + Principal_Proyecto2017_2.adt.getArchivo() + "\" ?");
-			if (ok == 0) {
-				Principal_Proyecto2017_2.adt.grabarDetalleAtencion();
-				mensaje("\"" + Principal_Proyecto2017_2.adt.getArchivo() + "\" ha sido actualizado");
-			} else
-				mensaje("No se actualiz�  \"" + Principal_Proyecto2017_2.adt.getArchivo() + "\"");
-		} else {
-			Principal_Proyecto2017_2.adt.grabarDetalleAtencion();
-			mensaje("\"" + Principal_Proyecto2017_2.adt.getArchivo() + "\" ha sido creado");
-		}
-
-	}
-
-	void mensaje(String s) {
-		JOptionPane.showMessageDialog(this, s);
-	}
-
-	int confirmar(String s) {
-		return JOptionPane.showConfirmDialog(this, s);
-	}
-
-	int leerCodigoAtencion() {
-		return Integer.parseInt(txtAtencion.getText().trim());
-	}
-
-	int leerCodigoPaciente() {
-		return Integer.parseInt(txtPaciente.getText().trim());
-	}
-
-	int leerCodigoMedicina() {
-		return Integer.parseInt(txtMedicina.getText().trim());
-	}
-
-	double leerPrecio() {
-		return Double.parseDouble(txtPrecio.getText().trim());
-	}
-
-	int leerCantidad() {
-		return Integer.parseInt(txtCantidad.getText().trim());
-	}
-
-	double leerTotalPagar() {
-		return Double.parseDouble(txtTotal.getText().trim());
-	}
-
-	double subtotal() {
-		return leerPrecio() * leerCantidad();
 	}
 }
