@@ -3,60 +3,59 @@ package clases;
 import libreria.lib;
 
 public class Atencion {
-	
+
 	private int codigoAtencion, estado;
-	private Paciente paciente;
+	private Internamiento internamiento;
 	private String fechaAtencion;
 	private double totalPagar;
 
-	public Atencion(int codigoAtencion, Paciente paciente, String fechaAtencion, double totalPagar, int estado) {
+	public Atencion(int codigoAtencion, Internamiento internamiento, String fechaAtencion, double totalPagar,
+			int estado) {
 		this.codigoAtencion = codigoAtencion;
-		this.paciente = paciente;
+		this.estado = estado;
+		this.internamiento = internamiento;
 		this.fechaAtencion = fechaAtencion;
 		this.totalPagar = totalPagar;
-		this.estado = estado;
-	}
-
-	public void setCodigoAtencion(int codigoAtencion) {
-		this.codigoAtencion = codigoAtencion;
-	}
-
-
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
-
-	public void setFechaAtencion(String fechaAtencion) {
-		this.fechaAtencion = fechaAtencion;
-	}
-
-	public void setTotalPagar(double totalPagar) {
-		this.totalPagar = totalPagar;
-	}
-
-	public void setEstado(int estado) {
-		this.estado = estado;
 	}
 
 	public int getCodigoAtencion() {
 		return codigoAtencion;
 	}
 
-	public Paciente getPaciente() {
-		return paciente;
+	public void setCodigoAtencion(int codigoAtencion) {
+		this.codigoAtencion = codigoAtencion;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
+	public Internamiento getInternamiento() {
+		return internamiento;
+	}
+
+	public void setInternamiento(Internamiento internamiento) {
+		this.internamiento = internamiento;
 	}
 
 	public String getFechaAtencion() {
 		return fechaAtencion;
 	}
 
+	public void setFechaAtencion(String fechaAtencion) {
+		this.fechaAtencion = fechaAtencion;
+	}
+
 	public double getTotalPagar() {
 		return totalPagar;
 	}
 
-	public int getEstado() {
-		return estado;
+	public void setTotalPagar(double totalPagar) {
+		this.totalPagar = totalPagar;
 	}
 
 	public String EstadoDescr() {

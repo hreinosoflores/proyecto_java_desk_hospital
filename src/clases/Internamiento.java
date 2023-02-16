@@ -2,14 +2,23 @@ package clases;
 
 import libreria.lib;
 
-public class Ingreso_Datos_Internamiento {
+public class Internamiento {
 	private Paciente paciente;
 	private Cama cama;
 	private int codigoInternamiento, estado;
 	private String fechaRegistro,fechaIngreso, horaIngreso, fechaSalida, horaSalida;
 
-	public Ingreso_Datos_Internamiento(Paciente paciente, Cama cama, int codigoInternamiento, int estado,
-			String fechaRegistro, String fechaIngreso, String horaIngreso, String fechaSalida, String horaSalida) {
+	public Internamiento(
+			int codigoInternamiento, 
+			Paciente paciente, 
+			Cama cama,  
+			String fechaRegistro, 
+			String fechaIngreso, 
+			String horaIngreso, 
+			String fechaSalida, 
+			String horaSalida,
+			int estado
+		) {
 		this.paciente = paciente;
 		this.cama = cama;
 		this.codigoInternamiento = codigoInternamiento;

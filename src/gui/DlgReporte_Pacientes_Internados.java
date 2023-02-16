@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import arreglos.Arreglo_Reporte_Pacientes;
-import clases.Ingreso_Datos_Internamiento;
+import clases.Internamiento;
 import clases.Paciente;
 
 public class DlgReporte_Pacientes_Internados extends JDialog implements ActionListener {
@@ -95,7 +95,7 @@ public class DlgReporte_Pacientes_Internados extends JDialog implements ActionLi
 
 	private void actionPerformedBtnListar(ActionEvent arg0) {
 		txtS.setText("");
-		Ingreso_Datos_Internamiento x;
+		Internamiento x;
 		Paciente y;
 		for (int i = 0; i < Principal_Proyecto2017_2.ai.tamanio(); i++) {
 			x = Principal_Proyecto2017_2.ai.obtener(i);

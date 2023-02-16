@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import clases.Cama;
-import clases.Ingreso_Datos_Internamiento;
+import clases.Internamiento;
 import clases.Paciente;
 import gui.Principal_Proyecto2017_2;
 
 public class Arreglo_Internamiento extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	ArrayList<Ingreso_Datos_Internamiento> listaIdi;
+	ArrayList<Internamiento> listaIdi;
 
 	public Arreglo_Internamiento() {
-		listaIdi = new ArrayList<Ingreso_Datos_Internamiento>();
+		listaIdi = new ArrayList<Internamiento>();
 		cargarInternamiento();
 	}
 
@@ -46,8 +46,8 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 				fechaSalida = s[6].trim();
 				horaSalida = s[7].trim();
 				estado = Integer.parseInt(s[8].trim());
-				adicionar(new Ingreso_Datos_Internamiento(paciente, cama, codigoInternamiento, estado, fechaRegistro,
-						fechaIngreso, horaIngreso, fechaSalida, horaSalida));
+				adicionar(new Internamiento(codigoInternamiento, paciente, cama, fechaRegistro, fechaIngreso,
+						horaIngreso, fechaSalida, horaSalida, estado));
 			}
 			br.close();
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		try {
 			PrintWriter pw;
 			String linea;
-			Ingreso_Datos_Internamiento x;
+			Internamiento x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
@@ -78,12 +78,12 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		return listaIdi.size();
 	}
 
-	public void adicionar(Ingreso_Datos_Internamiento x) {
+	public void adicionar(Internamiento x) {
 		listaIdi.add(x);
 		fireTableDataChanged();
 	}
 
-	public void modificar(int i, Ingreso_Datos_Internamiento x) {
+	public void modificar(int i, Internamiento x) {
 		listaIdi.set(i, x);
 	}
 
@@ -91,12 +91,12 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		listaIdi.remove(i);
 	}
 
-	public Ingreso_Datos_Internamiento obtener(int i) {
+	public Internamiento obtener(int i) {
 		return listaIdi.get(i);
 	}
 
-	public Ingreso_Datos_Internamiento buscar(int codigo) {
-		Ingreso_Datos_Internamiento x;
+	public Internamiento buscar(int codigo) {
+		Internamiento x;
 		for (int i = 0; i < tamanio(); i++) {
 			x = obtener(i);
 			if (x.getCodigoInternamiento() == codigo)
@@ -105,17 +105,34 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		return null;
 	}
 
-	public Ingreso_Datos_Internamiento buscarPac(int codigo) {
-		Ingreso_Datos_Internamiento x;
+	public Internamiento buscarInternamientoAlojadoAtendido(int codigo) {
+		Internamiento buscado = null;
 		for (int i = 0; i < tamanio(); i++) {
-			x = obtener(i);
-			if (x.getPaciente().getCodigoPaciente() == codigo)
-				return x;
+			Internamiento x = obtener(i);
+			boolean esDePaciente = x.getPaciente().getCodigoPaciente() == codigo;
+			boolean esAlojado = x.getEstado() == 0;
+			boolean esAtendido = x.getEstado() == 1;
+			boolean sinSalida = x.getFechaSalida().isEmpty();
+			if (esDePaciente && (esAlojado || esAtendido) && sinSalida)
+				buscado = obtener(i);
 		}
-		return null;
+		return buscado;
 	}
 
-	public void eliminar(Ingreso_Datos_Internamiento x) {
+	public Internamiento buscarInternamientoAtendido(int codigo) {
+		Internamiento buscado = null;
+		for (int i = 0; i < tamanio(); i++) {
+			Internamiento x = obtener(i);
+			boolean esDePaciente = x.getPaciente().getCodigoPaciente() == codigo;
+			boolean esAtendido = x.getEstado() == 1;
+			boolean sinSalida = x.getFechaSalida().isEmpty();
+			if (esDePaciente && esAtendido && sinSalida)
+				buscado = obtener(i);
+		}
+		return buscado;
+	}
+
+	public void eliminar(Internamiento x) {
 		listaIdi.remove(x);
 		fireTableDataChanged();
 	}

@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import clases.Ingreso_Datos_Internamiento;
+import clases.Internamiento;
 import clases.Paciente;
 
 public class DlgReporte_Paciente_Salida extends JDialog implements ActionListener {
@@ -84,7 +84,7 @@ public class DlgReporte_Paciente_Salida extends JDialog implements ActionListene
 
 	protected void actionPerformedBtnGenerar(ActionEvent arg0) {
 		txtS.setText("");
-		Ingreso_Datos_Internamiento x;
+		Internamiento x;
 		Paciente y;
 		for (int i = 0; i < Principal_Proyecto2017_2.ai.tamanio(); i++) {
 			x = Principal_Proyecto2017_2.ai.obtener(i);

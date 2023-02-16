@@ -5,6 +5,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,22 +16,35 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Cama;
+import clases.Internamiento;
+import clases.Paciente;
+import libreria.Fecha;
+import libreria.lib;
+
+import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import java.awt.Color;
+
 public class DlgIngresarPago extends JDialog implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel lblCodigoDePaciente;
+	private JLabel lblPaciente;
 	private JButton btnImprimir;
 	private JButton btnSalir;
 	private JButton btnCobrar;
 	private JScrollPane scrollPane;
 	private JTextArea txtS;
-	private JTextField txtPaciente;
 	private JScrollPane scrollPane_1;
 	private JTable tblTabla;
 	private DefaultTableModel modelo;
 	private JButton btnVer;
+	private JComboBox<Paciente> cboPaciente;
+	private JTextField txtTotalPagar;
+	private JButton btnGenerar;
+	private JLabel lblTotalpagar;
 
 	/**
 	 * Launch the application.
@@ -54,48 +68,56 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	 */
 
 	public DlgIngresarPago() {
-		getContentPane().setBackground(SystemColor.controlShadow);
+
+		getContentPane().setBackground(new Color(255, 165, 0));
 		setTitle("Ingreso Pago");
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
-		setBounds(100, 100, 642, 540);
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(DlgIngresarPago.class.getResource("/Imagenes/chanchito.png")));
+		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(null);
 
-		lblCodigoDePaciente = new JLabel("Codigo de paciente");
-		lblCodigoDePaciente.setBounds(10, 11, 110, 17);
-		getContentPane().add(lblCodigoDePaciente);
+		lblPaciente = new JLabel("Paciente");
+		lblPaciente.setBounds(10, 11, 110, 17);
+		getContentPane().add(lblPaciente);
+
+		cboPaciente = new JComboBox<Paciente>();
+		cboPaciente.setModel(new DefaultComboBoxModel<Paciente>(Principal_Proyecto2017_2.listaPa.RellenarCombo()));
+		cboPaciente.setBounds(69, 8, 349, 22);
+		getContentPane().add(cboPaciente);
+
+		btnVer = new JButton("Ver");
+		btnVer.setIcon(new ImageIcon(DlgIngresarPago.class.getResource("/Imagenes/generar.png")));
+		btnVer.addActionListener(this);
+		btnVer.setBounds(10, 57, 110, 39);
+		getContentPane().add(btnVer);
+
+		btnCobrar = new JButton("Cobrar");
+		btnCobrar.setBounds(658, 492, 116, 38);
+		btnCobrar.addActionListener(this);
+		btnCobrar.setIcon(new ImageIcon(DlgIngresarPago.class.getResource("/Imagenes/chanchito.png")));
+		getContentPane().add(btnCobrar);
 
 		btnImprimir = new JButton("Imprimir");
-		btnImprimir.setBounds(374, 8, 116, 23);
+		btnImprimir.setBounds(447, 57, 116, 38);
 		btnImprimir.addActionListener(this);
-		btnImprimir.setIcon(new ImageIcon("imagenes/imprimir.png"));
+		btnImprimir.setIcon(new ImageIcon(DlgIngresarPago.class.getResource("/Imagenes/imprimir.png")));
 		getContentPane().add(btnImprimir);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(500, 8, 116, 23);
+		btnSalir.setBounds(658, 57, 116, 38);
 		btnSalir.addActionListener(this);
-		btnSalir.setIcon(new ImageIcon("imagenes/exit.png"));
+		btnSalir.setIcon(new ImageIcon(DlgIngresarPago.class.getResource("/Imagenes/exit.png")));
 		getContentPane().add(btnSalir);
 
-		btnCobrar = new JButton("Cobrar");
-		btnCobrar.setBounds(248, 8, 116, 23);
-		btnCobrar.addActionListener(this);
-		btnCobrar.setIcon(new ImageIcon("imagenes/grabar.png"));
-		getContentPane().add(btnCobrar);
-
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 215, 554, 275);
+		scrollPane.setBounds(10, 228, 764, 248);
 		getContentPane().add(scrollPane);
 
 		txtS = new JTextArea();
 		scrollPane.setViewportView(txtS);
 
-		txtPaciente = new JTextField();
-		txtPaciente.setBounds(140, 9, 86, 20);
-		getContentPane().add(txtPaciente);
-		txtPaciente.setColumns(10);
-
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 89, 553, 115);
+		scrollPane_1.setBounds(10, 125, 764, 74);
 		getContentPane().add(scrollPane_1);
 
 		tblTabla = new JTable();
@@ -103,18 +125,32 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		scrollPane_1.setViewportView(tblTabla);
 
 		modelo = new DefaultTableModel();
-		modelo.addColumn("CodPaciente");
-		modelo.addColumn("FechaSalida");
-		modelo.addColumn("HoraSalida");
-		modelo.addColumn("EstadoCama");
-		modelo.addColumn("EstadoInternamiento");
-		modelo.addColumn("EstadoAtencion");
+		modelo.addColumn("Codigo Paciente");
+		modelo.addColumn("Codigo Internamiento");
+		modelo.addColumn("Estado Internamiento");
+		modelo.addColumn("Nro Cama");
+		modelo.addColumn("Estado Cama");
+		modelo.addColumn("Fecha Ingreso");
+		modelo.addColumn("Hora Ingreso");
+		modelo.addColumn("Fecha Salida");
+		modelo.addColumn("Hora Salida");
 		tblTabla.setModel(modelo);
 
-		btnVer = new JButton("ver");
-		btnVer.addActionListener(this);
-		btnVer.setBounds(10, 39, 89, 23);
-		getContentPane().add(btnVer);
+		btnGenerar = new JButton("Generar Pago");
+		btnGenerar.addActionListener(this);
+		btnGenerar.setIcon(new ImageIcon(DlgIngresarPago.class.getResource("/Imagenes/registrar.png")));
+		btnGenerar.setBounds(185, 57, 169, 39);
+		getContentPane().add(btnGenerar);
+
+		lblTotalpagar = new JLabel("Total a pagar");
+		lblTotalpagar.setBounds(10, 504, 75, 14);
+		getContentPane().add(lblTotalpagar);
+
+		txtTotalPagar = new JTextField("S/. 0.00");
+		txtTotalPagar.setEditable(false);
+		txtTotalPagar.setColumns(10);
+		txtTotalPagar.setBounds(89, 501, 157, 20);
+		getContentPane().add(txtTotalPagar);
 
 	}
 
@@ -128,8 +164,11 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		if (arg0.getSource() == btnSalir) {
 			actionPerformedBtnSalir(arg0);
 		}
-		if (arg0.getSource() == btnCobrar) {
-			actionPerformedBtnCobrar(arg0);
+		if (arg0.getSource() == btnSalir) {
+			actionPerformedBtnSalir(arg0);
+		}
+		if (arg0.getSource() == btnGenerar) {
+			actionPerformedBtnGenerar(arg0);
 		}
 
 	}
@@ -138,34 +177,72 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		listar();
 	}
 
-	protected void actionPerformedBtnCobrar(ActionEvent arg0) {
-		int codPac = leerCodPaciente();
-		int numcam = Principal_Proyecto2017_2.ai.buscarPac(codPac).getNumCama();
+	void listar() {
+		// Elegir ultimo internamiento atendido del paciente
+		Paciente pacSeleccionado = (Paciente) cboPaciente.getSelectedItem();
+		Internamiento internamientoActual = Principal_Proyecto2017_2.listaIn
+				.buscarInternamientoAtendido(pacSeleccionado.getCodigoPaciente());
+		if (internamientoActual == null) {
+			lib.mensajeInformacion(this, "El paciente no tiene internamientos pendientes de pagar");
+		} else {
 
-		Principal_Proyecto2017_2.ai.buscarPac(codPac).setFechaSalida(Principal_Proyecto2017_2.FechaSistema());
-		Principal_Proyecto2017_2.ai.buscarPac(codPac).setHoraSalida(Principal_Proyecto2017_2.HoraSistema());
-		Principal_Proyecto2017_2.ac.buscar(numcam).setEstado(0);
-		Principal_Proyecto2017_2.ai.buscarPac(codPac).setEstado(1);
-		Principal_Proyecto2017_2.at.buscarPac(codPac).setEstado(1);
+			Cama camaInternado = Principal_Proyecto2017_2.listaAc.buscar(internamientoActual.getCama().getNumeroCama());
+
+			String fecSalida = "";
+			try {
+				fecSalida = Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaSalida()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			String horaSalida = "";
+			try {
+				horaSalida = Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraSalida()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			modelo.setRowCount(0);
+			Object fila[] = { pacSeleccionado.getCodigoPaciente(), internamientoActual.getCodigoInternamiento(),
+					internamientoActual.EstadoDescr(), camaInternado.getNumeroCama(), camaInternado.EstadoDescr(),
+					Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaIngreso())),
+					Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraIngreso())), fecSalida, horaSalida, };
+			modelo.addRow(fila);
+		}
+
+	}
+
+	protected void actionPerformedBtnCobrar(ActionEvent arg0) {
+
+		int codPac = leerCodPaciente();
+		int numcam = Principal_Proyecto2017_2.listaIn.buscarPac(codPac).getCama().getNumeroCama();
+		String fecha = Fecha.fechaHoraActual();
+		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setFechaSalida(Integer.parseInt(fecha.substring(0, 8)) + "");
+		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setHoraSalida(Integer.parseInt(fecha.substring(8)) + "");
+		Principal_Proyecto2017_2.listaAc.buscar(numcam).setEstado(0);
+		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setEstado(1);
+		Principal_Proyecto2017_2.listaAt.buscarPac(codPac).setEstado(1);
 		listar();
 		txtPaciente.setText("");
+
+	}
+
+	protected void actionPerformedBtnGenerar(ActionEvent arg0) {
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+
+		if (seleccionadoIdx != -1) {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfEst\u00e1 seguro(a) que desea generar el pago?");
+			if (ok == 0) {
+				
+			}
+			
+		} else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
+		}
 	}
 
 	protected void actionPerformedBtnSalir(ActionEvent arg0) {
 		dispose();
-	}
-
-	void listar() {
-		int codPac = leerCodPaciente();
-		String fecSalida = Principal_Proyecto2017_2.ai.buscarPac(codPac).getFechaSalida();
-		String horaSalida = Principal_Proyecto2017_2.ai.buscarPac(codPac).getHoraSalida();
-		int numcam = Principal_Proyecto2017_2.ai.buscarPac(codPac).getNumCama();
-		String estadoCama = Principal_Proyecto2017_2.ac.buscar(numcam).detalleEstado();
-		String estadoInternamiento = Principal_Proyecto2017_2.ai.buscarPac(codPac).DetalleEstado();
-		String estadoAtencion = Principal_Proyecto2017_2.at.buscarPac(codPac).DetalleAtencion();
-		modelo.setRowCount(0);
-		Object fila[] = { codPac, fecSalida, horaSalida, numcam, estadoCama, estadoInternamiento, estadoAtencion };
-		modelo.addRow(fila);
 	}
 
 	protected void actionPerformedBtnImprimir(ActionEvent arg0) {
@@ -174,10 +251,6 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 
 	void imprimir(String s) {
 		txtS.append(s + "\n");
-	}
-
-	int leerCodPaciente() {
-		return Integer.parseInt(txtPaciente.getText().trim());
 	}
 
 }

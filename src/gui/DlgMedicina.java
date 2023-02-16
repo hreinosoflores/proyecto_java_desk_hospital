@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.EventQueue;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import clases.Medicina;
 import libreria.lib;
 
-import java.awt.Toolkit;;
+import java.awt.Toolkit;
+import java.awt.Color;;
 
 public class DlgMedicina extends JDialog implements ActionListener {
 	/**
@@ -52,7 +52,7 @@ public class DlgMedicina extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgMedicina() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(72, 61, 139));
 		setTitle("Medicina");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgMedicina.class.getResource("/Imagenes/medicina.png")));
 		setBounds(100, 100, 568, 300);

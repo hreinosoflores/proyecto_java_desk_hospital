@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import clases.Cama;
-import clases.Ingreso_Datos_Internamiento;
+import clases.Internamiento;
 import clases.Paciente;
 import libreria.Fecha;
 import libreria.lib;
@@ -132,7 +132,7 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 
 		cboAnio = new JComboBox<String>();
 		cboAnio.setBounds(329, 125, 102, 22);
-		Fecha.colocarItems(cboAnio, Fecha.anioActual() - 20, Fecha.anioActual() + 20 );
+		Fecha.colocarItems(cboAnio, Fecha.anioActual() - 20, Fecha.anioActual() + 20);
 		Fecha.colocarAnioActual(cboAnio);
 		getContentPane().add(cboAnio);
 
@@ -186,8 +186,8 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 				horaSalida = "";
 				estado = 0;
 
-				Ingreso_Datos_Internamiento nuevo = new Ingreso_Datos_Internamiento(pac, new Cama(numCama, 0, 0),
-						codInternamiento, estado, fechaRegistro, fechaIngreso, horaIngreso, fechaSalida, horaSalida);
+				Internamiento nuevo = new Internamiento(codInternamiento, pac, new Cama(numCama, 0, 0), fechaRegistro,
+						fechaIngreso, horaIngreso, fechaSalida, horaSalida, estado);
 
 				if (tipoOperacion == 0) {
 					Principal_Proyecto2017_2.listaIn.adicionar(nuevo);
@@ -201,7 +201,7 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 				}
 
 				limpieza();
-				
+
 				// Refrescar lista
 				DlgInternamiento.listar();
 			} catch (Exception e) {
@@ -216,7 +216,7 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 		dispose();
 	}
 
-	public void cargarDatosInternamiento(Ingreso_Datos_Internamiento idi) {
+	public void cargarDatosInternamiento(Internamiento idi) {
 		txtInternamiento.setText(idi.getCodigoInternamiento() + "");
 		cboPacientes
 				.setSelectedIndex(Principal_Proyecto2017_2.listaPa.buscarindice(idi.getPaciente().getCodigoPaciente()));

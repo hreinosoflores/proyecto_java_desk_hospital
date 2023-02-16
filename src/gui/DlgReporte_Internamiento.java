@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import arreglos.Arreglo_Reporte_Internamiento;
-import clases.Ingreso_Datos_Internamiento;
+import clases.Internamiento;
 
 public class DlgReporte_Internamiento extends JDialog implements ActionListener {
 
@@ -93,7 +93,7 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 
 	private void actionPerformedBtnListar(ActionEvent arg0) {
 		txtS.setText("");
-		Ingreso_Datos_Internamiento x;
+		Internamiento x;
 		for (int i = 0; i < Principal_Proyecto2017_2.ai.tamanio(); i++) {
 			x = Principal_Proyecto2017_2.ai.obtener(i);
 			imprimir("Codigo de internamiento:  " + x.getCodigoInternamiento());

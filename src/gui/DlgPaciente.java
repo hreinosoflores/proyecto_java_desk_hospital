@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.EventQueue;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +16,7 @@ import clases.Paciente;
 import libreria.lib;
 
 import java.awt.Toolkit;
+import java.awt.Color;
 
 public class DlgPaciente extends JDialog implements ActionListener {
 	/**
@@ -52,7 +52,7 @@ public class DlgPaciente extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgPaciente() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(218, 165, 32));
 		setTitle("Paciente");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgPaciente.class.getResource("/Imagenes/paciente.png")));
 		setBounds(100, 100, 568, 300);

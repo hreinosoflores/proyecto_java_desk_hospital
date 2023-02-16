@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
-import clases.Paciente;
+import clases.Internamiento;
 
 public class Arreglo_Atencion extends AbstractTableModel {
 	/**
@@ -29,7 +29,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			BufferedReader br;
 			String linea;
 			String[] s;
-			Paciente paciente;
+			Internamiento internamiento;
 			int codigoAtencion, estado;
 			String fechaAtencion;
 			double totalPagar;
@@ -38,11 +38,12 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";");
 				codigoAtencion = Integer.parseInt(s[0].trim());
-				paciente = new Paciente(Integer.parseInt(s[1].trim()), null,null, null, null);
+				internamiento = new Internamiento(Integer.parseInt(s[1].trim()), null, null, null, null, null, null,
+						null, 0);
 				fechaAtencion = s[2].trim();
 				totalPagar = Double.parseDouble(s[3].trim());
 				estado = Integer.parseInt(s[4].trim());
-				adicionar(new Atencion(codigoAtencion, paciente, fechaAtencion, totalPagar, estado));
+				adicionar(new Atencion(codigoAtencion, internamiento, fechaAtencion, totalPagar, estado));
 			}
 			br.close();
 		} catch (Exception e) {
@@ -59,8 +60,8 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			pw = new PrintWriter(new FileWriter(getArchivo()));
 			for (int i = 0; i < tamanio(); i++) {
 				x = obtener(i);
-				linea = x.getCodigoAtencion() + ";" + x.getPaciente().getCodigoPaciente() + ";" + x.getFechaAtencion() + ";"
-						+ x.getTotalPagar() + ";" + x.getEstado();
+				linea = x.getCodigoAtencion() + ";" + x.getInternamiento().getCodigoInternamiento() + ";"
+						+ x.getFechaAtencion() + ";" + x.getTotalPagar() + ";" + x.getEstado();
 				pw.println(linea);
 			}
 			pw.close();
@@ -76,7 +77,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			return obtener(tamanio() - 1).getCodigoAtencion() + 1;
 	}
 
-	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente",  "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
 			"Medicina", "Precio Unitario", "Cantidad", "Total a pagar" };
 
 	public int tamanio() {
@@ -87,12 +88,11 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		listaAt.add(x);
 		fireTableDataChanged();
 	}
-	
+
 	public void modificar(int i, Atencion x) {
 		listaAt.set(i, x);
 		fireTableDataChanged();
 	}
-
 
 	public String getArchivo() {
 		return "atencion.txt";
@@ -111,7 +111,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		}
 		return null;
 	}
-	
+
 	public int buscarindice(int codigo) {
 		for (int i = 0; i < tamanio(); i++)
 			if (obtener(i).getCodigoAtencion() == codigo)
@@ -119,12 +119,11 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		return -1;
 	}
 
-
 	public Atencion buscarPac(int codigo) {
 		Atencion x;
 		for (int i = 0; i < tamanio(); i++) {
 			x = obtener(i);
-			if (x.getPaciente().getCodigoPaciente() == codigo)
+			if (x.getInternamiento().getCodigoInternamiento() == codigo)
 				return x;
 		}
 		return null;

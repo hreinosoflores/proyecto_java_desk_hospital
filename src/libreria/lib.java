@@ -8,10 +8,11 @@ import javax.swing.JTextField;
 
 public class lib {
 
-	public static String tiposdeCategoria[] = { "Basico", "Estandar", "Premium" };
+	public static String tiposdeCategoria[] = { "B\u00e1sico", "Est\u00e1ndar", "Premium" };
 	public static String tiposdeEstadoCama[] = { "libre", "ocupado" };
-	public static String tiposdeEstadoInternamiento[] = { "alojado", "pagado" };
+	public static String tiposdeEstadoInternamiento[] = { "alojado", "atendido", "pagado" };
 	public static String tiposdeEstadoAtencion[] = { "pendiente", "pagado" };
+	public static String tiposdeEstadoPago[] = {"generado", "cobrado"};
 
 	public static void mensajeError(JDialog jd, String s) {
 		JOptionPane.showMessageDialog(jd, s, "MN-Global  >>> Hospital ", JOptionPane.ERROR_MESSAGE);

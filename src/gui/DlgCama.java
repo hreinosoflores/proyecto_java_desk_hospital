@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.EventQueue;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.Cama;
 import libreria.lib;
 import java.awt.Toolkit;
+import java.awt.Color;
 
 public class DlgCama extends JDialog implements ActionListener {
 	/**
@@ -50,7 +50,7 @@ public class DlgCama extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgCama() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(0, 128, 128));
 		setTitle("Cama");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgCama.class.getResource("/Imagenes/cama.png")));
 		setBounds(100, 100, 568, 300);

@@ -132,7 +132,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 		return f.exists();
 	}
 
-	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Medicina", "Precio", "Cantidad",
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente","Cod. Internamiento", "Medicina", "Precio", "Cantidad",
 			"Subtotal" };
 
 	@Override
