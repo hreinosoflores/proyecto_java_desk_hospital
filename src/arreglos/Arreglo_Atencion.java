@@ -58,7 +58,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			String linea;
 			Atencion x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getCodigoAtencion() + ";" + x.getInternamiento().getCodigoInternamiento() + ";"
 						+ x.getFechaAtencion() + ";" + x.getTotalPagar() + ";" + x.getEstado();
@@ -71,18 +71,15 @@ public class Arreglo_Atencion extends AbstractTableModel {
 	}
 
 	public int generarCodigo() {
-		if (tamanio() == 0)
+		if (getRowCount() == 0)
 			return 10001;
 		else
-			return obtener(tamanio() - 1).getCodigoAtencion() + 1;
+			return obtener(getRowCount() - 1).getCodigoAtencion() + 1;
 	}
 
 	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente",  "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
 			"Medicina", "Precio Unitario", "Cantidad", "Total a pagar" };
 
-	public int tamanio() {
-		return listaAt.size();
-	}
 
 	public void adicionar(Atencion x) {
 		listaAt.add(x);
@@ -104,7 +101,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 
 	public Atencion buscar(int codigo) {
 		Atencion x;
-		for (int i = 0; i < tamanio(); i++) {
+		for (int i = 0; i < getRowCount(); i++) {
 			x = obtener(i);
 			if (x.getCodigoAtencion() == codigo)
 				return x;
@@ -113,7 +110,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 	}
 
 	public int buscarindice(int codigo) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoAtencion() == codigo)
 				return i;
 		return -1;
@@ -121,7 +118,7 @@ public class Arreglo_Atencion extends AbstractTableModel {
 
 	public Atencion buscarPac(int codigo) {
 		Atencion x;
-		for (int i = 0; i < tamanio(); i++) {
+		for (int i = 0; i < getRowCount(); i++) {
 			x = obtener(i);
 			if (x.getInternamiento().getCodigoInternamiento() == codigo)
 				return x;

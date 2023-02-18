@@ -142,7 +142,7 @@ public class DlgPaciente extends JDialog implements ActionListener {
 
 	public static void listar() {
 		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.listaPa.tamanio(); i++) {
+		for (int i = 0; i < Principal_Proyecto2017_2.listaPa.getRowCount(); i++) {
 			Object fila[] = {
 					Principal_Proyecto2017_2.listaPa.obtener(i).getCodigoPaciente(),
 					Principal_Proyecto2017_2.listaPa.obtener(i).getDni(),

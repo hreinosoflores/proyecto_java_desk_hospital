@@ -53,7 +53,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 			String linea;
 			Paciente x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getCodigoPaciente() + ";" + x.getApellidos() + ";" + x.getNombres() + ";" + x.getTelefono()
 						+ ";" + x.getDni();
@@ -65,9 +65,7 @@ public class Arreglo_Paciente extends AbstractTableModel {
 		}
 	}
 
-	public int tamanio() {
-		return listaPa.size();
-	}
+
 
 	public Paciente obtener(int i) {
 		return listaPa.get(i);
@@ -95,21 +93,21 @@ public class Arreglo_Paciente extends AbstractTableModel {
 	}
 
 	public int buscarindice(int cod) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoPaciente() == cod)
 				return i;
 		return -1;
 	}
 
 	public Paciente buscar(int cod) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoPaciente() == cod)
 				return obtener(i);
 		return null;
 	}
 	
 	public Paciente buscarDNI(String dni) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getDni().equals(dni))
 				return obtener(i);
 		return null;
@@ -117,10 +115,10 @@ public class Arreglo_Paciente extends AbstractTableModel {
 
 
 	public int generarCodigo() {
-		if (tamanio() == 0)
+		if (getRowCount() == 0)
 			return 1001;
 		else
-			return obtener(tamanio() - 1).getCodigoPaciente() + 1;
+			return obtener(getRowCount() - 1).getCodigoPaciente() + 1;
 	}
 
 	private String nombreColumnas[] = {	"C\u00f3digo", "Dni", "Apellidos", "Nombres", "Tel\u00e9fono" };
@@ -131,17 +129,19 @@ public class Arreglo_Paciente extends AbstractTableModel {
 		return nombreColumnas.length;
 	}
 
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return listaPa.size();
-	}
 
 	@Override
 	public String getColumnName(int column) {
 		// TODO Auto-generated method stub
 		return nombreColumnas[column];
 	}
+	
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return listaPa.size();
+	}
+
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {

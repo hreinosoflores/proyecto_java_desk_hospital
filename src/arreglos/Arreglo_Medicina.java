@@ -52,7 +52,7 @@ public class Arreglo_Medicina extends AbstractTableModel {
 			String linea;
 			Medicina x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getCodigoMedicina() + ";" + x.getNombre() + ";" + x.getLaboratorio() + ";" + x.getPrecio()
 						+ ";" + x.getStock();
@@ -64,9 +64,7 @@ public class Arreglo_Medicina extends AbstractTableModel {
 		}
 	}
 
-	public int tamanio() {
-		return listaMe.size();
-	}
+
 
 	public Medicina obtener(int i) {
 		return listaMe.get(i);
@@ -94,24 +92,24 @@ public class Arreglo_Medicina extends AbstractTableModel {
 	}
 
 	public Medicina buscar(int cod) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoMedicina() == cod)
 				return obtener(i);
 		return null;
 	}
 
 	public int buscarindice(int cod) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoMedicina() == cod)
 				return i;
 		return -1;
 	}
 
 	public int generarCodigo() {
-		if (tamanio() == 0)
+		if (getRowCount() == 0)
 			return 10001;
 		else
-			return obtener(tamanio() - 1).getCodigoMedicina() + 1;
+			return obtener(getRowCount() - 1).getCodigoMedicina() + 1;
 	}
 
 	private String nombreColumnas[] = { "C\u00f3digo", "Nombre", "Laboratorio", "Precio", "Stock", };

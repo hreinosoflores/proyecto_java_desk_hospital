@@ -138,7 +138,7 @@ public class DlgCama extends JDialog implements ActionListener {
 
 	public static void listar() {
 		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.listaAc.tamanio(); i++) {
+		for (int i = 0; i < Principal_Proyecto2017_2.listaAc.getRowCount(); i++) {
 			Object fila[] = { Principal_Proyecto2017_2.listaAc.obtener(i).getNumeroCama(),
 					Principal_Proyecto2017_2.listaAc.obtener(i).CategoriaDescr(),
 					lib.formatSoles(Principal_Proyecto2017_2.listaAc.obtener(i).Precio()),

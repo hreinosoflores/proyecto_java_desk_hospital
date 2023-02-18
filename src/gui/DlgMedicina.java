@@ -142,7 +142,7 @@ public class DlgMedicina extends JDialog implements ActionListener {
 
 	public static void listar() {
 		modelo.setRowCount(0);
-		for (int i = 0; i < Principal_Proyecto2017_2.listaMe.tamanio(); i++) {
+		for (int i = 0; i < Principal_Proyecto2017_2.listaMe.getRowCount(); i++) {
 			Object fila[] = { Principal_Proyecto2017_2.listaMe.obtener(i).getCodigoMedicina(),
 					Principal_Proyecto2017_2.listaMe.obtener(i).getNombre(),
 					Principal_Proyecto2017_2.listaMe.obtener(i).getLaboratorio(),

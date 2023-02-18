@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.Cama;
 import clases.Internamiento;
 import clases.Paciente;
+import clases.Pago;
 import libreria.Fecha;
 import libreria.lib;
 
@@ -45,6 +46,7 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	private JTextField txtTotalPagar;
 	private JButton btnGenerar;
 	private JLabel lblTotalpagar;
+	public int codigoPago;
 
 	/**
 	 * Launch the application.
@@ -233,9 +235,18 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		if (seleccionadoIdx != -1) {
 			int ok = lib.mensajeConfirmacion(this, "\u00bfEst\u00e1 seguro(a) que desea generar el pago?");
 			if (ok == 0) {
-				
+				// TODO: GENERAR PAGO
+				codigoPago = Principal_Proyecto2017_2.listaPago.generarCodigo();
+				int codigoInternamiento = (int) tblTabla.getValueAt(seleccionadoIdx, 1);
+				int estado = 0;
+				Pago pago = new Pago(codigoPago,
+						new Internamiento(codigoInternamiento, null, null, null, null, null, null, null, 0), 0.0,
+						estado);
+				pago.obtenerTotalPagado();
+				Principal_Proyecto2017_2.listaPago.grabarPago();
+				txtS.setText(pago.GenerarStringPago());		
 			}
-			
+
 		} else {
 			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
 		}
@@ -246,7 +257,7 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnImprimir(ActionEvent arg0) {
-		txtS.setText("");
+		//Descargar TXT
 	}
 
 	void imprimir(String s) {

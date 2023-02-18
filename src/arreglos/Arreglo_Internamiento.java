@@ -61,7 +61,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			String linea;
 			Internamiento x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getCodigoInternamiento() + ";" + x.getPaciente().getCodigoPaciente() + ";"
 						+ x.getCama().getNumeroCama() + ";" + x.getFechaRegistro() + ";" + x.getFechaIngreso() + ";"
@@ -74,9 +74,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		}
 	}
 
-	public int tamanio() {
-		return listaIdi.size();
-	}
+
 
 	public void adicionar(Internamiento x) {
 		listaIdi.add(x);
@@ -97,7 +95,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 
 	public Internamiento buscar(int codigo) {
 		Internamiento x;
-		for (int i = 0; i < tamanio(); i++) {
+		for (int i = 0; i < getRowCount(); i++) {
 			x = obtener(i);
 			if (x.getCodigoInternamiento() == codigo)
 				return x;
@@ -107,7 +105,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 
 	public Internamiento buscarInternamientoAlojado(int codigo) {
 		Internamiento buscado = null;
-		for (int i = 0; i < tamanio(); i++) {
+		for (int i = 0; i < getRowCount(); i++) {
 			Internamiento x = obtener(i);
 			boolean esDePaciente = x.getPaciente().getCodigoPaciente() == codigo;
 			boolean esAlojado = x.getEstado() == 0;
@@ -120,7 +118,7 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 
 	public Internamiento buscarInternamientoAtendido(int codigo) {
 		Internamiento buscado = null;
-		for (int i = 0; i < tamanio(); i++) {
+		for (int i = 0; i < getRowCount(); i++) {
 			Internamiento x = obtener(i);
 			boolean esDePaciente = x.getPaciente().getCodigoPaciente() == codigo;
 			boolean esAtendido = x.getEstado() == 1;
@@ -146,17 +144,17 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 	}
 
 	public int buscarindice(int codInternamiento) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoInternamiento() == codInternamiento)
 				return i;
 		return -1;
 	}
 
 	public int generarCodigo() {
-		if (tamanio() == 0)
+		if (getRowCount() == 0)
 			return 1001;
 		else
-			return obtener(tamanio() - 1).getCodigoInternamiento() + 1;
+			return obtener(getRowCount() - 1).getCodigoInternamiento() + 1;
 	}
 
 	private String nombreColumnas[] = { "Cod. Internamiento", "Paciente", "N\u00ba Cama", "Est. Cama",

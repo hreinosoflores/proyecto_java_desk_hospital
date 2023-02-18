@@ -170,7 +170,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 
 		modelo.setRowCount(0);
 
-		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.tamanio(); i++) {
+		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.getRowCount(); i++) {
 
 			Cama camaInt = Principal_Proyecto2017_2.listaAc
 					.buscar(Principal_Proyecto2017_2.listaIn.obtener(i).getCama().getNumeroCama());

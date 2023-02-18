@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import arreglos.Arreglo_Paciente;
+import arreglos.Arreglo_Pago;
 import libreria.Fecha;
 import libreria.lib;
 import arreglos.Arreglo_Atencion;
@@ -55,6 +56,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	public static Arreglo_Internamiento listaIn = new Arreglo_Internamiento();
 	public static Arreglo_Atencion listaAt = new Arreglo_Atencion();
 	public static Arreglo_Atencion_Detalle listaAtDet = new Arreglo_Atencion_Detalle();
+	public static Arreglo_Pago listaPago = new Arreglo_Pago();
 
 
 	private int ALTO;

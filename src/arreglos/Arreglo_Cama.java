@@ -48,7 +48,7 @@ public class Arreglo_Cama extends AbstractTableModel {
 			String linea;
 			Cama x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getNumeroCama() + ";" + x.getCategoria() + ";" + x.getEstado();
 				pw.println(linea);
@@ -57,10 +57,6 @@ public class Arreglo_Cama extends AbstractTableModel {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	public int tamanio() {
-		return listaCa.size();
 	}
 
 	public Cama obtener(int i) {
@@ -89,31 +85,31 @@ public class Arreglo_Cama extends AbstractTableModel {
 	}
 
 	public Cama buscar(int numCama) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getNumeroCama() == numCama)
 				return obtener(i);
 		return null;
 	}
 
 	public int buscarindice(int numCama) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getNumeroCama() == numCama)
 				return i;
 		return -1;
 	}
 
 	public int PrimeraCamaDisponible() {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getEstado() == 0)
 				return obtener(i).getNumeroCama();
 		return -1;
 	}
 
 	public int generarCodigo() {
-		if (tamanio() == 0)
+		if (getRowCount() == 0)
 			return 101;
 		else
-			return obtener(tamanio() - 1).getNumeroCama() + 1;
+			return obtener(getRowCount() - 1).getNumeroCama() + 1;
 	}
 
 	private String nombreColumnas[] = { "N\u00ba Cama", "Categor\u00eda", "Precio", "Estado" };

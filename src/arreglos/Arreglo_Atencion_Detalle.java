@@ -26,9 +26,6 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 		cargarAtencionDetalle();
 	}
 
-	public int tamanio() {
-		return listaAtDet.size();
-	}
 
 	public AtencionDetalle obtener(int i) {
 		return listaAtDet.get(i);
@@ -47,7 +44,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 	}
 
 	public void eliminarAlFinal() {
-		listaAtDet.remove(tamanio() - 1);
+		listaAtDet.remove(getRowCount() - 1);
 	}
 
 	public void eliminarTodo() {
@@ -59,7 +56,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 	}
 
 	public AtencionDetalle buscar(int codigoAtencion, int codigoMedicina) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion
 					&& obtener(i).getMedicina().getCodigoMedicina() == codigoMedicina)
 				return obtener(i);
@@ -67,7 +64,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 	}
 	
 	public int buscarIndice(int codigoAtencion, int codigoMedicina) {
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion
 					&& obtener(i).getMedicina().getCodigoMedicina() == codigoMedicina)
 				return i;
@@ -76,7 +73,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 
 	public ArrayList<AtencionDetalle> buscarPorAtencion(int codigoAtencion) {
 		ArrayList<AtencionDetalle> lista = new ArrayList<AtencionDetalle>();
-		for (int i = 0; i < tamanio(); i++)
+		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion)
 				lista.add(obtener(i));
 		return lista;
@@ -115,7 +112,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 			String linea;
 			AtencionDetalle x;
 			pw = new PrintWriter(new FileWriter(getArchivo()));
-			for (int i = 0; i < tamanio(); i++) {
+			for (int i = 0; i < getRowCount(); i++) {
 				x = obtener(i);
 				linea = x.getAtencion().getCodigoAtencion() + ";" + x.getMedicina().getCodigoMedicina() + ";"
 						+ x.getCantidad() + ";" + x.getPrecioUnitario();
