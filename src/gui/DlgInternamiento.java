@@ -22,6 +22,8 @@ import libreria.Fecha;
 import libreria.lib;
 
 import java.awt.Toolkit;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 public class DlgInternamiento extends JDialog implements ActionListener, WindowListener {
 	/**
@@ -33,8 +35,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	private JTable tblTabla;
 	private JButton btnSalir;
 	private static DefaultTableModel modelo;
-	private int tipoOperacion;
-	private JButton btnModificar;
+	private static JLabel lblAvisoCamas;
 
 	/**
 	 * Launch the application.
@@ -76,14 +77,14 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 		btnIngresar.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnIngresar.addActionListener(this);
 		btnIngresar.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/ingresar.png")));
-		btnIngresar.setBounds(29, 11, 123, 38);
+		btnIngresar.setBounds(10, 31, 123, 38);
 		getContentPane().add(btnIngresar);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnSalir.addActionListener(this);
 		btnSalir.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/exit.png")));
-		btnSalir.setBounds(705, 11, 123, 38);
+		btnSalir.setBounds(860, 31, 123, 38);
 		getContentPane().add(btnSalir);
 
 		scrollPane = new JScrollPane();
@@ -101,13 +102,13 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 			modelo.addColumn(Principal_Proyecto2017_2.listaIn.getColumnName(i));
 		}
 		tblTabla.setModel(modelo);
-		
-		btnModificar = new JButton("Modificar");
-		btnModificar.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/modificar.png")));
-		btnModificar.addActionListener(this);
-		btnModificar.setFont(new Font("Cambria", Font.BOLD, 12));
-		btnModificar.setBounds(190, 11, 123, 38);
-		getContentPane().add(btnModificar);
+
+		lblAvisoCamas = new JLabel("¡No hay más camas disponibles!");
+		lblAvisoCamas.setForeground(new Color(233, 150, 122));
+		lblAvisoCamas.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblAvisoCamas.setBackground(Color.WHITE);
+		lblAvisoCamas.setBounds(387, 31, 330, 38);
+		getContentPane().add(lblAvisoCamas);
 
 		listar();
 
@@ -120,44 +121,22 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 		if (e.getSource() == btnIngresar) {
 			actionPerformedBtnIngresar(e);
 		}
-		if (e.getSource() == btnModificar) {
-			actionPerformedBtnModificar(e);
-		}
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
-		tipoOperacion = 0;
-		lanzarFormulario();
+		int camaDisponible = Principal_Proyecto2017_2.listaAc.PrimeraCamaDisponible();
+		if (camaDisponible == -1) {
+			lib.mensajeError(this, "No hay camas disponibles para registrar un internamiento");
+		} else {
+			DlgIngreso_Datos_Internamiento dat = new DlgIngreso_Datos_Internamiento();
+			dat.setLocationRelativeTo(this);
+			dat.setVisible(true);
+		}
 	}
-	
-	protected void actionPerformedBtnModificar(ActionEvent e) {
-		int seleccionadoIdx = tblTabla.getSelectedRow();
-		if (seleccionadoIdx != -1) {		
-			tipoOperacion = 1;
-			lanzarFormulario();			
-		}else {
-			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
-		}		
-	}	
 
 	protected void actionPerformedBtnSalir(ActionEvent e) {
 		Principal_Proyecto2017_2.listaIn.grabarInternamiento();
 		dispose();
-	}
-
-	private String obtenerTitulo() {
-		String titulo[] = { "Ingresar", "Modificar" };
-		return titulo[tipoOperacion];
-	}
-
-	private void lanzarFormulario() {
-		DlgIngreso_Datos_Internamiento dat = new DlgIngreso_Datos_Internamiento();
-		dat.setTipoOperacion(tipoOperacion);
-		if (tipoOperacion != 0)
-			dat.cargarDatosInternamiento(Principal_Proyecto2017_2.listaIn.obtener(tblTabla.getSelectedRow()));
-		dat.setTitle(this.getTitle() + " | " + obtenerTitulo());
-		dat.setLocationRelativeTo(this);
-		dat.setVisible(true);
 	}
 
 	public void windowActivated(WindowEvent e) {
@@ -183,8 +162,14 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 	}
 
 	public static void listar() {
+		int camaDisponible = Principal_Proyecto2017_2.listaAc.PrimeraCamaDisponible();
+		if (camaDisponible != -1)
+			lblAvisoCamas.setVisible(false);
+		else
+			lblAvisoCamas.setVisible(true);
 
 		modelo.setRowCount(0);
+
 		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.tamanio(); i++) {
 
 			Cama camaInt = Principal_Proyecto2017_2.listaAc

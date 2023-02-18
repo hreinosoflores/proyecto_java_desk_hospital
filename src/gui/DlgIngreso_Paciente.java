@@ -133,44 +133,50 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 			lib.mensajeError(this, "Ingrese dni con el formato correcto");
 			txtDni.requestFocus();
 		} else {
-			String nombres = lib.leerCadena(txtNombre);
-			if (nombres.length() == 0) {
-				lib.mensajeError(this, "Ingrese nombre");
-				txtNombre.requestFocus();
+			Paciente buscadoDni = Principal_Proyecto2017_2.listaPa.buscarDNI(dni);
+			if (buscadoDni != null) {
+				lib.mensajeError(this, "El Dni ya está registrado");
 			} else {
-				String apellidos = lib.leerCadena(txtApellido);
-				if (apellidos.length() == 0) {
-					lib.mensajeError(this, "Ingrese apellido");
-					txtApellido.requestFocus();
+				String nombres = lib.leerCadena(txtNombre);
+				if (nombres.length() == 0) {
+					lib.mensajeError(this, "Ingrese nombre");
+					txtNombre.requestFocus();
 				} else {
-					int ok = lib.mensajeConfirmacion(this, "\u00bfDesea ingresar nuevo paciente?");
-					if (ok == 0) {
-						// Validar archivo
-						if (!Principal_Proyecto2017_2.listaPa.existeArchivo()) {
-							Principal_Proyecto2017_2.listaPa.grabarPaciente();
-						}
+					String apellidos = lib.leerCadena(txtApellido);
+					if (apellidos.length() == 0) {
+						lib.mensajeError(this, "Ingrese apellido");
+						txtApellido.requestFocus();
+					} else {
+						int ok = lib.mensajeConfirmacion(this, "\u00bfDesea ingresar nuevo paciente?");
+						if (ok == 0) {
+							// Validar archivo
+							if (!Principal_Proyecto2017_2.listaPa.existeArchivo()) {
+								Principal_Proyecto2017_2.listaPa.grabarPaciente();
+							}
 
-						try {
-							// Ingresar paciente
-							Paciente nuevo = new Paciente(lib.leerEntero(txtPaciente), apellidos, nombres,
-									lib.leerCadena(txtTelefono), dni);
-							Principal_Proyecto2017_2.listaPa.adicionar(nuevo);
-							Principal_Proyecto2017_2.listaPa.grabarPaciente();
+							try {
+								// Ingresar paciente
+								Paciente nuevo = new Paciente(lib.leerEntero(txtPaciente), apellidos, nombres,
+										lib.leerCadena(txtTelefono), dni);
+								Principal_Proyecto2017_2.listaPa.adicionar(nuevo);
+								Principal_Proyecto2017_2.listaPa.grabarPaciente();
+								// Cerrar ventanita
+								dispose();
+								// Refrescar lista
+								DlgPaciente.listar();
+							} catch (Exception e) {
+								// TODO: handle exception
+								lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+							}
+
+						} else {
 							// Cerrar ventanita
 							dispose();
-							// Refrescar lista
-							DlgPaciente.listar();
-						} catch (Exception e) {
-							// TODO: handle exception
-							lib.mensajeError(this, "Hubo un error: " + e.getMessage());
 						}
-
-					} else {
-						// Cerrar ventanita
-						dispose();
 					}
 				}
 			}
+
 		}
 
 	}

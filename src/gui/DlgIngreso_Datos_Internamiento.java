@@ -40,7 +40,6 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 	private JComboBox<String> cboAnio;
 	private JComboBox<String> cboHora;
 	private JComboBox<String> cboMinuto;
-	private int tipoOperacion;
 
 	/**
 	 * Launch the application.
@@ -159,57 +158,68 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 	}
 
 	protected void actionPerformedBtnInternar(ActionEvent arg0) {
+		Paciente pacSeleccionado = (Paciente) cboPacientes.getSelectedItem();
+		// Validar paciente internamiento alojado
+		Internamiento buscado = Principal_Proyecto2017_2.listaIn
+				.buscarInternamientoAlojado(pacSeleccionado.getCodigoPaciente());
+		if (buscado != null) {
+			lib.mensajeError(this, "Este paciente ya se encuentra actualmente alojado con un internamiento ");
+		} else {
+			// Validar paciente internamiento atendido
+			buscado = Principal_Proyecto2017_2.listaIn.buscarInternamientoAtendido(pacSeleccionado.getCodigoPaciente());
+			String msjConfirma;
 
-		int ok = lib.mensajeConfirmacion(this, "\u00bfDesea registrar el internamiento?");
-		if (ok == 0) {
-			// Validar archivo
-			if (!Principal_Proyecto2017_2.listaIn.existeArchivo()) {
-				Principal_Proyecto2017_2.listaIn.grabarInternamiento();
+			if (buscado != null) {
+				msjConfirma = "Este paciente ya cuenta actualmente con un internamiento en estado Atendido. \u00bfDesea registrar el internamiento de todas formas?";
+			} else {
+				msjConfirma = "\u00bfDesea registrar el internamiento?";
 			}
 
-			try {
-				// Ingresar Internamiento
-				Paciente pac = (Paciente) cboPacientes.getSelectedItem();
-				int codInternamiento, numCama, estado;
-				String fechaRegistro, fechaIngreso, horaIngreso, fechaSalida, horaSalida;
-
-				codInternamiento = lib.leerEntero(txtInternamiento);
-				if (tipoOperacion == 0)
-					numCama = Principal_Proyecto2017_2.listaAc.PrimeraCamaDisponible();
-				else
-					numCama = Principal_Proyecto2017_2.listaIn.buscar(codInternamiento).getCama().getNumeroCama();
-				fechaRegistro = Fecha.fechaHoraActual();
-				// TODO: seleccionar fechas
-				fechaIngreso = Fecha.getFecha(cboDia, cboMes, cboAnio) + "";
-				horaIngreso = Fecha.getHora(cboHora, cboMinuto) + "";
-				fechaSalida = "";
-				horaSalida = "";
-				estado = 0;
-
-				Internamiento nuevo = new Internamiento(codInternamiento, pac, new Cama(numCama, 0, 0), fechaRegistro,
-						fechaIngreso, horaIngreso, fechaSalida, horaSalida, estado);
-
-				if (tipoOperacion == 0) {
-					Principal_Proyecto2017_2.listaIn.adicionar(nuevo);
-					Principal_Proyecto2017_2.listaIn.grabarInternamiento();
-					Principal_Proyecto2017_2.listaAc.buscar(numCama).setEstado(1);
-					Principal_Proyecto2017_2.listaAc.grabarCama();
-				} else {
-					Principal_Proyecto2017_2.listaIn
-							.modificar(Principal_Proyecto2017_2.listaIn.buscarindice(codInternamiento), nuevo);
-					Principal_Proyecto2017_2.listaIn.grabarInternamiento();
-				}
-
-				limpieza();
-
-				// Refrescar lista
-				DlgInternamiento.listar();
-			} catch (Exception e) {
-				// TODO: handle exception
-				lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+			int ok = lib.mensajeConfirmacion(this, msjConfirma);
+			if (ok == 0) {
+				RegistrarInternamiento(pacSeleccionado);
 			}
-
 		}
+
+	}
+
+	private void RegistrarInternamiento(Paciente paciente) {
+		// Validar archivo
+		if (!Principal_Proyecto2017_2.listaIn.existeArchivo()) {
+			Principal_Proyecto2017_2.listaIn.grabarInternamiento();
+		}
+
+		try {
+			// Ingresar Internamiento
+			int codInternamiento, estado;
+			String fechaRegistro, fechaIngreso, horaIngreso, fechaSalida, horaSalida;
+			codInternamiento = lib.leerEntero(txtInternamiento);
+			fechaRegistro = Fecha.fechaHoraActual();
+			// TODO: seleccionar fechas
+			fechaIngreso = Fecha.getFecha(cboDia, cboMes, cboAnio) + "";
+			horaIngreso = Fecha.getHora(cboHora, cboMinuto) + "";
+			fechaSalida = "";
+			horaSalida = "";
+			estado = 0;
+
+			int numCama = Principal_Proyecto2017_2.listaAc.PrimeraCamaDisponible();
+
+			Internamiento nuevo = new Internamiento(codInternamiento, paciente, new Cama(numCama, 0, 0), fechaRegistro,
+					fechaIngreso, horaIngreso, fechaSalida, horaSalida, estado);
+			Principal_Proyecto2017_2.listaIn.adicionar(nuevo);
+			Principal_Proyecto2017_2.listaIn.grabarInternamiento();
+			Principal_Proyecto2017_2.listaAc.buscar(numCama).setEstado(1);
+			Principal_Proyecto2017_2.listaAc.grabarCama();
+			
+			limpieza();
+
+			// Refrescar lista
+			DlgInternamiento.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+		}
+
 	}
 
 	protected void actionPerformedBtnCancelar(ActionEvent arg0) {
@@ -222,14 +232,6 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 				.setSelectedIndex(Principal_Proyecto2017_2.listaPa.buscarindice(idi.getPaciente().getCodigoPaciente()));
 		Fecha.setFecha(cboDia, cboMes, cboAnio, Integer.parseInt(idi.getFechaIngreso()));
 		Fecha.setHora(cboHora, cboMinuto, Integer.parseInt(idi.getHoraIngreso()));
-	}
-
-	public int getTipoOperacion() {
-		return tipoOperacion;
-	}
-
-	public void setTipoOperacion(int tipoOperacion) {
-		this.tipoOperacion = tipoOperacion;
 	}
 
 	public void limpieza() {

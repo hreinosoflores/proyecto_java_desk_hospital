@@ -105,15 +105,14 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 		return null;
 	}
 
-	public Internamiento buscarInternamientoAlojadoAtendido(int codigo) {
+	public Internamiento buscarInternamientoAlojado(int codigo) {
 		Internamiento buscado = null;
 		for (int i = 0; i < tamanio(); i++) {
 			Internamiento x = obtener(i);
 			boolean esDePaciente = x.getPaciente().getCodigoPaciente() == codigo;
 			boolean esAlojado = x.getEstado() == 0;
-			boolean esAtendido = x.getEstado() == 1;
 			boolean sinSalida = x.getFechaSalida().isEmpty();
-			if (esDePaciente && (esAlojado || esAtendido) && sinSalida)
+			if (esDePaciente && esAlojado && sinSalida)
 				buscado = obtener(i);
 		}
 		return buscado;

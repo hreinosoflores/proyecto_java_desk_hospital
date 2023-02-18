@@ -107,6 +107,14 @@ public class Arreglo_Paciente extends AbstractTableModel {
 				return obtener(i);
 		return null;
 	}
+	
+	public Paciente buscarDNI(String dni) {
+		for (int i = 0; i < tamanio(); i++)
+			if (obtener(i).getDni().equals(dni))
+				return obtener(i);
+		return null;
+	}
+
 
 	public int generarCodigo() {
 		if (tamanio() == 0)
