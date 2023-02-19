@@ -195,7 +195,6 @@ public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionLis
 			String fechaRegistro, fechaIngreso, horaIngreso, fechaSalida, horaSalida;
 			codInternamiento = lib.leerEntero(txtInternamiento);
 			fechaRegistro = Fecha.fechaHoraActual();
-			// TODO: seleccionar fechas
 			fechaIngreso = Fecha.getFecha(cboDia, cboMes, cboAnio) + "";
 			horaIngreso = Fecha.getHora(cboHora, cboMinuto) + "";
 			fechaSalida = "";

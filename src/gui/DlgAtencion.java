@@ -87,6 +87,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 				preguntaAntesCerrar();
 			}
 		});
+		
 		getContentPane().setBackground(new Color(153, 255, 204));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgAtencion.class.getResource("/Imagenes/atencion.png")));
 		setResizable(false);

@@ -60,6 +60,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 
 	private int ALTO;
 	private int ANCHO;
+	private JMenuItem mntmListarPago;
 
 	/**
 	 * Launch the application.
@@ -143,10 +144,16 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		mnPago.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
 		menuBar.add(mnPago);
 
+		mntmListarPago = new JMenuItem("Lista de Pagos");
+		mntmListarPago.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/chanchito.png")));
+		mntmListarPago.addActionListener(this);
+		mnPago.add(mntmListarPago);		
+		
 		mntmIngresarPago = new JMenuItem("Ingresar Pago");
 		mntmIngresarPago.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/chanchito.png")));
 		mntmIngresarPago.addActionListener(this);
-		mnPago.add(mntmIngresarPago);
+		mnPago.add(mntmIngresarPago);	
+		
 
 		mnReporte = new JMenu("Reporte");
 		mnReporte.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
@@ -192,6 +199,9 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		if (arg0.getSource() == mntmSalir) {
 			actionPerformedMntmSalir(arg0);
 		}
+		if (arg0.getSource() == mntmListarPago) {
+			actionPerformedMntmListarPago(arg0);
+		}
 		if (arg0.getSource() == mntmIngresarPago) {
 			actionPerformedMntmIngresarPago(arg0);
 		}
@@ -217,6 +227,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 			actionPerformedMntmCama(arg0);
 		}
 	}
+
 
 	protected void actionPerformedMntmCama(ActionEvent arg0) {
 		DlgCama MnGlobal = new DlgCama();
@@ -259,6 +270,13 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		MnGlobal.setLocationRelativeTo(this);
 		MnGlobal.setVisible(true);
 	}
+	
+	private void actionPerformedMntmListarPago(ActionEvent arg0) {
+		DlgPago MnGlobal = new DlgPago();
+		MnGlobal.setLocationRelativeTo(this);
+		MnGlobal.setVisible(true);		
+	}
+
 
 	protected void actionPerformedMntmIngresarPago(ActionEvent arg0) {
 		DlgIngresarPago MnGlobal = new DlgIngresarPago();

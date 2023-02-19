@@ -69,7 +69,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 		setTitle("Internamiento");
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DlgInternamiento.class.getResource("/Imagenes/ingresar internamiento.png")));
-		setBounds(100, 100, 1024, 768);
+		setBounds(100, 100, 1024, 400);
 		getContentPane().setLayout(null);
 
 		btnIngresar = new JButton("Ingresar");
@@ -83,11 +83,11 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 		btnSalir.setFont(new Font("Cambria", Font.BOLD, 12));
 		btnSalir.addActionListener(this);
 		btnSalir.setIcon(new ImageIcon(DlgInternamiento.class.getResource("/Imagenes/exit.png")));
-		btnSalir.setBounds(860, 31, 123, 38);
+		btnSalir.setBounds(875, 31, 123, 38);
 		getContentPane().add(btnSalir);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 80, 973, 625);
+		scrollPane.setBounds(10, 80, 988, 270);
 		getContentPane().add(scrollPane);
 
 		tblTabla = new JTable();
@@ -174,6 +174,19 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 			Cama camaInt = Principal_Proyecto2017_2.listaAc
 					.buscar(Principal_Proyecto2017_2.listaIn.obtener(i).getCama().getNumeroCama());
 
+			String fechaSalida;
+			if (Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida().isEmpty())
+				fechaSalida = Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida();
+			else
+				fechaSalida = Fecha
+						.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida()));
+
+			String horaSalida;
+			if (Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida().isEmpty())
+				horaSalida = Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida();
+			else
+				horaSalida = Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida()));
+
 			Object[] fila = { Principal_Proyecto2017_2.listaIn.obtener(i).getCodigoInternamiento(),
 					Principal_Proyecto2017_2.listaIn.obtener(i).getPaciente().getCodigoPaciente(),
 					camaInt.getNumeroCama(), camaInt.EstadoDescr(),
@@ -185,8 +198,7 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 									Principal_Proyecto2017_2.listaIn.obtener(i).getFechaRegistro().substring(8))),
 					Fecha.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaIngreso())),
 					Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraIngreso())),
-					Fecha.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida())),
-					Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida())),
+					fechaSalida, horaSalida,
 
 			};
 			modelo.addRow(fila);

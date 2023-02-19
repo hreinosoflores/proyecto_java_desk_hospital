@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +31,8 @@ import clases.Paciente;
 import clases.Pago;
 import libreria.Fecha;
 import libreria.lib;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DlgIngresarPago extends JDialog implements ActionListener {
 	/**
@@ -46,13 +47,13 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	private JTextArea txtS;
 	private JScrollPane scrollPane_1;
 	private JTable tblTabla;
-	private DefaultTableModel modelo;
 	private JButton btnVer;
 	private JComboBox<Paciente> cboPaciente;
 	private JTextField txtTotalPagar;
 	private JButton btnGenerar;
 	private JLabel lblTotalpagar;
-	public int codigoPago;
+	private DefaultTableModel modelo;
+	public int codigoPago = 0;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 			public void run() {
 				try {
 					DlgIngresarPago dialog = new DlgIngresarPago();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,6 +77,12 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	 */
 
 	public DlgIngresarPago() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				preguntaAntesCerrar();
+			}
+		});
 
 		getContentPane().setBackground(new Color(255, 165, 0));
 		setTitle("Ingreso Pago");
@@ -286,9 +293,7 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		}
 	}
 
-	protected void actionPerformedBtnSalir(ActionEvent arg0) {
-		dispose();
-	}
+
 
 	protected void actionPerformedBtnCobrar(ActionEvent arg0) {
 		if (codigoPago <= 0) {
@@ -333,7 +338,6 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 				Principal_Proyecto2017_2.listaAc.grabarCama();
 
 				//Actualizar Tabla
-				tblTabla.removeAll();
 				modelo.setRowCount(0);			
 				Object fila[] = { interActual.getPaciente().getCodigoPaciente(), interActual.getCodigoInternamiento(),
 						interActual.EstadoDescr(), camaActual.getNumeroCama(), camaActual.EstadoDescr(),
@@ -350,5 +354,32 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		}
 
 	}
+	
+	
+	protected void actionPerformedBtnSalir(ActionEvent arg0) {
+		preguntaAntesCerrar();
+	}
+	
+	
+	void preguntaAntesCerrar() {
+		Pago buscado = Principal_Proyecto2017_2.listaPago.buscar(codigoPago);
+		boolean cerrar = false;
+		
+		if(buscado != null) {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea salir? El pago generado aun no se ha cobrado");
+			if (ok == 0) {
+				cerrar = true;
+			}
+		}else {
+			cerrar = true;
+		}
+		
+
+		if (cerrar) {
+			dispose();
+		}
+
+	}
+	
 
 }

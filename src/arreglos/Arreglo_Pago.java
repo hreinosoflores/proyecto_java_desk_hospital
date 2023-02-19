@@ -122,7 +122,7 @@ public class Arreglo_Pago extends AbstractTableModel {
 			return obtener(getRowCount() - 1).getCodigoPago() + 1;
 	}
 
-	private String nombreColumnas[] = { "C\u00f3digo", "Dni", "Apellidos", "Nombres", "Tel\u00e9fono" };
+	private String nombreColumnas[] = { "C\u00f3digo", "Paciente", "Cod. Internamiento", "Cod. Atenciones", "Total Pagar", "Estado" };
 
 	@Override
 	public int getColumnCount() {
