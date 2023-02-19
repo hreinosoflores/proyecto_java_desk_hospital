@@ -159,7 +159,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		mnReporte.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
 		menuBar.add(mnReporte);
 
-		mntmReporteDePacientesInternados = new JMenuItem("Reporte de Pacientes Internados");
+		mntmReporteDePacientesInternados = new JMenuItem("Reporte Pacientes Internados");
 		mntmReporteDePacientesInternados
 				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente internado.png")));
 		mntmReporteDePacientesInternados.addActionListener(this);
@@ -177,7 +177,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		mntmInternamientosPagados.addActionListener(this);
 		mnReporte.add(mntmReporteDePacientesInternados);
 
-		mntmReporteDePacientesSalientes = new JMenuItem("Reporte de Pacientes Salientes");
+		mntmReporteDePacientesSalientes = new JMenuItem("Reporte Pacientes Salientes");
 		mntmReporteDePacientesSalientes
 				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente salida.png")));
 		mntmReporteDePacientesSalientes.addActionListener(this);
@@ -291,7 +291,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	}
 
 	protected void actionPerformedMntmReporteDePacientes_1(ActionEvent arg0) {
-		DlgReporte_Paciente_Salida MnGlobal = new DlgReporte_Paciente_Salida();
+		DlgReporte_Pacientes_Salientes MnGlobal = new DlgReporte_Pacientes_Salientes();
 		MnGlobal.setLocationRelativeTo(this);
 		MnGlobal.setVisible(true);
 	}

@@ -52,7 +52,7 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 	 * Create the frame.
 	 */
 	public DlgReporte_Internamiento() {
-		setTitle("Internamiento Pagados");
+		setTitle("Reporte Internamientos Pagados");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DlgReporte_Internamiento.class.getResource("/Imagenes/reporte pagos.png")));
@@ -102,8 +102,8 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 	private void actionPerformedBtnListar(ActionEvent arg0) {
 
 		String reporte = "";
-		reporte += "\t\tReporte de internamientos\n";
-		reporte += "Cod.Inter.\t Nom.Paciente\t\t\t Cama\t FechaIngreso\t HoraIngreso\t FechaSalida\t HoraSalida\n";
+		reporte += "\t\tReporte de internamientos pagados\n";
+		reporte += "Cod.Inter.\tNom.Paciente\t\t\tCama\tFechaIngreso\tHoraIngreso\tFechaSalida\tHoraSalida\n";
 		Reporte_Internamiento reporteInt;
 		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.getRowCount(); i++) {
 			Internamiento x = Principal_Proyecto2017_2.listaIn.obtener(i);

@@ -109,7 +109,7 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 
 		String reporte = "";
 		reporte += "\t\tReporte de atenciones\n";
-		reporte += "Cod.Atencion\t PagoAtencion\t Nom.Paciente\t\t\t FechaAtencion\t HoraAtencion\n";
+		reporte += "Cod.Atencion\tPagoAtencion\tNom.Paciente\t\t\tFechaAtencion\tHoraAtencion\n";
 		Reporte_Atenciones reporteAte;
 		for (int i = 0; i < Principal_Proyecto2017_2.listaAt.getRowCount(); i++) {
 			Atencion x = Principal_Proyecto2017_2.listaAt.obtener(i);

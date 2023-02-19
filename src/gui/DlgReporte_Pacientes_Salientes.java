@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import clases.Internamiento;
 import clases.Paciente;
 
-public class DlgReporte_Paciente_Salida extends JDialog implements ActionListener {
+public class DlgReporte_Pacientes_Salientes extends JDialog implements ActionListener {
 	/**
 	 * 
 	 */
@@ -31,7 +31,7 @@ public class DlgReporte_Paciente_Salida extends JDialog implements ActionListene
 	 */
 	public static void main(String[] args) {
 		try {
-			DlgReporte_Paciente_Salida dialog = new DlgReporte_Paciente_Salida();
+			DlgReporte_Pacientes_Salientes dialog = new DlgReporte_Pacientes_Salientes();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class DlgReporte_Paciente_Salida extends JDialog implements ActionListene
 	/**
 	 * Create the dialog.
 	 */
-	public DlgReporte_Paciente_Salida() {
+	public DlgReporte_Pacientes_Salientes() {
 		setTitle("Reporte paciente Salida");
 		getContentPane().setBackground(SystemColor.inactiveCaption);
 		setBounds(100, 100, 467, 313);
