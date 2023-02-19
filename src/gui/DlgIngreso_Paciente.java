@@ -1,8 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,7 +55,7 @@ public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgIngreso_Paciente() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(218, 165, 32));
 		setTitle("Ingreso Paciente");
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(DlgIngreso_Paciente.class.getResource("/Imagenes/paciente.png")));

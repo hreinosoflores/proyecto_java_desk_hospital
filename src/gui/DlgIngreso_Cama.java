@@ -1,8 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,13 +50,14 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgIngreso_Cama() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(0, 128, 128));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DlgIngreso_Cama.class.getResource("/Imagenes/cama.png")));
 		setTitle("Ingreso Cama");
 		setBounds(100, 100, 355, 135);
 		getContentPane().setLayout(null);
 
 		lblNumCama = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(0));
+		lblNumCama.setForeground(new Color(255, 255, 255));
 		lblNumCama.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNumCama.setBounds(10, 11, 88, 25);
 		getContentPane().add(lblNumCama);
@@ -68,6 +69,7 @@ public class DlgIngreso_Cama extends JDialog implements ActionListener {
 		getContentPane().add(txtNumCam);
 
 		lblCat = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(1));
+		lblCat.setForeground(new Color(255, 255, 255));
 		lblCat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCat.setBounds(10, 47, 88, 31);
 		getContentPane().add(lblCat);

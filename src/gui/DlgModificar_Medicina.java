@@ -1,8 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,7 +56,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgModificar_Medicina() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(72, 61, 139));
 		setTitle("Modificar Medicina");
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DlgModificar_Medicina.class.getResource("/Imagenes/medicina.png")));
@@ -64,6 +64,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		getContentPane().setLayout(null);
 
 		lblCodMedicina = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(0));
+		lblCodMedicina.setForeground(new Color(255, 255, 255));
 		lblCodMedicina.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCodMedicina.setBounds(10, 11, 114, 25);
 		getContentPane().add(lblCodMedicina);
@@ -75,6 +76,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		getContentPane().add(txtcod_medicina);
 
 		lblNombre = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(1));
+		lblNombre.setForeground(new Color(255, 255, 255));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNombre.setBounds(10, 47, 99, 14);
 		getContentPane().add(lblNombre);
@@ -85,6 +87,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		getContentPane().add(txtNombre);
 
 		lblLaboratorio = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(2));
+		lblLaboratorio.setForeground(new Color(255, 255, 255));
 		lblLaboratorio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblLaboratorio.setBounds(10, 82, 99, 14);
 		getContentPane().add(lblLaboratorio);
@@ -95,6 +98,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		getContentPane().add(txtLaboratorio);
 
 		lblPrecio = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(3));
+		lblPrecio.setForeground(new Color(255, 255, 255));
 		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPrecio.setBounds(10, 117, 71, 25);
 		getContentPane().add(lblPrecio);
@@ -105,6 +109,7 @@ public class DlgModificar_Medicina extends JDialog implements ActionListener {
 		getContentPane().add(txtPrecio);
 
 		lblStock = new JLabel(Principal_Proyecto2017_2.listaMe.getColumnName(4));
+		lblStock.setForeground(new Color(255, 255, 255));
 		lblStock.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblStock.setBounds(10, 153, 71, 25);
 		getContentPane().add(lblStock);

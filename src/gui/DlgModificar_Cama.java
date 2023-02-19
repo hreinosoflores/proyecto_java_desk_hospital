@@ -1,8 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,7 +55,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgModificar_Cama() {
-		getContentPane().setBackground(SystemColor.inactiveCaption);
+		getContentPane().setBackground(new Color(0, 128, 128));
 		setTitle("Modificar Cama");
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(DlgModificar_Cama.class.getResource("/Imagenes/cama.png")));
@@ -63,6 +63,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		getContentPane().setLayout(null);
 
 		lblNumCama = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(0));
+		lblNumCama.setForeground(new Color(255, 255, 255));
 		lblNumCama.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNumCama.setBounds(10, 11, 88, 25);
 		getContentPane().add(lblNumCama);
@@ -74,6 +75,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		getContentPane().add(txtNumCam);
 
 		lblCat = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(1));
+		lblCat.setForeground(new Color(255, 255, 255));
 		lblCat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCat.setBounds(10, 66, 88, 14);
 		getContentPane().add(lblCat);
@@ -84,6 +86,7 @@ public class DlgModificar_Cama extends JDialog implements ActionListener {
 		getContentPane().add(cboCategoria);
 
 		lblEstado = new JLabel(Principal_Proyecto2017_2.listaAc.getColumnName(3));
+		lblEstado.setForeground(new Color(255, 255, 255));
 		lblEstado.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEstado.setBounds(10, 106, 71, 25);
 		getContentPane().add(lblEstado);
