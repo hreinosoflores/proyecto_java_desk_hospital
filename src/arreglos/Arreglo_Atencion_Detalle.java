@@ -71,7 +71,7 @@ public class Arreglo_Atencion_Detalle extends AbstractTableModel {
 		return -1;
 	}
 
-	public ArrayList<AtencionDetalle> buscarPorAtencion(int codigoAtencion) {
+	public ArrayList<AtencionDetalle> listarPorAtencion(int codigoAtencion) {
 		ArrayList<AtencionDetalle> lista = new ArrayList<AtencionDetalle>();
 		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getAtencion().getCodigoAtencion() == codigoAtencion)

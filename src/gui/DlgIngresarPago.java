@@ -4,16 +4,22 @@ import java.awt.EventQueue;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Cama;
@@ -176,10 +182,10 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnVer(ActionEvent arg0) {
-		listar();
+		listarInternamiento();
 	}
 
-	void listar() {
+	void listarInternamiento() {
 		// Elegir ultimo internamiento atendido del paciente
 		Paciente pacSeleccionado = (Paciente) cboPaciente.getSelectedItem();
 		Internamiento internamientoActual = Principal_Proyecto2017_2.listaIn
@@ -187,31 +193,102 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		if (internamientoActual == null) {
 			lib.mensajeInformacion(this, "El paciente no tiene internamientos pendientes de pagar");
 		} else {
-
 			Cama camaInternado = Principal_Proyecto2017_2.listaAc.buscar(internamientoActual.getCama().getNumeroCama());
-
-			String fecSalida = "";
-			try {
-				fecSalida = Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaSalida()));
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-			String horaSalida = "";
-			try {
-				horaSalida = Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraSalida()));
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
+//			String fecSalida = Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaSalida()));
+//			String horaSalida  = Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraSalida()));		
 			modelo.setRowCount(0);
 			Object fila[] = { pacSeleccionado.getCodigoPaciente(), internamientoActual.getCodigoInternamiento(),
 					internamientoActual.EstadoDescr(), camaInternado.getNumeroCama(), camaInternado.EstadoDescr(),
 					Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaIngreso())),
-					Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraIngreso())), fecSalida, horaSalida, };
+					Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraIngreso())), "", "" };
 			modelo.addRow(fila);
 		}
 
+	}
+
+	protected void actionPerformedBtnGenerar(ActionEvent arg0) {
+		int seleccionadoIdx = tblTabla.getSelectedRow();
+
+		if (seleccionadoIdx != -1) {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfEst\u00e1 seguro(a) que desea generar el pago?");
+			if (ok == 0) {
+				// Validar archivo
+				if (!Principal_Proyecto2017_2.listaPago.existeArchivo()) {
+					Principal_Proyecto2017_2.listaPago.grabarPago();
+				}
+
+				try {
+					int codigoInternamiento = (int) tblTabla.getValueAt(seleccionadoIdx, 1);
+					// Validar pago internamiento
+					Pago buscado = Principal_Proyecto2017_2.listaPago.buscarPorInternamiento(codigoInternamiento);
+					if (buscado != null) {
+						lib.mensajeError(this, "Ya se tiene un pago generado para este internamiento");
+					} else {
+						// Ingresar Pago
+						codigoPago = Principal_Proyecto2017_2.listaPago.generarCodigo();
+
+						int estado = 0;
+						Pago pago = new Pago(codigoPago,
+								new Internamiento(codigoInternamiento, null, null, null, null, null, null, null, 0),
+								0.0, estado);
+						pago.setPagado();
+						Principal_Proyecto2017_2.listaPago.adicionar(pago);
+						Principal_Proyecto2017_2.listaPago.grabarPago();
+						listarInternamiento();
+						txtS.setText(pago.GenerarBoletaString());
+						txtTotalPagar.setText(lib.formatSoles(pago.getTotalPagado()));
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					lib.mensajeError(this, "Hubo un error: " + e.getMessage());
+				}
+
+			}
+
+		} else {
+			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
+		}
+	}
+
+	protected void actionPerformedBtnImprimir(ActionEvent arg0) {
+		if (codigoPago <= 0) {
+			lib.mensajeAdvertencia(this, "Todavia no se ha generado un pago");
+		} else {
+			JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			// restrict the user to select files of all types
+			j.setAcceptAllFileFilterUsed(false);
+			// set a title for the dialog
+			j.setDialogTitle("Specify a file to save");
+			// default file name
+			j.setSelectedFile(new File("boleta_" + codigoPago + "_" + Fecha.fechaHoraActual() + ".txt"));
+			// only allow files of .txt extension
+			FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .txt files", "txt");
+			j.addChoosableFileFilter(restrict);
+			// invoke the showsOpenDialog function to show the save dialog
+			int r = j.showSaveDialog(this);
+			// if the user selects a file
+			if (r == JFileChooser.APPROVE_OPTION) {
+				try {
+					// set the label to the path of the selected file
+					String rutaTxt = j.getSelectedFile().getAbsolutePath();
+					PrintWriter pw;
+					if (codigoPago <= 0) {
+						lib.mensajeAdvertencia(this, "Todavia no se ha generado un pago");
+					} else {
+						Pago pago = Principal_Proyecto2017_2.listaPago.buscar(codigoPago);
+						pw = new PrintWriter(new FileWriter(rutaTxt));
+						pw.println(pago.GenerarBoletaString());
+						pw.close();
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+	}
+
+	protected void actionPerformedBtnSalir(ActionEvent arg0) {
+		dispose();
 	}
 
 	protected void actionPerformedBtnCobrar(ActionEvent arg0) {
@@ -227,41 +304,6 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		listar();
 		txtPaciente.setText("");
 
-	}
-
-	protected void actionPerformedBtnGenerar(ActionEvent arg0) {
-		int seleccionadoIdx = tblTabla.getSelectedRow();
-
-		if (seleccionadoIdx != -1) {
-			int ok = lib.mensajeConfirmacion(this, "\u00bfEst\u00e1 seguro(a) que desea generar el pago?");
-			if (ok == 0) {
-				// TODO: GENERAR PAGO
-				codigoPago = Principal_Proyecto2017_2.listaPago.generarCodigo();
-				int codigoInternamiento = (int) tblTabla.getValueAt(seleccionadoIdx, 1);
-				int estado = 0;
-				Pago pago = new Pago(codigoPago,
-						new Internamiento(codigoInternamiento, null, null, null, null, null, null, null, 0), 0.0,
-						estado);
-				pago.obtenerTotalPagado();
-				Principal_Proyecto2017_2.listaPago.grabarPago();
-				txtS.setText(pago.GenerarStringPago());		
-			}
-
-		} else {
-			lib.mensajeAdvertencia(this, "Debe seleccionar un internamiento");
-		}
-	}
-
-	protected void actionPerformedBtnSalir(ActionEvent arg0) {
-		dispose();
-	}
-
-	protected void actionPerformedBtnImprimir(ActionEvent arg0) {
-		//Descargar TXT
-	}
-
-	void imprimir(String s) {
-		txtS.append(s + "\n");
 	}
 
 }

@@ -313,7 +313,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			if (ok == 0) {
 				try {
 					int codigo = lib.leerEntero(txtAtencion);
-					AtencionDetalle seleccionado = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo)
+					AtencionDetalle seleccionado = Principal_Proyecto2017_2.listaAtDet.listarPorAtencion(codigo)
 							.get(seleccionadoIdx);
 					Principal_Proyecto2017_2.listaAtDet.eliminar(Principal_Proyecto2017_2.listaAtDet.buscarIndice(
 							seleccionado.getAtencion().getCodigoAtencion(),
@@ -347,8 +347,8 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			int codigo = lib.leerEntero(txtAtencion);
 			if (codigo > 0) {
 				modelo.setRowCount(0);
-				for (int i = 0; i < Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo).size(); i++) {
-					AtencionDetalle detalle = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo).get(i);
+				List<AtencionDetalle> detalles = Principal_Proyecto2017_2.listaAtDet.listarPorAtencion(codigo);
+				for (AtencionDetalle detalle : detalles) {
 					Atencion at = detalle.getAtencion();
 					Internamiento intern = Principal_Proyecto2017_2.listaIn
 							.buscar(at.getInternamiento().getCodigoInternamiento());
@@ -399,7 +399,7 @@ public class DlgAtencion extends JDialog implements ActionListener {
 			try {
 				int codigo = lib.leerEntero(txtAtencion);
 				Atencion atActual = Principal_Proyecto2017_2.listaAt.buscar(codigo);
-				List<AtencionDetalle> detalles = Principal_Proyecto2017_2.listaAtDet.buscarPorAtencion(codigo);
+				List<AtencionDetalle> detalles = Principal_Proyecto2017_2.listaAtDet.listarPorAtencion(codigo);
 				Principal_Proyecto2017_2.listaAt.eliminar(atActual);
 				for (AtencionDetalle atencionDetalle : detalles) {
 					Principal_Proyecto2017_2.listaAtDet.eliminar(atencionDetalle);

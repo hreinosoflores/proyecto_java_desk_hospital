@@ -58,7 +58,6 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	public static Arreglo_Atencion_Detalle listaAtDet = new Arreglo_Atencion_Detalle();
 	public static Arreglo_Pago listaPago = new Arreglo_Pago();
 
-
 	private int ALTO;
 	private int ANCHO;
 
@@ -84,7 +83,8 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	public Principal_Proyecto2017_2() {
 		setResizable(false);
 		setTitle(titulo());
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal_Proyecto2017_2.class.getResource("/Imagenes/medicos.png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(Principal_Proyecto2017_2.class.getResource("/Imagenes/medicos.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 
@@ -124,7 +124,8 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnInternamiento);
 
 		mntmIngresarInternamiento = new JMenuItem("Ingresar Internamiento");
-		mntmIngresarInternamiento.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/ingresar internamiento.png")));
+		mntmIngresarInternamiento.setIcon(
+				new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/ingresar internamiento.png")));
 		mntmIngresarInternamiento.addActionListener(this);
 		mnInternamiento.add(mntmIngresarInternamiento);
 
@@ -133,7 +134,8 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnAtencion);
 
 		mntmIngresarAtencion = new JMenuItem("Ingresar Atencion");
-		mntmIngresarAtencion.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/atencion.png")));
+		mntmIngresarAtencion
+				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/atencion.png")));
 		mntmIngresarAtencion.addActionListener(this);
 		mnAtencion.add(mntmIngresarAtencion);
 
@@ -151,25 +153,29 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 		menuBar.add(mnReporte);
 
 		mntmReporteDePacientesInternados = new JMenuItem("Reporte de Pacientes Internados");
-		mntmReporteDePacientesInternados.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente internado.png")));
+		mntmReporteDePacientesInternados
+				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente internado.png")));
 		mntmReporteDePacientesInternados.addActionListener(this);
 
 		mntmReporteAtenciones = new JMenuItem("Reporte Atenciones");
-		mntmReporteAtenciones.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte atencion.png")));
+		mntmReporteAtenciones
+				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte atencion.png")));
 		mntmReporteAtenciones.addActionListener(this);
 		mnReporte.add(mntmReporteAtenciones);
 
 		mntmInternamientosPagados = new JMenuItem("Reporte Internamientos Pagados");
-		mntmInternamientosPagados.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte pagos.png")));
+		mntmInternamientosPagados
+				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/reporte pagos.png")));
 		mnReporte.add(mntmInternamientosPagados);
 		mntmInternamientosPagados.addActionListener(this);
 		mnReporte.add(mntmReporteDePacientesInternados);
 
 		mntmReporteDePacientesSalientes = new JMenuItem("Reporte de Pacientes Salientes");
-		mntmReporteDePacientesSalientes.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente salida.png")));
+		mntmReporteDePacientesSalientes
+				.setIcon(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/paciente salida.png")));
 		mntmReporteDePacientesSalientes.addActionListener(this);
 		mnReporte.add(mntmReporteDePacientesSalientes);
-		
+
 		IblFondo = new JLabel(new ImageIcon(Principal_Proyecto2017_2.class.getResource("/Imagenes/fondo clinica.jpg")));
 		IblFondo.setText("");
 		IblFondo.setBounds(0, 0, ANCHO, ALTO);
@@ -281,11 +287,11 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	public int confirmacionDeSalida() {
 		return lib.mensajeConfirmacion(null, "Desea salir del programa?");
 	}
-	
-	
+
 	public String titulo() {
 		String fecha = Fecha.fechaHoraActual();
-		return "Principal - ( "+ Fecha.formatoFecha(Integer.parseInt(fecha.substring(0, 8))) + ", "+ Fecha.HH_MM_SS(Integer.parseInt(fecha.substring(8))) + " )";
-	}	
+		return "Principal - ( " + Fecha.formatoFecha(Integer.parseInt(fecha.substring(0, 8))) + ", "
+				+ Fecha.HH_MM_SS(Integer.parseInt(fecha.substring(8))) + " )";
+	}
 
 }

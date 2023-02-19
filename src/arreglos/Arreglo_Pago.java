@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+
+import clases.Atencion;
 import clases.Internamiento;
 import clases.Pago;
 
@@ -90,6 +92,16 @@ public class Arreglo_Pago extends AbstractTableModel {
 		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoPago() == codigo)
 				return obtener(i);
+		return null;
+	}
+	
+	public Pago buscarPorInternamiento(int codigo) {
+		Pago x;
+		for (int i = 0; i < getRowCount(); i++) {
+			x = obtener(i);
+			if (x.getInternamiento().getCodigoInternamiento() == codigo)
+				return x;
+		}
 		return null;
 	}
 	

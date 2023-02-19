@@ -11,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
 import clases.Internamiento;
+import gui.Principal_Proyecto2017_2;
 
 public class Arreglo_Atencion extends AbstractTableModel {
 	/**
@@ -77,9 +78,8 @@ public class Arreglo_Atencion extends AbstractTableModel {
 			return obtener(getRowCount() - 1).getCodigoAtencion() + 1;
 	}
 
-	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente",  "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
+	private String nombreColumnas[] = { "Cod. Atenci\u00f3n", "Paciente", "Fecha Atenci\u00f3n", "Estado Atenci\u00f3n",
 			"Medicina", "Precio Unitario", "Cantidad", "Total a pagar" };
-
 
 	public void adicionar(Atencion x) {
 		listaAt.add(x);
@@ -116,14 +116,12 @@ public class Arreglo_Atencion extends AbstractTableModel {
 		return -1;
 	}
 
-	public Atencion buscarPac(int codigo) {
-		Atencion x;
-		for (int i = 0; i < getRowCount(); i++) {
-			x = obtener(i);
-			if (x.getInternamiento().getCodigoInternamiento() == codigo)
-				return x;
-		}
-		return null;
+	public ArrayList<Atencion> listarPorInternamiento(int codigo) {
+		ArrayList<Atencion> lista = new ArrayList<>();
+		for (int i = 0; i < getRowCount(); i++)
+			if (obtener(i).getInternamiento().getCodigoInternamiento() == codigo)
+				lista.add(obtener(i));
+		return lista;
 	}
 
 	public void eliminar(Atencion x) {

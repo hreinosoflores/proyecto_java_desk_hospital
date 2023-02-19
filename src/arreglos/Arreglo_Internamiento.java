@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import clases.Atencion;
 import clases.Cama;
 import clases.Internamiento;
 import clases.Paciente;
@@ -73,8 +74,6 @@ public class Arreglo_Internamiento extends AbstractTableModel {
 			System.out.println(e.getMessage());
 		}
 	}
-
-
 
 	public void adicionar(Internamiento x) {
 		listaIdi.add(x);
