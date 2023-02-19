@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -254,53 +255,64 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	private void IngresarAtencionDetalle(int codAtencion, Medicina medicina, Internamiento internamiento) {
 		int existe = Principal_Proyecto2017_2.listaAtDet.buscarIndice(codAtencion, medicina.getCodigoMedicina());
 		if (existe != -1) {
-			lib.mensajeError(this, "Esta medicina ya fue registrada, ingresar otra.");
+			lib.mensajeError(this, "Esta medicina ya fue registrada, ingresar otra");
 		} else {
-			try {
-				double precio = lib.leerDouble(txtPrecio);
-				if (precio <= 0) {
-					lib.mensajeError(this, "Ingrese precio positivo");
+			if (medicina.getStock() == 0) {
+				lib.mensajeError(this, "Esta medicina está sin stock");
+			} else {
+				try {
+					double precio = lib.leerDouble(txtPrecio);
+					if (precio <= 0) {
+						lib.mensajeError(this, "Ingrese precio positivo");
+						txtPrecio.setEditable(true);
+						txtPrecio.requestFocus();
+					} else {
+						try {
+							int cantidad = (Integer) spCantidad.getValue();
+							if (cantidad <= 0) {
+								lib.mensajeError(this, "Ingrese cantidad positiva");
+								spCantidad.requestFocus();
+							} else {
+								if (cantidad > medicina.getStock()) {
+									lib.mensajeError(this, "No hay stock suficiente para la cantidad solicitada");
+								} else {
+
+									Atencion atencion = Principal_Proyecto2017_2.listaAt.buscar(codAtencion);
+									if (atencion == null) {
+										atencion = new Atencion(codAtencion, internamiento, Fecha.fechaHoraActual(),
+												0.0, 0);
+										AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(atencion, medicina,
+												cantidad, precio);
+										suma += nuevoDetalleAtencion.Subtotal();
+										atencion.setTotalPagar(suma);
+										Principal_Proyecto2017_2.listaAt.adicionar(atencion);
+										Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
+
+									} else {
+										AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(atencion, medicina,
+												cantidad, precio);
+										suma += nuevoDetalleAtencion.Subtotal();
+										atencion.setTotalPagar(suma);
+										Principal_Proyecto2017_2.listaAt.modificar(
+												Principal_Proyecto2017_2.listaAt.buscarindice(codAtencion), atencion);
+										Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
+									}
+									cboPaciente.setEnabled(false);
+									limpiezaDetalle();
+									listar();
+								}
+
+							}
+						} catch (Exception ex) {
+							lib.mensajeError(this, "Ingrese numero en cantidad");
+							spCantidad.requestFocus();
+						}
+					}
+				} catch (Exception ex) {
+					lib.mensajeError(this, "Ingrese numero en precio");
 					txtPrecio.setEditable(true);
 					txtPrecio.requestFocus();
-				} else {
-					try {
-						int cantidad = (Integer) spCantidad.getValue();
-						if (cantidad <= 0) {
-							lib.mensajeError(this, "Ingrese cantidad positiva");
-							spCantidad.requestFocus();
-						} else {
-							Atencion atencion = Principal_Proyecto2017_2.listaAt.buscar(codAtencion);
-							if (atencion == null) {
-								atencion = new Atencion(codAtencion, internamiento, Fecha.fechaHoraActual(), 0.0, 0);
-								AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(atencion, medicina, cantidad,
-										precio);
-								suma += nuevoDetalleAtencion.Subtotal();
-								atencion.setTotalPagar(suma);
-								Principal_Proyecto2017_2.listaAt.adicionar(atencion);
-								Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
-
-							} else {
-								AtencionDetalle nuevoDetalleAtencion = new AtencionDetalle(atencion, medicina, cantidad,
-										precio);
-								suma += nuevoDetalleAtencion.Subtotal();
-								atencion.setTotalPagar(suma);
-								Principal_Proyecto2017_2.listaAt.modificar(
-										Principal_Proyecto2017_2.listaAt.buscarindice(codAtencion), atencion);
-								Principal_Proyecto2017_2.listaAtDet.adicionar(nuevoDetalleAtencion);
-							}
-							cboPaciente.setEnabled(false);
-							limpiezaDetalle();
-							listar();
-						}
-					} catch (Exception ex) {
-						lib.mensajeError(this, "Ingrese numero en cantidad");
-						spCantidad.requestFocus();
-					}
 				}
-			} catch (Exception ex) {
-				lib.mensajeError(this, "Ingrese numero en precio");
-				txtPrecio.setEditable(true);
-				txtPrecio.requestFocus();
 			}
 
 		}
@@ -443,13 +455,27 @@ public class DlgAtencion extends JDialog implements ActionListener {
 	}
 
 	private void GrabarAtencion(Internamiento internamiento) {
-		// TODO Auto-generated method stub
+
+		// modificar estado internamiento
 		internamiento.setEstado(1);
 		Principal_Proyecto2017_2.listaIn.modificar(
 				Principal_Proyecto2017_2.listaIn.buscarindice(internamiento.getCodigoInternamiento()), internamiento);
+
+		// Restar stock de medicinas
+		int codigo = lib.leerEntero(txtAtencion);
+		ArrayList<AtencionDetalle> detalles = Principal_Proyecto2017_2.listaAtDet.listarPorAtencion(codigo);
+		for (AtencionDetalle det : detalles) {
+			Medicina medicina = Principal_Proyecto2017_2.listaMe.buscar(det.getMedicina().getCodigoMedicina());
+			medicina.setStock(medicina.getStock() - det.getCantidad());
+			Principal_Proyecto2017_2.listaMe
+					.modificar(Principal_Proyecto2017_2.listaMe.buscarindice(medicina.getCodigoMedicina()), medicina);
+		}
+
+		// Grabar cambios
 		Principal_Proyecto2017_2.listaAt.grabarAtencion();
 		Principal_Proyecto2017_2.listaAtDet.grabarAtencionDetalle();
 		Principal_Proyecto2017_2.listaIn.grabarInternamiento();
+		Principal_Proyecto2017_2.listaMe.grabarMedicina();
 		lib.mensajeInformacion(this, "Los datos se grabaron correctamente");
 		dispose();
 

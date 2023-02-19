@@ -185,8 +185,8 @@ public class DlgInternamiento extends JDialog implements ActionListener, WindowL
 									Principal_Proyecto2017_2.listaIn.obtener(i).getFechaRegistro().substring(8))),
 					Fecha.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaIngreso())),
 					Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraIngreso())),
-					Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida(),
-					Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida(),
+					Fecha.dd_mm_aaaa(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getFechaSalida())),
+					Fecha.HH_MM(Integer.parseInt(Principal_Proyecto2017_2.listaIn.obtener(i).getHoraSalida())),
 
 			};
 			modelo.addRow(fila);

@@ -300,20 +300,17 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 				//Setear cambios
 				Pago pagoActual = Principal_Proyecto2017_2.listaPago.buscar(codigoPago);
 				pagoActual.setEstado(1);
-
 				Internamiento interActual = Principal_Proyecto2017_2.listaIn
 						.buscar(pagoActual.getInternamiento().getCodigoInternamiento());
 				String fecha = Fecha.fechaHoraActual();
 				interActual.setFechaSalida(fecha.substring(0, 8));
 				interActual.setHoraSalida(fecha.substring(8, 12));
 				interActual.setEstado(2);
-
 				ArrayList<Atencion> atencionesActuales = Principal_Proyecto2017_2.listaAt
 						.listarPorInternamiento(interActual.getCodigoInternamiento());
 				for (Atencion atencion : atencionesActuales) {
 					atencion.setEstado(1);
 				}
-
 				Cama camaActual = Principal_Proyecto2017_2.listaAc.buscar(interActual.getCama().getNumeroCama());
 				camaActual.setEstado(0);
 
