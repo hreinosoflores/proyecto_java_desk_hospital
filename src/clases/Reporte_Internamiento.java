@@ -1,45 +1,42 @@
 package clases;
 
 public class Reporte_Internamiento {
-	private int codigoInternamiento, codigoPaciente, numeroCama;
-	private String fechaIngreso, fechaSalida, horaIngreso, horaSalida;
+	private int codigoInt;
+	private String nomPac, descCama, fechaIngreso, fechaSalida, horaIngreso, horaSalida;
 
-	// constructor
-	public Reporte_Internamiento(int codigoInternamiento, int codigoPaciente, int numeroCama, String fechaIngreso,
-			String fechaSalida, String horaIngreso, String horaSalida) {
-		super();
-		this.codigoInternamiento = codigoInternamiento;
-		this.codigoPaciente = codigoPaciente;
-		this.numeroCama = numeroCama;
+	public Reporte_Internamiento(int codigoInt, String nomPac, String descCama, String fechaIngreso, String fechaSalida,
+			String horaIngreso, String horaSalida) {
+		this.codigoInt = codigoInt;
+		this.nomPac = nomPac;
+		this.descCama = descCama;
 		this.fechaIngreso = fechaIngreso;
 		this.fechaSalida = fechaSalida;
 		this.horaIngreso = horaIngreso;
 		this.horaSalida = horaSalida;
 	}
 
-	// metodos set / get
-	public int getCodigoInternamiento() {
-		return codigoInternamiento;
+	public int getCodigoInt() {
+		return codigoInt;
 	}
 
-	public void setCodigoInternamiento(int codigoInternamiento) {
-		this.codigoInternamiento = codigoInternamiento;
+	public void setCodigoInt(int codigoInt) {
+		this.codigoInt = codigoInt;
 	}
 
-	public int getCodigoPaciente() {
-		return codigoPaciente;
+	public String getNomPac() {
+		return nomPac;
 	}
 
-	public void setCodigoPaciente(int codigoPaciente) {
-		this.codigoPaciente = codigoPaciente;
+	public void setNomPac(String nomPac) {
+		this.nomPac = nomPac;
 	}
 
-	public int getNumeroCama() {
-		return numeroCama;
+	public String getDescCama() {
+		return descCama;
 	}
 
-	public void setNumeroCama(int numeroCama) {
-		this.numeroCama = numeroCama;
+	public void setDescCama(String descCama) {
+		this.descCama = descCama;
 	}
 
 	public String getFechaIngreso() {

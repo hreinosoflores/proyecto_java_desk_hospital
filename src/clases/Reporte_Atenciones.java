@@ -3,8 +3,7 @@ package clases;
 public class Reporte_Atenciones {
 
 	private int codigoAt;
-	private String totPag;
-	String nomPac, fechAtenc, horaAtenc;
+	private String totPag, nomPac, fechAtenc, horaAtenc;
 
 	public Reporte_Atenciones(int codigoAt, String totPag, String nomPac, String fechAtenc, String horaAtenc) {
 		this.codigoAt = codigoAt;

@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.EventQueue;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,8 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import arreglos.Arreglo_Reporte_Internamiento;
+import clases.Cama;
 import clases.Internamiento;
+import clases.Paciente;
+import clases.Reporte_Internamiento;
+import libreria.Fecha;
+
+import java.awt.Toolkit;
+import java.awt.Color;
 
 public class DlgReporte_Internamiento extends JDialog implements ActionListener {
 
@@ -22,8 +27,10 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 
 	private JPanel contentPane;
 	private JButton btnListar;
-
-	private JScrollPane scrollPaneA;
+	private JScrollPane scrollPane;
+	private JButton btnSalir;
+	private JTextArea txtS;
+	private JButton btnCsv;
 
 	/**
 	 * Launch the application.
@@ -47,32 +54,39 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 	public DlgReporte_Internamiento() {
 		setTitle("Internamiento Pagados");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 565, 338);
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(DlgReporte_Internamiento.class.getResource("/Imagenes/reporte pagos.png")));
+		setBounds(100, 100, 600, 300);
+
 		contentPane = new JPanel();
-		setIconImage(new ImageIcon("imagenes/medicos.png").getImage());
-		contentPane.setBackground(SystemColor.inactiveCaption);
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		btnListar = new JButton("Listar");
 		btnListar.addActionListener(this);
-		btnListar.setIcon(new ImageIcon("imagenes/reportar.png"));
-		btnListar.setBounds(126, 9, 105, 32);
+		btnListar.setIcon(new ImageIcon(DlgReporte_Internamiento.class.getResource("/Imagenes/reportar.png")));
+		btnListar.setBounds(10, 9, 120, 32);
 		contentPane.add(btnListar);
 
-		scrollPaneA = new JScrollPane();
-		scrollPaneA.setBounds(10, 48, 529, 240);
-		contentPane.add(scrollPaneA);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 48, 564, 202);
+		contentPane.add(scrollPane);
 
 		txtS = new JTextArea();
-		scrollPaneA.setViewportView(txtS);
+		scrollPane.setViewportView(txtS);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(this);
-		btnSalir.setIcon(new ImageIcon("imagenes/exit.png"));
-		btnSalir.setBounds(313, 9, 105, 32);
+		btnSalir.setIcon(new ImageIcon(DlgReporte_Internamiento.class.getResource("/Imagenes/exit.png")));
+		btnSalir.setBounds(189, 9, 120, 32);
 		contentPane.add(btnSalir);
+
+		btnCsv = new JButton("Exportar");
+		btnCsv.setIcon(new ImageIcon(DlgReporte_Internamiento.class.getResource("/Imagenes/excel.png")));
+		btnCsv.setBounds(362, 9, 120, 32);
+		contentPane.add(btnCsv);
 
 	}
 
@@ -85,29 +99,35 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 		}
 	}
 
-	// declaracion global xs
-
-	Arreglo_Reporte_Internamiento aip = new Arreglo_Reporte_Internamiento();
-	private JButton btnSalir;
-	private JTextArea txtS;
-
 	private void actionPerformedBtnListar(ActionEvent arg0) {
-		txtS.setText("");
-		Internamiento x;
-		for (int i = 0; i < Principal_Proyecto2017_2.ai.tamanio(); i++) {
-			x = Principal_Proyecto2017_2.ai.obtener(i);
-			imprimir("Codigo de internamiento:  " + x.getCodigoInternamiento());
-			imprimir("Codigo de paciente:  " + x.getCodigoPaciente());
-			imprimir("Numero de Cama:  " + x.getNumCama());
-			imprimir("Fecha de ingreso:  " + x.getFechaIngreso());
-			imprimir("Fecha de salida:  " + x.getFechaSalida());
-			imprimir("------------------------------------------------------------------------------");
 
+		String reporte = "";
+		reporte += "\t\tReporte de internamientos\n";
+		reporte += "Cod.Inter.\t Nom.Paciente\t\t\t Cama\t FechaIngreso\t HoraIngreso\t FechaSalida\t HoraSalida\n";
+		Reporte_Internamiento reporteInt;
+		for (int i = 0; i < Principal_Proyecto2017_2.listaIn.getRowCount(); i++) {
+			Internamiento x = Principal_Proyecto2017_2.listaIn.obtener(i);
+			if (x.getEstado() == 2) {
+				Paciente paciente = Principal_Proyecto2017_2.listaPa.buscar(x.getPaciente().getCodigoPaciente());
+				Cama cama = Principal_Proyecto2017_2.listaAc.buscar(x.getCama().getNumeroCama());
+				reporteInt = new Reporte_Internamiento(x.getCodigoInternamiento(), paciente.toString(),
+						cama.getNumeroCama() + "-" + cama.CategoriaDescr(),
+						Fecha.dd_mm_aaaa(Integer.parseInt(x.getFechaIngreso())),
+						Fecha.dd_mm_aaaa(Integer.parseInt(x.getFechaSalida())),
+						Fecha.HH_MM(Integer.parseInt(x.getHoraIngreso())),					
+						Fecha.HH_MM(Integer.parseInt(x.getHoraSalida())));
+				reporte += imprimir(reporteInt);
+			}
 		}
+
+		txtS.setText(reporte);
 	}
 
-	void imprimir(String s) {
-		txtS.append(s + "\n");
+	private String imprimir(Reporte_Internamiento reporte) {
+		return reporte.getCodigoInt() + "\t " + reporte.getNomPac() + "\t " + reporte.getDescCama() + "\t "
+				+ reporte.getFechaIngreso() + "\t " + reporte.getHoraIngreso() +"\t " + reporte.getFechaSalida() + "\t "
+				+ reporte.getHoraSalida() + "\n";
+
 	}
 
 	protected void actionPerformedBtnSalir(ActionEvent arg0) {

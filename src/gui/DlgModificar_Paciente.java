@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -79,6 +78,7 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 		getContentPane().add(lblDni);
 
 		txtDni = new JTextField();
+		txtDni.setEditable(false);
 		txtDni.setColumns(10);
 		txtDni.setBounds(120, 75, 86, 20);
 		getContentPane().add(txtDni);
@@ -137,54 +137,40 @@ public class DlgModificar_Paciente extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnIngresar(ActionEvent arg0) {
-		String dni = lib.leerCadena(txtDni);
-		if (dni.length() == 0 || !Pattern.matches("[0-9]{7,8}", dni)) {
-			lib.mensajeError(this, "Ingrese dni con el formato correcto");
-			txtDni.requestFocus();
+		String nombres = lib.leerCadena(txtNombre);
+		if (nombres.length() == 0) {
+			lib.mensajeError(this, "Ingrese nombre");
+			txtNombre.requestFocus();
 		} else {
-			Paciente buscadoDni = Principal_Proyecto2017_2.listaPa.buscarDNI(dni);
-			if (buscadoDni != null) {
-				lib.mensajeError(this, "El Dni ya está registrado");
+			String apellidos = lib.leerCadena(txtApellido);
+			if (apellidos.length() == 0) {
+				lib.mensajeError(this, "Ingrese apellido");
+				txtApellido.requestFocus();
 			} else {
-
-				String nombres = lib.leerCadena(txtNombre);
-				if (nombres.length() == 0) {
-					lib.mensajeError(this, "Ingrese nombre");
-					txtNombre.requestFocus();
-				} else {
-					String apellidos = lib.leerCadena(txtApellido);
-					if (apellidos.length() == 0) {
-						lib.mensajeError(this, "Ingrese apellido");
-						txtApellido.requestFocus();
-					} else {
-						int ok = lib.mensajeConfirmacion(this, "\u00bfDesea actualizar paciente?");
-						if (ok == 0) {
-							try {
-								// Guardar paciente
-								int codPaciente = lib.leerEntero(txtPaciente);
-								Paciente mod = new Paciente(codPaciente, apellidos, nombres,
-										lib.leerCadena(txtTelefono), dni);
-								Principal_Proyecto2017_2.listaPa
-										.modificar(Principal_Proyecto2017_2.listaPa.buscarindice(codPaciente), mod);
-								Principal_Proyecto2017_2.listaPa.grabarPaciente();
-								// Cerrar ventanita
-								dispose();
-								// Refrescar lista
-								DlgPaciente.listar();
-							} catch (Exception e) {
-								// TODO: handle exception
-								lib.mensajeError(this, "Hubo un error: " + e.getMessage());
-							}
-
-						} else {
-							// Cerrar ventanita
-							dispose();
-						}
+				int ok = lib.mensajeConfirmacion(this, "\u00bfDesea actualizar paciente?");
+				if (ok == 0) {
+					try {
+						// Guardar paciente
+						int codPaciente = lib.leerEntero(txtPaciente);
+						String dni = lib.leerCadena(txtDni);
+						Paciente mod = new Paciente(codPaciente, apellidos, nombres, lib.leerCadena(txtTelefono), dni);
+						Principal_Proyecto2017_2.listaPa
+								.modificar(Principal_Proyecto2017_2.listaPa.buscarindice(codPaciente), mod);
+						Principal_Proyecto2017_2.listaPa.grabarPaciente();
+						// Cerrar ventanita
+						dispose();
+						// Refrescar lista
+						DlgPaciente.listar();
+					} catch (Exception e) {
+						// TODO: handle exception
+						lib.mensajeError(this, "Hubo un error: " + e.getMessage());
 					}
+
+				} else {
+					// Cerrar ventanita
+					dispose();
 				}
-
 			}
-
 		}
 
 	}

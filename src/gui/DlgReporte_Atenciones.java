@@ -32,6 +32,7 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 	private JScrollPane scrollPane;
 	private JTextArea txtS;
 	private JButton btnSalir;
+	private JButton btnCsv;
 
 	/**
 	 * Launch the application.
@@ -59,6 +60,7 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DlgReporte_Atenciones.class.getResource("/Imagenes/reporte atencion.png")));
 		setBounds(100, 100, 600, 300);
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(245, 245, 245));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,7 +70,7 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 		btnListar = new JButton("Listar");
 		btnListar.addActionListener(this);
 		btnListar.setIcon(new ImageIcon(DlgReporte_Atenciones.class.getResource("/Imagenes/reportar.png")));
-		btnListar.setBounds(10, 19, 108, 30);
+		btnListar.setBounds(10, 19, 120, 30);
 		contentPane.add(btnListar);
 
 		scrollPane = new JScrollPane();
@@ -81,12 +83,12 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(this);
 		btnSalir.setIcon(new ImageIcon(DlgReporte_Atenciones.class.getResource("/Imagenes/exit.png")));
-		btnSalir.setBounds(160, 19, 108, 30);
+		btnSalir.setBounds(160, 19, 120, 30);
 		contentPane.add(btnSalir);
 
-		JButton btnCsv = new JButton("Exportar");
+		btnCsv = new JButton("Exportar");
 		btnCsv.setIcon(new ImageIcon(DlgReporte_Atenciones.class.getResource("/Imagenes/excel.png")));
-		btnCsv.setBounds(301, 19, 108, 30);
+		btnCsv.setBounds(301, 19, 120, 30);
 		contentPane.add(btnCsv);
 
 	}
@@ -107,7 +109,7 @@ public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 
 		String reporte = "";
 		reporte += "\t\tReporte de atenciones\n";
-		reporte += "Cod.Atencion\t PagoAtencion\t Nom.Paciente\t\t Fecha Atencion\t HoraAtencion\n";
+		reporte += "Cod.Atencion\t PagoAtencion\t Nom.Paciente\t\t\t FechaAtencion\t HoraAtencion\n";
 		Reporte_Atenciones reporteAte;
 		for (int i = 0; i < Principal_Proyecto2017_2.listaAt.getRowCount(); i++) {
 			Atencion x = Principal_Proyecto2017_2.listaAt.obtener(i);
