@@ -2,20 +2,18 @@ package clases;
 
 public class Reporte_Atenciones {
 
-	private int codigoAt, codigoPa;
-	private double totPag;
-	String fechAtenc;
+	private int codigoAt;
+	private String totPag;
+	String nomPac, fechAtenc, horaAtenc;
 
-	// constructor
-	public Reporte_Atenciones(int codigoAt, int codigoPa, double totPag, String fechAtenc) {
-		super();
+	public Reporte_Atenciones(int codigoAt, String totPag, String nomPac, String fechAtenc, String horaAtenc) {
 		this.codigoAt = codigoAt;
-		this.codigoPa = codigoPa;
 		this.totPag = totPag;
+		this.nomPac = nomPac;
 		this.fechAtenc = fechAtenc;
+		this.horaAtenc = horaAtenc;
 	}
 
-	// metodos set / get
 	public int getCodigoAt() {
 		return codigoAt;
 	}
@@ -24,20 +22,20 @@ public class Reporte_Atenciones {
 		this.codigoAt = codigoAt;
 	}
 
-	public int getCodigoPa() {
-		return codigoPa;
-	}
-
-	public void setCodigoPa(int codigoPa) {
-		this.codigoPa = codigoPa;
-	}
-
-	public double getTotPag() {
+	public String getTotPag() {
 		return totPag;
 	}
 
-	public void setTotPag(double totPag) {
+	public void setTotPag(String totPag) {
 		this.totPag = totPag;
+	}
+
+	public String getNomPac() {
+		return nomPac;
+	}
+
+	public void setNomPac(String nomPac) {
+		this.nomPac = nomPac;
 	}
 
 	public String getFechAtenc() {
@@ -46,6 +44,14 @@ public class Reporte_Atenciones {
 
 	public void setFechAtenc(String fechAtenc) {
 		this.fechAtenc = fechAtenc;
+	}
+
+	public String getHoraAtenc() {
+		return horaAtenc;
+	}
+
+	public void setHoraAtenc(String horaAtenc) {
+		this.horaAtenc = horaAtenc;
 	}
 
 }

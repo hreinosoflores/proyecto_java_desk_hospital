@@ -297,7 +297,7 @@ public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 	}
 
 	protected void actionPerformedMntmReporteAtenciones(ActionEvent arg0) {
-		DlgReporteAtenciones MnGlobal = new DlgReporteAtenciones();
+		DlgReporte_Atenciones MnGlobal = new DlgReporte_Atenciones();
 		MnGlobal.setLocationRelativeTo(this);
 		MnGlobal.setVisible(true);
 	}
