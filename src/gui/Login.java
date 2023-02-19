@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +17,6 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Usuario;
 import libreria.lib;
-import java.awt.Toolkit;
 
 public class Login extends JFrame implements ActionListener {
 

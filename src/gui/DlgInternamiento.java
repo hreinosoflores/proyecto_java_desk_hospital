@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -11,6 +13,7 @@ import java.awt.event.WindowListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -20,10 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import clases.Cama;
 import libreria.Fecha;
 import libreria.lib;
-
-import java.awt.Toolkit;
-import javax.swing.JLabel;
-import java.awt.Color;
 
 public class DlgInternamiento extends JDialog implements ActionListener, WindowListener {
 	/**

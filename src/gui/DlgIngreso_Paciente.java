@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
@@ -15,7 +16,6 @@ import javax.swing.JTextField;
 
 import clases.Paciente;
 import libreria.lib;
-import java.awt.Toolkit;
 
 public class DlgIngreso_Paciente extends JDialog implements ActionListener {
 	/**

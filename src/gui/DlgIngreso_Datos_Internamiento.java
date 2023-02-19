@@ -3,11 +3,14 @@ package gui;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,9 +21,6 @@ import clases.Internamiento;
 import clases.Paciente;
 import libreria.Fecha;
 import libreria.lib;
-
-import java.awt.Toolkit;
-import javax.swing.JComboBox;
 
 public class DlgIngreso_Datos_Internamiento extends JDialog implements ActionListener {
 	/**

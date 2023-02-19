@@ -1,16 +1,19 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -22,16 +25,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Atencion;
 import clases.Cama;
 import clases.Internamiento;
 import clases.Paciente;
 import clases.Pago;
 import libreria.Fecha;
 import libreria.lib;
-
-import java.awt.Toolkit;
-import javax.swing.JComboBox;
-import java.awt.Color;
 
 public class DlgIngresarPago extends JDialog implements ActionListener {
 	/**
@@ -166,17 +166,17 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 		if (arg0.getSource() == btnVer) {
 			actionPerformedBtnVer(arg0);
 		}
+		if (arg0.getSource() == btnGenerar) {
+			actionPerformedBtnGenerar(arg0);
+		}
 		if (arg0.getSource() == btnImprimir) {
 			actionPerformedBtnImprimir(arg0);
 		}
 		if (arg0.getSource() == btnSalir) {
 			actionPerformedBtnSalir(arg0);
 		}
-		if (arg0.getSource() == btnSalir) {
-			actionPerformedBtnSalir(arg0);
-		}
-		if (arg0.getSource() == btnGenerar) {
-			actionPerformedBtnGenerar(arg0);
+		if (arg0.getSource() == btnCobrar) {
+			actionPerformedBtnCobrar(arg0);
 		}
 
 	}
@@ -194,9 +194,8 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 			lib.mensajeInformacion(this, "El paciente no tiene internamientos pendientes de pagar");
 		} else {
 			Cama camaInternado = Principal_Proyecto2017_2.listaAc.buscar(internamientoActual.getCama().getNumeroCama());
-//			String fecSalida = Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaSalida()));
-//			String horaSalida  = Fecha.HH_MM(Integer.parseInt(internamientoActual.getHoraSalida()));		
 			modelo.setRowCount(0);
+
 			Object fila[] = { pacSeleccionado.getCodigoPaciente(), internamientoActual.getCodigoInternamiento(),
 					internamientoActual.EstadoDescr(), camaInternado.getNumeroCama(), camaInternado.EstadoDescr(),
 					Fecha.dd_mm_aaaa(Integer.parseInt(internamientoActual.getFechaIngreso())),
@@ -292,17 +291,66 @@ public class DlgIngresarPago extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnCobrar(ActionEvent arg0) {
+		if (codigoPago <= 0) {
+			lib.mensajeAdvertencia(this, "Todavia no se ha generado un pago");
+		} else {
+			int ok = lib.mensajeConfirmacion(this, "\u00bfDesea cobrar el pago generado?");
+			if (ok == 0) {
+				
+				//Setear cambios
+				Pago pagoActual = Principal_Proyecto2017_2.listaPago.buscar(codigoPago);
+				pagoActual.setEstado(1);
 
-		int codPac = leerCodPaciente();
-		int numcam = Principal_Proyecto2017_2.listaIn.buscarPac(codPac).getCama().getNumeroCama();
-		String fecha = Fecha.fechaHoraActual();
-		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setFechaSalida(Integer.parseInt(fecha.substring(0, 8)) + "");
-		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setHoraSalida(Integer.parseInt(fecha.substring(8)) + "");
-		Principal_Proyecto2017_2.listaAc.buscar(numcam).setEstado(0);
-		Principal_Proyecto2017_2.listaIn.buscarPac(codPac).setEstado(1);
-		Principal_Proyecto2017_2.listaAt.buscarPac(codPac).setEstado(1);
-		listar();
-		txtPaciente.setText("");
+				Internamiento interActual = Principal_Proyecto2017_2.listaIn
+						.buscar(pagoActual.getInternamiento().getCodigoInternamiento());
+				String fecha = Fecha.fechaHoraActual();
+				interActual.setFechaSalida(fecha.substring(0, 8));
+				interActual.setHoraSalida(fecha.substring(8, 12));
+				interActual.setEstado(2);
+
+				ArrayList<Atencion> atencionesActuales = Principal_Proyecto2017_2.listaAt
+						.listarPorInternamiento(interActual.getCodigoInternamiento());
+				for (Atencion atencion : atencionesActuales) {
+					atencion.setEstado(1);
+				}
+
+				Cama camaActual = Principal_Proyecto2017_2.listaAc.buscar(interActual.getCama().getNumeroCama());
+				camaActual.setEstado(0);
+
+				// Grabar Cambios
+				Principal_Proyecto2017_2.listaPago
+						.modificar(Principal_Proyecto2017_2.listaPago.buscarindice(codigoPago), pagoActual);
+				Principal_Proyecto2017_2.listaIn.modificar(
+						Principal_Proyecto2017_2.listaIn.buscarindice(interActual.getCodigoInternamiento()),
+						interActual);
+				for (Atencion atencion : atencionesActuales) {
+					Principal_Proyecto2017_2.listaAt.modificar(
+							Principal_Proyecto2017_2.listaAt.buscarindice(atencion.getCodigoAtencion()), atencion);
+				}
+				Principal_Proyecto2017_2.listaAc.modificar(
+						Principal_Proyecto2017_2.listaAc.buscarindice(camaActual.getNumeroCama()), camaActual);
+
+				Principal_Proyecto2017_2.listaPago.grabarPago();
+				Principal_Proyecto2017_2.listaIn.grabarInternamiento();
+				Principal_Proyecto2017_2.listaAt.grabarAtencion();
+				Principal_Proyecto2017_2.listaAc.grabarCama();
+
+				//Actualizar Tabla
+				tblTabla.removeAll();
+				modelo.setRowCount(0);			
+				Object fila[] = { interActual.getPaciente().getCodigoPaciente(), interActual.getCodigoInternamiento(),
+						interActual.EstadoDescr(), camaActual.getNumeroCama(), camaActual.EstadoDescr(),
+						Fecha.dd_mm_aaaa(Integer.parseInt(interActual.getFechaIngreso())),
+						Fecha.HH_MM(Integer.parseInt(interActual.getHoraIngreso())), 
+						Fecha.dd_mm_aaaa(Integer.parseInt(interActual.getFechaSalida())), 
+						Fecha.HH_MM(Integer.parseInt(interActual.getHoraSalida())) };
+				modelo.addRow(fila);				
+
+				lib.mensajeInformacion(this, "Los datos se grabaron correctamente");
+				dispose();
+
+			}
+		}
 
 	}
 

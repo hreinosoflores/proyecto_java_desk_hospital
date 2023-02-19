@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import clases.Atencion;
 import clases.Internamiento;
 import clases.Pago;
 
@@ -79,22 +78,33 @@ public class Arreglo_Pago extends AbstractTableModel {
 		listaPago.add(x);
 	}
 
+	public void modificar(int i, Pago x) {
+		listaPago.set(i, x);
+	}
+
 	public String getArchivo() {
 		return "pago.txt";
 	}
-	
+
 	public boolean existeArchivo() {
 		File f = new File(getArchivo());
 		return f.exists();
 	}
-	
+
 	public Pago buscar(int codigo) {
 		for (int i = 0; i < getRowCount(); i++)
 			if (obtener(i).getCodigoPago() == codigo)
 				return obtener(i);
 		return null;
 	}
-	
+
+	public int buscarindice(int cod) {
+		for (int i = 0; i < getRowCount(); i++)
+			if (obtener(i).getCodigoPago() == cod)
+				return i;
+		return -1;
+	}
+
 	public Pago buscarPorInternamiento(int codigo) {
 		Pago x;
 		for (int i = 0; i < getRowCount(); i++) {
@@ -104,14 +114,14 @@ public class Arreglo_Pago extends AbstractTableModel {
 		}
 		return null;
 	}
-	
+
 	public int generarCodigo() {
 		if (getRowCount() == 0)
 			return 100001;
 		else
 			return obtener(getRowCount() - 1).getCodigoPago() + 1;
 	}
-	
+
 	private String nombreColumnas[] = { "C\u00f3digo", "Dni", "Apellidos", "Nombres", "Tel\u00e9fono" };
 
 	@Override

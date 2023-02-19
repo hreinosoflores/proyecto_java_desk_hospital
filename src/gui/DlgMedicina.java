@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,10 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Medicina;
-import libreria.lib;
-
-import java.awt.Toolkit;
-import java.awt.Color;;
+import libreria.lib;;
 
 public class DlgMedicina extends JDialog implements ActionListener {
 	/**

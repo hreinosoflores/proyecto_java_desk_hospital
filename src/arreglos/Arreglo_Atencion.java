@@ -11,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 
 import clases.Atencion;
 import clases.Internamiento;
-import gui.Principal_Proyecto2017_2;
 
 public class Arreglo_Atencion extends AbstractTableModel {
 	/**

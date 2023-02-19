@@ -1,7 +1,6 @@
 package clases;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import gui.Principal_Proyecto2017_2;
 import libreria.Fecha;

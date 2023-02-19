@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,16 +13,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import arreglos.Arreglo_Atencion;
+import arreglos.Arreglo_Atencion_Detalle;
+import arreglos.Arreglo_Cama;
+import arreglos.Arreglo_Internamiento;
+import arreglos.Arreglo_Medicina;
 import arreglos.Arreglo_Paciente;
 import arreglos.Arreglo_Pago;
 import libreria.Fecha;
 import libreria.lib;
-import arreglos.Arreglo_Atencion;
-import arreglos.Arreglo_Cama;
-import arreglos.Arreglo_Atencion_Detalle;
-import arreglos.Arreglo_Internamiento;
-import arreglos.Arreglo_Medicina;
-import java.awt.Toolkit;
 
 public class Principal_Proyecto2017_2 extends JFrame implements ActionListener {
 

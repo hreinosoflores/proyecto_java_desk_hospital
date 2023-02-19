@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import clases.Atencion;
 import clases.Cama;
 import clases.Internamiento;
 import clases.Paciente;
