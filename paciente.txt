@@ -26,5 +26,3 @@
 1026;Castillo Alarcón;Isabel;991929385;55255634
 1027;Casstillo Galenao;Elena;994215434;45333123
 1028;Morales Sánchez;María;994443121;56124534
-1029;reinoso;daniel;;45678987
-1030;Reinoso;Daniel;;73580887
