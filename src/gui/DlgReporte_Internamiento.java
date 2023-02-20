@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,9 +19,6 @@ import clases.Internamiento;
 import clases.Paciente;
 import clases.Reporte_Internamiento;
 import libreria.Fecha;
-
-import java.awt.Toolkit;
-import java.awt.Color;
 
 public class DlgReporte_Internamiento extends JDialog implements ActionListener {
 
@@ -59,7 +58,7 @@ public class DlgReporte_Internamiento extends JDialog implements ActionListener 
 		setBounds(100, 100, 600, 300);
 
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

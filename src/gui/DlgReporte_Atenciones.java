@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,8 +20,6 @@ import clases.Paciente;
 import clases.Reporte_Atenciones;
 import libreria.Fecha;
 import libreria.lib;
-import java.awt.Toolkit;
-import java.awt.Color;
 
 public class DlgReporte_Atenciones extends JDialog implements ActionListener {
 
