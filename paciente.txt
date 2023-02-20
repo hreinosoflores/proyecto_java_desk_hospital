@@ -1,4 +1,30 @@
-1001;Reinoso Flores 1;Humberto Daniel;777;73580887
-1002;Reinoso Flores 2;Humberto Daniel;;73580886
-1003;Reinoso Flores 3;Humberto Daniel;3332;73580880
-1004;Reinoso Flores 4;Humberto Daniel;;73580889
+1001;Cardenal Rojas;María;994738003;8743775
+1002;Espino Lozada;Daniel;998377631;3460987
+1003;Cárdenas Prado;Jorge;995657243;6465645
+1004;Ruiz Salazar;Pedro;991672332;8563421
+1005;Espinoza Robles;Danilo;996745123;6452312
+1006;Benzaquín Diaz;Josué;993234512;8783412
+1007;Sánchez Sandoval;Débora;978563413;2456712
+1008;Espinoza Bravo;Raquel;992411609;3456128
+1009;Pardo Poma;Pedro;992411609;3456128
+1010;Rodriguez Soria;Séfora;993451345;8656128
+1011;Prado Suarez;Luis;991234309;8567431
+1012;Polo Gonzales;Andrea;998756431;8563412
+1013;Panduro Huamán;Mario;995620011;8556432
+1014;Salazar Solano;Rogelio;996666341;8111243
+1015;Espinoza Santos;Daniel;995545562;6453149
+1016;Rivas Sosa;Dámaris;985634213;7653449
+1017;Solórzano Salas;Mauro;994532132;65433219
+1018;Bauer Bonilla;Lea;994413133;88664212
+1019;Paucar Romero;Donato;996667531;56524312
+1020;Antaya Bravo;Pablo;993332161;86654113
+1021;Acien Zurita;Rosa;997776534;89973663
+1022;Alonso Becerra;José;994967356;86653421
+1023;Albusag Tamargo;Daniel;991122334;86665311
+1024;Campos Vargas;María;994523442;45331233
+1025;Casas García;Raul;995396256;72525334
+1026;Castillo Alarcón;Isabel;991929385;55255634
+1027;Casstillo Galenao;Elena;994215434;45333123
+1028;Morales Sánchez;María;994443121;56124534
+1029;reinoso;daniel;;45678987
+1030;Reinoso;Daniel;;73580887
